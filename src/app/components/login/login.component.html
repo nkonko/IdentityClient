@@ -1,0 +1,17 @@
+<div class="login-wrapper">
+  <div class="brand">
+    <img src="/assets/logo.png" alt="Logo" />
+    <h1>Mi Empresa</h1>
+    <p>Panel de administración</p>
+  </div>
+  <form (ngSubmit)="submit()" [formGroup]="form" class="login-card">
+    <h2>Acceder</h2>
+    <div class="field"><label>Usuario</label><input formControlName="username" type="text" /></div>
+    <div class="field"><label>Contraseña</label><input formControlName="password" type="password" /></div>
+    <div class="actions"><button type="submit" class="primary">Entrar</button>
+      <a routerLink="/register">Registrarse</a>
+      <a routerLink="/recover">Recuperar contraseña</a>
+    </div>
+    <div *ngIf="error" class="error">{{error}}</div>
+  </form>
+</div>

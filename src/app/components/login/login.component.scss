@@ -1,0 +1,12 @@
+$primary: #0a507a;
+$accent: #f6a623;
+$muted: #6b7280;
+
+.login-wrapper { display:flex; gap:24px; align-items:center; justify-content:center; min-height:70vh; }
+.brand { text-align:center; color:$primary; img{ width:96px; height:96px; object-fit:contain } h1{ margin:8px 0 } p{ color:$muted } }
+.login-card { width:360px; padding:20px; box-shadow:0 6px 18px rgba(10,80,122,0.12); border-radius:10px; background:white; }
+.field { margin-bottom:12px; label{ display:block; font-weight:600; margin-bottom:6px } input{ width:100%; padding:10px; border:1px solid #e6eef5; border-radius:6px } }
+.actions { display:flex; gap:8px; align-items:center; justify-content:space-between; margin-top:12px; }
+button.primary { background:$primary; color:white; border:none; padding:10px 16px; border-radius:6px }
+.error { color:darkred; margin-top:12px }
+body { background:#f5f8fb }

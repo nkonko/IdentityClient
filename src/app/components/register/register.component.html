@@ -1,0 +1,7 @@
+<div class="card"><h2>Registro</h2>
+<form (ngSubmit)="submit()" [formGroup]="form">
+  <div class="field"><label>Usuario</label><input formControlName="username" /></div>
+  <div class="field"><label>Email</label><input formControlName="email" /></div>
+  <div class="field"><label>Contraseña</label><input formControlName="password" type="password" /></div>
+  <div class="actions"><button type="submit">Registrar</button></div>
+</form></div>
