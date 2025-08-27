@@ -1,0 +1,26 @@
+<mat-toolbar color="primary" class="header-toolbar">
+  <div class="toolbar-content">
+    <div class="logo-section">
+      <mat-icon class="logo-icon">dashboard</mat-icon>
+      <span class="app-title">Mi Empresa</span>
+    </div>
+
+    <div class="toolbar-actions">
+      <mat-slide-toggle
+        [checked]="isDarkMode"
+        (change)="toggleDarkMode()"
+        color="accent"
+        class="dark-mode-toggle">
+        <mat-icon>{{ isDarkMode ? 'dark_mode' : 'light_mode' }}</mat-icon>
+      </mat-slide-toggle>
+
+      <button
+        mat-icon-button
+        (click)="logout()"
+        matTooltip="Cerrar sesión"
+        class="logout-button">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </div>
+  </div>
+</mat-toolbar>

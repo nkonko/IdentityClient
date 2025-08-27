@@ -1,17 +1,64 @@
-<div class="login-wrapper">
-  <div class="brand">
-    <img src="/assets/logo.png" alt="Logo" />
-    <h1>Mi Empresa</h1>
-    <p>Panel de administración</p>
+<div class="login-container">
+  <div class="login-card">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon class="login-icon">login</mat-icon>
+          Iniciar Sesión
+        </mat-card-title>
+        <mat-card-subtitle>Accede a tu cuenta</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <form [formGroup]="form" (ngSubmit)="submit()" class="login-form">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Usuario</mat-label>
+            <input matInput formControlName="username" placeholder="Ingresa tu usuario">
+            <mat-icon matSuffix>person</mat-icon>
+            <mat-error *ngIf="form.get('username')?.hasError('required')">
+              El usuario es requerido
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Contraseña</mat-label>
+            <input matInput type="password" formControlName="password" placeholder="Ingresa tu contraseña">
+            <mat-icon matSuffix>lock</mat-icon>
+            <mat-error *ngIf="form.get('password')?.hasError('required')">
+              La contraseña es requerida
+            </mat-error>
+            <mat-error *ngIf="form.get('password')?.hasError('minlength')">
+              La contraseña debe tener al menos 6 caracteres
+            </mat-error>
+          </mat-form-field>
+
+          <div class="form-actions">
+            <button
+              mat-raised-button
+              color="primary"
+              type="submit"
+              [disabled]="!form.valid || isLoading"
+              class="full-width">
+              <mat-icon *ngIf="!isLoading">login</mat-icon>
+              <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+              {{ isLoading ? 'Iniciando...' : 'Iniciar Sesión' }}
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <div class="card-actions">
+          <a mat-button routerLink="/register" color="accent">
+            <mat-icon>person_add</mat-icon>
+            Registrarse
+          </a>
+          <a mat-button routerLink="/recover" color="warn">
+            <mat-icon>help</mat-icon>
+            Recuperar contraseña
+          </a>
+        </div>
+      </mat-card-actions>
+    </mat-card>
   </div>
-  <form (ngSubmit)="submit()" [formGroup]="form" class="login-card">
-    <h2>Acceder</h2>
-    <div class="field"><label>Usuario</label><input formControlName="username" type="text" /></div>
-    <div class="field"><label>Contraseña</label><input formControlName="password" type="password" /></div>
-    <div class="actions"><button type="submit" class="primary">Entrar</button>
-      <a routerLink="/register">Registrarse</a>
-      <a routerLink="/recover">Recuperar contraseña</a>
-    </div>
-    <div *ngIf="error" class="error">{{error}}</div>
-  </form>
 </div>

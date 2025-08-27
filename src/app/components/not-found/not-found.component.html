@@ -1,0 +1,23 @@
+<div class="not-found-container">
+  <div class="not-found-card">
+    <mat-card>
+      <mat-card-content class="text-center">
+        <mat-icon class="error-icon">error_outline</mat-icon>
+        <h1>404</h1>
+        <h2>Página no encontrada</h2>
+        <p>Lo sentimos, la página que buscas no existe o ha sido movida.</p>
+
+        <div class="actions">
+          <button mat-raised-button color="primary" (click)="goHome()">
+            <mat-icon>home</mat-icon>
+            Ir al inicio
+          </button>
+          <button mat-stroked-button (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon>
+            Volver
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-.login-container {
+.register-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -7,7 +7,7 @@
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-.login-card {
+.register-card {
   width: 100%;
   max-width: 400px;
 
@@ -17,12 +17,12 @@
   }
 }
 
-.login-icon {
+.register-icon {
   margin-right: 8px;
   vertical-align: middle;
 }
 
-.login-form {
+.register-form {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -35,24 +35,18 @@
 
 .card-actions {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   width: 100%;
-  gap: 8px;
 }
 
 // Responsive design
 @media (max-width: 480px) {
-  .login-container {
+  .register-container {
     padding: 10px;
-  }
-
-  .card-actions {
-    flex-direction: column;
-    gap: 12px;
   }
 }
 
 // Dark theme adjustments
-.dark-theme .login-container {
+.dark-theme .register-container {
   background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
 }
