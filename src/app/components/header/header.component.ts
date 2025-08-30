@@ -36,6 +36,17 @@ export class HeaderComponent {
     this.auth.logout();
   }
 
+  // Método para debug - verificar el token
+  debugToken() {
+    const token = this.auth.getCurrentToken();
+    console.log('Header - Current token:', token);
+    console.log('Header - Token exists:', !!token);
+    if (token) {
+      console.log('Header - Token length:', token.length);
+      console.log('Header - Token preview:', token.substring(0, 20) + '...');
+    }
+  }
+
   ngOnInit() {
     const savedDarkMode = localStorage.getItem('darkMode');
     this.isDarkMode = savedDarkMode === 'true';

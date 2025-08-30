@@ -1,0 +1,255 @@
+.dashboard-container {
+  padding: 20px;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+
+  h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 500;
+    color: #333;
+  }
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+mat-card {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+mat-card-header {
+  mat-card-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+    font-weight: 500;
+  }
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+// Resumen
+.summary-content {
+  .summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .label {
+      color: #666;
+      font-weight: 500;
+    }
+
+    .value {
+      font-weight: 600;
+      color: #333;
+      font-size: 16px;
+    }
+  }
+}
+
+// Métricas
+.metrics-content {
+  .metric-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .label {
+      color: #666;
+      font-weight: 500;
+    }
+
+    .value {
+      font-weight: 600;
+      color: #333;
+      font-size: 16px;
+    }
+  }
+}
+
+// Actividades Recientes
+.recent-content {
+  .activity-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .activity-icon {
+      color: #666;
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+
+    .activity-details {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      .activity-title {
+        font-weight: 500;
+        color: #333;
+      }
+
+      .activity-time {
+        font-size: 12px;
+        color: #999;
+      }
+    }
+  }
+}
+
+// Notificaciones
+.notifications-content {
+  .notification-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .notification-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+    }
+
+    .notification-details {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      .notification-title {
+        font-weight: 500;
+        color: #333;
+      }
+
+      .notification-message {
+        font-size: 14px;
+        color: #666;
+        line-height: 1.4;
+      }
+
+      .notification-time {
+        font-size: 12px;
+        color: #999;
+      }
+    }
+  }
+}
+
+.no-data {
+  text-align: center;
+  color: #999;
+  padding: 20px;
+  font-style: italic;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 10px;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+
+    h1 {
+      text-align: center;
+    }
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+// Dark theme adjustments
+.dark-theme {
+  .dashboard-header h1 {
+    color: #fff;
+  }
+
+  .summary-item,
+  .metric-item,
+  .activity-item,
+  .notification-item {
+    border-bottom-color: #333;
+  }
+
+  .label {
+    color: #ccc !important;
+  }
+
+  .value {
+    color: #fff !important;
+  }
+
+  .activity-title,
+  .notification-title {
+    color: #fff !important;
+  }
+
+  .activity-time,
+  .notification-time {
+    color: #aaa !important;
+  }
+
+  .notification-message {
+    color: #ccc !important;
+  }
+
+  .no-data {
+    color: #aaa;
+  }
+}

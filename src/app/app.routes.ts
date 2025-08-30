@@ -1,6 +1,7 @@
 import { Routes, CanActivateFn } from '@angular/router';
 import { inject } from '@angular/core';
 import { TokenService } from './services/token.service';
+import { adminGuard } from './guards/admin.guard';
 
 export const authGuard: CanActivateFn = () => {
   const tokenService = inject(TokenService);
@@ -37,6 +38,16 @@ export const routes: Routes = [
     path: 'dashboard',
     canActivate: [authGuard],
     loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent)
+  },
+  {
+    path: 'profile',
+    canActivate: [authGuard],
+    loadComponent: () => import('./components/profile/profile.component').then(m => m.ProfileComponent)
+  },
+  {
+    path: 'admin/users',
+    canActivate: [adminGuard],
+    loadComponent: () => import('./components/admin/user-management/user-management.component').then(m => m.UserManagementComponent)
   },
   {
     path: '**',

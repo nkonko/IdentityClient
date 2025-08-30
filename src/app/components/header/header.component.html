@@ -6,6 +6,23 @@
     </div>
 
     <div class="toolbar-actions">
+      <button
+        mat-icon-button
+        routerLink="/profile"
+        matTooltip="Mi Perfil"
+        class="profile-button">
+        <mat-icon>person</mat-icon>
+      </button>
+
+      <!-- Botón de debug temporal -->
+      <button
+        mat-icon-button
+        (click)="debugToken()"
+        matTooltip="Debug Token"
+        class="debug-button">
+        <mat-icon>bug_report</mat-icon>
+      </button>
+
       <mat-slide-toggle
         [checked]="isDarkMode"
         (change)="toggleDarkMode()"

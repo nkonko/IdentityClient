@@ -15,36 +15,48 @@
             <mat-label>Usuario</mat-label>
             <input matInput formControlName="username" placeholder="Ingresa tu usuario">
             <mat-icon matSuffix>person</mat-icon>
-            <mat-error *ngIf="form.get('username')?.hasError('required')">
-              El usuario es requerido
-            </mat-error>
-            <mat-error *ngIf="form.get('username')?.hasError('minlength')">
-              El usuario debe tener al menos 3 caracteres
-            </mat-error>
+            @if (form.get('username')?.hasError('required')) {
+              <mat-error>
+                El usuario es requerido
+              </mat-error>
+            }
+            @if (form.get('username')?.hasError('minlength')) {
+              <mat-error>
+                El usuario debe tener al menos 3 caracteres
+              </mat-error>
+            }
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Email</mat-label>
             <input matInput type="email" formControlName="email" placeholder="Ingresa tu email">
             <mat-icon matSuffix>email</mat-icon>
-            <mat-error *ngIf="form.get('email')?.hasError('required')">
-              El email es requerido
-            </mat-error>
-            <mat-error *ngIf="form.get('email')?.hasError('email')">
-              Ingresa un email válido
-            </mat-error>
+            @if (form.get('email')?.hasError('required')) {
+              <mat-error>
+                El email es requerido
+              </mat-error>
+            }
+            @if (form.get('email')?.hasError('email')) {
+              <mat-error>
+                Ingresa un email válido
+              </mat-error>
+            }
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Contraseña</mat-label>
             <input matInput type="password" formControlName="password" placeholder="Ingresa tu contraseña">
             <mat-icon matSuffix>lock</mat-icon>
-            <mat-error *ngIf="form.get('password')?.hasError('required')">
-              La contraseña es requerida
-            </mat-error>
-            <mat-error *ngIf="form.get('password')?.hasError('minlength')">
-              La contraseña debe tener al menos 6 caracteres
-            </mat-error>
+            @if (form.get('password')?.hasError('required')) {
+              <mat-error>
+                La contraseña es requerida
+              </mat-error>
+            }
+            @if (form.get('password')?.hasError('minlength')) {
+              <mat-error>
+                La contraseña debe tener al menos 6 caracteres
+              </mat-error>
+            }
           </mat-form-field>
 
           <div class="form-actions">
@@ -54,8 +66,12 @@
               type="submit"
               [disabled]="!form.valid || isLoading"
               class="full-width">
-              <mat-icon *ngIf="!isLoading">person_add</mat-icon>
-              <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+              @if (!isLoading) {
+                <mat-icon>person_add</mat-icon>
+              }
+              @if (isLoading) {
+                <mat-spinner diameter="20"></mat-spinner>
+              }
               {{ isLoading ? 'Registrando...' : 'Registrarse' }}
             </button>
           </div>

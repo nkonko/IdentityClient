@@ -4,7 +4,7 @@
   align-items: center;
   min-height: 100vh;
   padding: 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 }
 
 .register-card {
@@ -14,12 +14,14 @@
   mat-card {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     border-radius: 12px;
+    background: white;
   }
 }
 
 .register-icon {
   margin-right: 8px;
   vertical-align: middle;
+  color: #1976d2;
 }
 
 .register-form {
@@ -37,6 +39,7 @@
   display: flex;
   justify-content: center;
   width: 100%;
+  margin-top: 16px;
 }
 
 // Responsive design
@@ -49,4 +52,13 @@
 // Dark theme adjustments
 .dark-theme .register-container {
   background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+}
+
+.dark-theme .register-card mat-card {
+  background: #424242;
+  color: white;
+}
+
+.dark-theme .register-icon {
+  color: #64b5f6;
 }
