@@ -2,7 +2,9 @@ import { Injectable, inject } from '@angular/core';
 import { IdentityClient, AuthResponseDto, LoginModel, UserPasswordDto, RegisterModel } from '../api/api-client';
 import { TokenService } from '../services/token.service';
 import { NavigationService } from '../services/navigation.service';
-import { map, BehaviorSubject, Observable, tap } from 'rxjs';
+import { map, BehaviorSubject, Observable, tap, switchMap, catchError, throwError } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { loginSuccess, User } from '../store/auth/auth.actions';
 
 @Injectable({ providedIn: 'root' })
 export class AuthFacade {
@@ -16,6 +18,8 @@ export class AuthFacade {
   get isAuthenticated(): boolean {
     return this._isAuthenticated$.value;
   }
+
+  private store = inject(Store);
 
   login(username: string, password: string): Observable<void> {
     console.log('AuthFacade - Login attempt for user:', username);
@@ -36,6 +40,18 @@ export class AuthFacade {
             console.log('AuthFacade - Setting refresh token');
             this.tokenService.setRefresh(res.refreshToken.token);
           }
+
+          // Extract user information from the response
+          // Note: Adjust these properties based on your actual AuthResponseDto structure
+          const user: User = {
+            id: (res as any).userId || '',
+            nombre: (res as any).username || '',
+            email: (res as any).email || '',
+            role: (res as any).roles?.includes('Admin') ? 'admin' : 'user'
+          };
+
+          // Dispatch login success action with user info
+          this.store.dispatch(loginSuccess({ user, token: res.token }));
 
           this._isAuthenticated$.next(true);
           console.log('AuthFacade - Authentication state updated to true');
@@ -60,8 +76,20 @@ export class AuthFacade {
   }
 
   register(username: string, email: string, password: string): Observable<void> {
+    console.log('AuthFacade - Register attempt for user:', username);
     const model = new RegisterModel({ username, email, password });
-    return this.client.register(model).pipe(map(() => { }));
+    
+    return this.client.register(model).pipe(
+      tap(() => {
+        console.log('AuthFacade - Registration successful, attempting auto-login');
+      }),
+      // After successful registration, automatically log the user in
+      switchMap(() => this.login(username, password)),
+      catchError(error => {
+        console.error('AuthFacade - Registration error:', error);
+        return throwError(() => error);
+      })
+    );
   }
 
   // Método para verificar el estado inicial

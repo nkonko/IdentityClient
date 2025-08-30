@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 
+// User interface for authentication state
 export interface User {
   id: string;
   nombre: string;

@@ -1,9 +1,9 @@
 import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
-import { provideAnimations } from '@angular/platform-browser/animations';
+import {  HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 import { routes } from './app.routes';
 import { API_BASE_URL, IdentityClient } from './api/api-client';
@@ -13,8 +13,8 @@ import { authReducer } from './store/auth/auth.reducer';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(withInterceptors([AuthInterceptor])),
+    provideAnimationsAsync(),
     provideRouter(routes),
-    provideAnimations(),
     provideStore({
       auth: authReducer
     }),
