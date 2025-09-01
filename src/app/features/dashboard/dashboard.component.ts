@@ -8,12 +8,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatChipsModule } from '@angular/material/chips';
 import { Router } from '@angular/router';
-import { DashboardFacade } from '../../facades/dashboard.facade';
-import { DashboardSummaryDto, DashboardMetricsDto, DashboardRecentDto, DashboardNotificationDto } from '../../api/api-client';
+import { DashboardFacade } from '../../core/facades/dashboard.facade';
+import { DashboardSummaryDto, DashboardMetricsDto, DashboardRecentDto, DashboardNotificationDto } from '../../core/api/api-client';
 
 @Component({
   selector: 'app-dashboard',
-  standalone: true,
   imports: [
     CommonModule,
     MatCardModule,
@@ -31,12 +30,12 @@ export class DashboardComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly snackBar = inject(MatSnackBar);
 
-  summary: DashboardSummaryDto | null = null;
-  metrics: DashboardMetricsDto | null = null;
-  recent: DashboardRecentDto | null = null;
-  notifications: DashboardNotificationDto[] = [];
-  
-  isLoading = {
+  protected summary: DashboardSummaryDto | null = null;
+  protected metrics: DashboardMetricsDto | null = null;
+  protected recent: DashboardRecentDto | null = null;
+  protected notifications: DashboardNotificationDto[] = [];
+
+  protected isLoading = {
     summary: false,
     metrics: false,
     recent: false,
@@ -108,10 +107,6 @@ export class DashboardComponent implements OnInit {
         this.snackBar.open('Error al cargar las notificaciones', 'Cerrar', { duration: 5000 });
       }
     });
-  }
-
-  goToProfile() {
-    this.router.navigate(['/profile']);
   }
 
   getNotificationIcon(type: string): string {

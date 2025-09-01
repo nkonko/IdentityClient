@@ -5,7 +5,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
-import { AuthFacade } from '../../facades/auth.facade';
+import { AuthFacade } from '../../core/facades/auth.facade';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -16,7 +17,8 @@ import { AuthFacade } from '../../facades/auth.facade';
     MatButtonModule,
     MatIconModule,
     MatSlideToggleModule,
-    FormsModule
+    FormsModule,
+    RouterLink
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
@@ -24,7 +26,7 @@ import { AuthFacade } from '../../facades/auth.facade';
 export class HeaderComponent {
   private readonly auth = inject(AuthFacade);
 
-  isDarkMode = false;
+  protected isDarkMode = false;
 
   toggleDarkMode() {
     this.isDarkMode = !this.isDarkMode;
@@ -34,17 +36,6 @@ export class HeaderComponent {
 
   logout() {
     this.auth.logout();
-  }
-
-  // Método para debug - verificar el token
-  debugToken() {
-    const token = this.auth.getCurrentToken();
-    console.log('Header - Current token:', token);
-    console.log('Header - Token exists:', !!token);
-    if (token) {
-      console.log('Header - Token length:', token.length);
-      console.log('Header - Token preview:', token.substring(0, 20) + '...');
-    }
   }
 
   ngOnInit() {

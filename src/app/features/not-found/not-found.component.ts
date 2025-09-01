@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -7,7 +7,6 @@ import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-not-found',
-  standalone: true,
   imports: [
     CommonModule,
     MatCardModule,
@@ -18,8 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrls: ['./not-found.component.scss']
 })
 export class NotFoundComponent {
-  constructor(private router: Router) {}
-
+  private readonly router = inject(Router);
   goHome() {
     this.router.navigate(['/']);
   }

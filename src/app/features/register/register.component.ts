@@ -9,11 +9,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AuthFacade } from '../../facades/auth.facade';
+import { AuthFacade } from '../../core/facades/auth.facade';
 
 @Component({
   selector: 'app-register',
-  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -34,13 +33,13 @@ export class RegisterComponent {
   private readonly router = inject(Router);
   private readonly snackBar = inject(MatSnackBar);
 
-  form = this.fb.group({
+  protected form = this.fb.group({
     username: ['', [Validators.required, Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]]
   });
 
-  isLoading = false;
+  protected isLoading = false;
 
   submit() {
     if (this.form.valid) {

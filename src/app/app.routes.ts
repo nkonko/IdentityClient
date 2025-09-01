@@ -1,7 +1,7 @@
 import { Routes, CanActivateFn } from '@angular/router';
 import { inject } from '@angular/core';
-import { TokenService } from './services/token.service';
-import { adminGuard } from './guards/admin.guard';
+import { TokenService } from './core/services/token.service';
+import { adminGuard } from './core/guards/admin.guard';
 
 export const authGuard: CanActivateFn = () => {
   const tokenService = inject(TokenService);
@@ -22,35 +22,35 @@ export const routes: Routes = [
   {
     path: 'login',
     canActivate: [redirectIfAuthenticated],
-    loadComponent: () => import('./components/login/login.component').then(m => m.LoginComponent)
+    loadComponent: () => import('./features/login/login.component').then(m => m.LoginComponent)
   },
   {
     path: 'register',
     canActivate: [redirectIfAuthenticated],
-    loadComponent: () => import('./components/register/register.component').then(m => m.RegisterComponent)
+    loadComponent: () => import('./features/register/register.component').then(m => m.RegisterComponent)
   },
   {
     path: 'recover',
     canActivate: [redirectIfAuthenticated],
-    loadComponent: () => import('./components/recover/recover.component').then(m => m.RecoverComponent)
+    loadComponent: () => import('./features/recover/recover.component').then(m => m.RecoverComponent)
   },
   {
     path: 'dashboard',
     canActivate: [authGuard],
-    loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent)
+    loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent)
   },
   {
     path: 'profile',
     canActivate: [authGuard],
-    loadComponent: () => import('./components/profile/profile.component').then(m => m.ProfileComponent)
+    loadComponent: () => import('./features/profile/profile.component').then(m => m.ProfileComponent)
   },
   {
     path: 'admin/users',
     canActivate: [adminGuard],
-    loadComponent: () => import('./components/admin/user-management/user-management.component').then(m => m.UserManagementComponent)
+    loadComponent: () => import('./features/admin/user-management/user-management.component').then(m => m.UserManagementComponent)
   },
   {
     path: '**',
-    loadComponent: () => import('./components/not-found/not-found.component').then(m => m.NotFoundComponent)
+    loadComponent: () => import('./features/not-found/not-found.component').then(m => m.NotFoundComponent)
   }
 ];

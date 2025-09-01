@@ -9,12 +9,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDividerModule } from '@angular/material/divider';
-import { UserFacade } from '../../facades/user.facade';
-import { UserDto, UserUpdateDto } from '../../api/api-client';
+import { UserFacade } from '../../core/facades/user.facade';
+import { UserDto, UserUpdateDto } from '../../core/api/api-client';
 
 @Component({
   selector: 'app-profile',
-  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -34,11 +33,11 @@ export class ProfileComponent implements OnInit {
   private readonly userFacade = inject(UserFacade);
   private readonly snackBar = inject(MatSnackBar);
 
-  user: UserDto | null = null;
-  isLoading = false;
-  isEditing = false;
+  protected user: UserDto | null = null;
+  protected isLoading = false;
+  protected isEditing = false;
 
-  profileForm = this.fb.group({
+  protected profileForm = this.fb.group({
     userName: ['', [Validators.required, Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.email]]
   });
@@ -89,7 +88,6 @@ export class ProfileComponent implements OnInit {
           this.isEditing = false;
           this.isLoading = false;
           this.snackBar.open('Perfil actualizado correctamente', 'Cerrar', { duration: 3000 });
-          // Recargar el perfil para obtener los datos actualizados
           this.loadUserProfile();
         },
         error: (error) => {

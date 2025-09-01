@@ -78,7 +78,7 @@ export class AuthFacade {
   register(username: string, email: string, password: string): Observable<void> {
     console.log('AuthFacade - Register attempt for user:', username);
     const model = new RegisterModel({ username, email, password });
-    
+
     return this.client.register(model).pipe(
       tap(() => {
         console.log('AuthFacade - Registration successful, attempting auto-login');

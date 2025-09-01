@@ -6,9 +6,9 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 import { routes } from './app.routes';
-import { API_BASE_URL, IdentityClient } from './api/api-client';
-import { AuthInterceptor } from './interceptors/auth.interceptor';
-import { authReducer } from './store/auth/auth.reducer';
+import { API_BASE_URL, IdentityClient } from './core/api/api-client';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { authReducer } from './core/store/auth/auth.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [

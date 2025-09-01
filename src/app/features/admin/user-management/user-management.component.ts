@@ -6,7 +6,6 @@ import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-user-management',
-  standalone: true,
   imports: [CommonModule, MatCardModule, MatIconModule, MatButtonModule],
   templateUrl: './user-management.component.html',
   styleUrls: ['./user-management.component.scss']
