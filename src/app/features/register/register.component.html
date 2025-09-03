@@ -3,58 +3,57 @@
     <mat-card>
       <mat-card-header>
         <mat-card-title>
-          <mat-icon class="register-icon">person_add</mat-icon>
-          Registro
+          Create your account
         </mat-card-title>
-        <mat-card-subtitle>Crea tu cuenta</mat-card-subtitle>
+        <mat-card-subtitle>Join us to get started</mat-card-subtitle>
       </mat-card-header>
 
       <mat-card-content>
         <form [formGroup]="form" (ngSubmit)="submit()" class="register-form">
           <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Usuario</mat-label>
-            <input matInput formControlName="username" placeholder="Ingresa tu usuario">
-            <mat-icon matSuffix>person</mat-icon>
+            <mat-label>Username</mat-label>
+            <mat-icon matPrefix>person</mat-icon>
+            <input matInput formControlName="username" placeholder="Your username">
             @if (form.get('username')?.hasError('required')) {
               <mat-error>
-                El usuario es requerido
+                Username is required
               </mat-error>
             }
             @if (form.get('username')?.hasError('minlength')) {
               <mat-error>
-                El usuario debe tener al menos 3 caracteres
+                Username must be at least 3 characters
               </mat-error>
             }
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Email</mat-label>
-            <input matInput type="email" formControlName="email" placeholder="Ingresa tu email">
-            <mat-icon matSuffix>email</mat-icon>
+            <mat-icon matPrefix>mail</mat-icon>
+            <input matInput type="email" formControlName="email" placeholder="you@example.com">
             @if (form.get('email')?.hasError('required')) {
               <mat-error>
-                El email es requerido
+                Email is required
               </mat-error>
             }
             @if (form.get('email')?.hasError('email')) {
               <mat-error>
-                Ingresa un email válido
+                Enter a valid email
               </mat-error>
             }
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Contraseña</mat-label>
-            <input matInput type="password" formControlName="password" placeholder="Ingresa tu contraseña">
-            <mat-icon matSuffix>lock</mat-icon>
+            <mat-label>Password</mat-label>
+            <mat-icon matPrefix>lock</mat-icon>
+            <input matInput type="password" formControlName="password" placeholder="Create a password">
             @if (form.get('password')?.hasError('required')) {
               <mat-error>
-                La contraseña es requerida
+                Password is required
               </mat-error>
             }
             @if (form.get('password')?.hasError('minlength')) {
               <mat-error>
-                La contraseña debe tener al menos 6 caracteres
+                Password must be at least 6 characters
               </mat-error>
             }
           </mat-form-field>
@@ -67,12 +66,11 @@
               [disabled]="!form.valid || isLoading"
               class="full-width">
               @if (!isLoading) {
-                <mat-icon>person_add</mat-icon>
+                Create account
               }
               @if (isLoading) {
                 <mat-spinner diameter="20"></mat-spinner>
               }
-              {{ isLoading ? 'Registrando...' : 'Registrarse' }}
             </button>
           </div>
         </form>
@@ -80,10 +78,8 @@
 
       <mat-card-actions>
         <div class="card-actions">
-          <a mat-button routerLink="/login" color="accent">
-            <mat-icon>login</mat-icon>
-            Ya tengo cuenta
-          </a>
+          <span>Already have an account? </span>
+          <a routerLink="/login">Sign in</a>
         </div>
       </mat-card-actions>
     </mat-card>

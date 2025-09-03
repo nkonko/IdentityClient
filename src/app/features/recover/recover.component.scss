@@ -1,4 +1,4 @@
-.register-container {
+.recover-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -13,7 +13,7 @@
   background-attachment: fixed;
 }
 
-.register-card {
+.recover-card {
   width: 100%;
   max-width: 420px;
 
@@ -26,20 +26,20 @@
 }
 
 /* Center header */
-.register-card .mat-mdc-card-header {
+.recover-card .mat-mdc-card-header {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
 }
 
-.register-card .mat-mdc-card-title,
-.register-card .mat-mdc-card-subtitle {
+.recover-card .mat-mdc-card-title,
+.recover-card .mat-mdc-card-subtitle {
   text-align: center;
   width: 100%;
 }
 
-.register-form {
+.recover-form {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -50,17 +50,12 @@
 
 .form-actions { margin-top: 8px; }
 
-// Responsive design
-@media (max-width: 480px) {
-  .register-container { padding: 10px; }
-}
-
-// Dark theme adjustments
-.dark-theme .register-container {
+/* Dark theme */
+.dark-theme .recover-container {
   background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
 }
 
-.dark-theme .register-card mat-card {
+.dark-theme .recover-card mat-card {
   background: #424242;
   color: white;
 }
