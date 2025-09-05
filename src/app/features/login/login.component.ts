@@ -38,7 +38,7 @@ export class LoginComponent {
   private readonly tokenService = inject(TokenService);
 
   protected form = this.fb.group({
-    username: ['', [Validators.required]],
+    email: ['', [Validators.required]],
     password: ['', [Validators.required, Validators.minLength(6)]],
     remember: [false]
   });
@@ -54,7 +54,7 @@ export class LoginComponent {
       // Set persistence strategy before storing tokens
       this.tokenService.setRemember(!!val.remember);
 
-      this.auth.login(val.username || '', val.password || '').subscribe({
+      this.auth.login(val.email || '', val.password || '').subscribe({
         next: () => {
           this.router.navigate(['/dashboard']);
         },

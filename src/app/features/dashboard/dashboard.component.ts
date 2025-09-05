@@ -4,9 +4,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatChipsModule } from '@angular/material/chips';
 import { Router } from '@angular/router';
 import { DashboardFacade } from '../../core/facades/dashboard.facade';
 import { DashboardSummaryDto, DashboardMetricsDto, DashboardRecentDto, DashboardNotificationDto } from '../../core/api/api-client';
@@ -19,8 +18,7 @@ import { DashboardSummaryDto, DashboardMetricsDto, DashboardRecentDto, Dashboard
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,
-    MatGridListModule,
-    MatChipsModule
+    MatProgressBarModule
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
@@ -42,6 +40,11 @@ export class DashboardComponent implements OnInit {
     notifications: false
   };
 
+  // Derived metric for the 4th card
+  get recentLoginsCount(): number {
+    return this.recent?.recentActivities?.length ?? 0;
+  }
+
   ngOnInit() {
     this.loadDashboardData();
   }
@@ -60,7 +63,7 @@ export class DashboardComponent implements OnInit {
         this.summary = data;
         this.isLoading.summary = false;
       },
-      error: (error) => {
+      error: () => {
         this.isLoading.summary = false;
         this.snackBar.open('Error al cargar el resumen', 'Cerrar', { duration: 5000 });
       }
@@ -74,7 +77,7 @@ export class DashboardComponent implements OnInit {
         this.metrics = data;
         this.isLoading.metrics = false;
       },
-      error: (error) => {
+      error: () => {
         this.isLoading.metrics = false;
         this.snackBar.open('Error al cargar las métricas', 'Cerrar', { duration: 5000 });
       }
@@ -88,7 +91,7 @@ export class DashboardComponent implements OnInit {
         this.recent = data;
         this.isLoading.recent = false;
       },
-      error: (error) => {
+      error: () => {
         this.isLoading.recent = false;
         this.snackBar.open('Error al cargar las actividades recientes', 'Cerrar', { duration: 5000 });
       }
@@ -102,7 +105,7 @@ export class DashboardComponent implements OnInit {
         this.notifications = data;
         this.isLoading.notifications = false;
       },
-      error: (error) => {
+      error: () => {
         this.isLoading.notifications = false;
         this.snackBar.open('Error al cargar las notificaciones', 'Cerrar', { duration: 5000 });
       }

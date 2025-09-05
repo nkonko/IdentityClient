@@ -34,7 +34,7 @@ export class RegisterComponent {
   private readonly snackBar = inject(MatSnackBar);
 
   protected form = this.fb.group({
-    username: ['', [Validators.required, Validators.minLength(3)]],
+    name: ['', [Validators.required, Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]]
   });
@@ -44,11 +44,11 @@ export class RegisterComponent {
   submit() {
     if (this.form.valid) {
       this.isLoading = true;
-      const username = this.form.value.username ?? '';
+      const name = this.form.value.name ?? '';
       const email = this.form.value.email ?? '';
       const password = this.form.value.password ?? '';
 
-      this.auth.register(username, email, password).subscribe({
+      this.auth.register(name, email, password).subscribe({
         next: () => {
           this.snackBar.open('Registro exitoso. Por favor inicia sesión.', 'Cerrar', { duration: 5000 });
           this.router.navigate(['/login']);

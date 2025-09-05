@@ -1,25 +1,29 @@
+/* Layout with fixed sidebar and top header */
 .app-container {
-  display: flex;
-  flex-direction: column;
   min-height: 100vh;
 }
 
-.main-content {
-  flex: 1;
-  padding: 20px;
-
-  &.with-header {
-    padding-top: 80px; // Space for fixed header
-  }
+.app-container.authenticated {
+  display: grid;
+  grid-template-columns: 240px 1fr; /* sidebar + content */
 }
 
-// Responsive adjustments
-@media (max-width: 768px) {
-  .main-content {
-    padding: 10px;
+/* Collapsed sidebar width handled via main classes */
+.main-content {
+  padding: 24px;
+  background: #f6f8fb; /* subtle gray like screenshot */
+}
 
-    &.with-header {
-      padding-top: 70px;
-    }
-  }
+.main-content.with-header { padding-top: 88px; }
+.main-content.with-sidebar { margin-left: 240px; }
+.main-content.with-sidebar-collapsed { margin-left: 72px; }
+
+/* When not authenticated, full width */
+.app-container:not(.authenticated) .main-content {
+  margin-left: 0;
+  padding-top: 0;
+}
+
+@media (max-width: 920px) {
+  .main-content.with-sidebar { margin-left: 72px; }
 }

@@ -1,47 +1,97 @@
-<div class="user-management-container">
-  <div class="user-management-header">
-    <h1>
-      <mat-icon class="header-icon">people</mat-icon>
-      Gestión de Usuarios
-    </h1>
-    <p>Administra los usuarios del sistema</p>
+<div class="um-container">
+  <div class="um-toolbar">
+    <h1 class="title">User Management</h1>
+    <button class="btn primary" (click)="handleAddUser()">
+      <mat-icon class="mr">add</mat-icon>
+      Add User
+    </button>
   </div>
 
-  <div class="user-management-content">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>
-          <mat-icon>admin_panel_settings</mat-icon>
-          Panel de Administración
-        </mat-card-title>
-        <mat-card-subtitle>Funcionalidades de gestión de usuarios</mat-card-subtitle>
-      </mat-card-header>
+  <div class="card">
+    <div class="card-toolbar">
+      <div class="search">
+        <mat-icon>search</mat-icon>
+        <input type="text" [(ngModel)]="searchTerm" placeholder="Search users..." />
+      </div>
+      <button class="btn outline">
+        <mat-icon class="mr">filter_list</mat-icon>
+        Filters
+      </button>
+    </div>
 
-      <mat-card-content>
-        <div class="admin-features">
-          <div class="feature-item">
-            <mat-icon color="primary">person_add</mat-icon>
-            <span>Crear nuevos usuarios</span>
-          </div>
-          <div class="feature-item">
-            <mat-icon color="primary">edit</mat-icon>
-            <span>Editar usuarios existentes</span>
-          </div>
-          <div class="feature-item">
-            <mat-icon color="primary">security</mat-icon>
-            <span>Gestionar roles y permisos</span>
-          </div>
-          <div class="feature-item">
-            <mat-icon color="primary">delete</mat-icon>
-            <span>Eliminar usuarios</span>
-          </div>
-        </div>
+    <div class="table-wrapper">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Last Login</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (user of filteredUsers; track trackById($index, user)) {
+            <tr class="row">
+              <td>
+                <div class="user-cell">
+                  <div class="avatar">{{ user.name.charAt(0) }}</div>
+                  <div class="user-meta">
+                    <div class="name">{{ user.name }}</div>
+                    <div class="email">{{ user.email }}</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span [class]="getRoleClass(user.role)">{{ user.role }}</span>
+              </td>
+              <td>
+                <span [class]="getStatusClass(user.status)">{{ user.status }}</span>
+              </td>
+              <td class="muted">{{ user.lastLogin }}</td>
+              <td class="actions">
+                <button class="icon" (click)="handleEditUser(user)" title="Edit">
+                  <mat-icon class="blue">edit</mat-icon>
+                </button>
+                <button class="icon" title="Delete">
+                  <mat-icon class="red">delete</mat-icon>
+                </button>
+                <button class="icon" title="More">
+                  <mat-icon>more_horiz</mat-icon>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
 
-        <div class="coming-soon">
-          <h3>Funcionalidades próximamente disponibles</h3>
-          <p>Este módulo estará completamente funcional en la próxima versión.</p>
-        </div>
-      </mat-card-content>
-    </mat-card>
+    <div class="pagination">
+      <div class="info">Showing <b>1</b> to <b>5</b> of <b>20</b> results</div>
+      <div class="pager">
+        <button class="btn outline">Previous</button>
+        <button class="btn">1</button>
+        <button class="btn active">2</button>
+        <button class="btn">3</button>
+        <button class="btn outline">Next</button>
+      </div>
+    </div>
   </div>
+
+  @if (showModal) {
+    <div class="modal-backdrop" (click)="handleCloseModal()"></div>
+    <div class="modal">
+      <div class="modal-header">
+        <h3>{{ editingUser ? 'Edit User' : 'Add User' }}</h3>
+        <button class="icon" (click)="handleCloseModal()"><mat-icon>close</mat-icon></button>
+      </div>
+      <div class="modal-body">
+        <p>Modal content placeholder. Hook up a real form here.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn outline" (click)="handleCloseModal()">Cancel</button>
+        <button class="btn primary">Save</button>
+      </div>
+    </div>
+  }
 </div>

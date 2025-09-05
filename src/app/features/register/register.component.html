@@ -11,17 +11,17 @@
       <mat-card-content>
         <form [formGroup]="form" (ngSubmit)="submit()" class="register-form">
           <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Username</mat-label>
+            <mat-label>Full Name</mat-label>
             <mat-icon matPrefix>person</mat-icon>
-            <input matInput formControlName="username" placeholder="Your username">
-            @if (form.get('username')?.hasError('required')) {
+            <input matInput formControlName="name" placeholder="Your full name">
+            @if (form.get('name')?.hasError('required')) {
               <mat-error>
-                Username is required
+                Name is required
               </mat-error>
             }
-            @if (form.get('username')?.hasError('minlength')) {
+            @if (form.get('name')?.hasError('minlength')) {
               <mat-error>
-                Username must be at least 3 characters
+                Name must be at least 3 characters
               </mat-error>
             }
           </mat-form-field>

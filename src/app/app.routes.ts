@@ -45,8 +45,7 @@ export const routes: Routes = [
     loadComponent: () => import('./features/profile/profile.component').then(m => m.ProfileComponent)
   },
   {
-    path: 'admin/users',
-    canActivate: [adminGuard],
+    path: 'users',
     loadComponent: () => import('./features/admin/user-management/user-management.component').then(m => m.UserManagementComponent)
   },
   {

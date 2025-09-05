@@ -8,4 +8,6 @@ export class UserFacade {
 
   me(): Observable<UserDto> { return this.client.me(); }
   updateProfile(id: string, update: UserUpdateDto) { return this.client.usersPUT(id, update); }
+  getUsers(): Observable<UserDto[]> { return this.client.usersAll(); }
+
 }

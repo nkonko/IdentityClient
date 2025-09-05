@@ -38,8 +38,10 @@ export class ProfileComponent implements OnInit {
   protected isEditing = false;
 
   protected profileForm = this.fb.group({
-    userName: ['', [Validators.required, Validators.minLength(3)]],
-    email: ['', [Validators.required, Validators.email]]
+    email: ['', [Validators.required, Validators.email]],
+    name: ['', [Validators.required, Validators.minLength(3)]],
+    position: ['Employee', []],
+    bio: ['', []],
   });
 
   ngOnInit() {
@@ -52,7 +54,9 @@ export class ProfileComponent implements OnInit {
       next: (user) => {
         this.user = user;
         this.profileForm.patchValue({
-          userName: user.userName || '',
+          bio: user.bio || '',
+          name: user.name || '',
+          position: user.position || '',
           email: user.email || ''
         });
         this.isLoading = false;
@@ -67,10 +71,11 @@ export class ProfileComponent implements OnInit {
   toggleEdit() {
     this.isEditing = !this.isEditing;
     if (!this.isEditing) {
-      // Restaurar valores originales
       this.profileForm.patchValue({
-        userName: this.user?.userName || '',
-        email: this.user?.email || ''
+        name: this.user?.name || '',
+        email: this.user?.email || '',
+        bio: this.user?.bio || '',
+        position: this.user?.position || ''
       });
     }
   }
@@ -79,8 +84,10 @@ export class ProfileComponent implements OnInit {
     if (this.profileForm.valid && this.user?.id) {
       this.isLoading = true;
       const updateData = new UserUpdateDto({
-        userName: this.profileForm.value.userName || '',
-        email: this.profileForm.value.email || ''
+        email: this.profileForm.value.email || '',
+        bio: this.profileForm.value?.bio || '',
+        position: this.profileForm.value?.position || '',
+        name: this.profileForm.value.name || '',
       });
 
       this.userFacade.updateProfile(this.user.id, updateData).subscribe({

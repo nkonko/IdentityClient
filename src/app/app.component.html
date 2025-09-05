@@ -1,8 +1,9 @@
-<div class="app-container">
+<div class="app-container" [class.authenticated]="isAuthenticated">
   @if (isAuthenticated) {
-    <app-header></app-header>
+    <app-sidebar [collapsed]="isSidebarCollapsed"></app-sidebar>
+    <app-header (toggleSidebar)="toggleSidebar()" [class.with-sidebar]="!isSidebarCollapsed" [class.with-sidebar-collapsed]="isSidebarCollapsed"></app-header>
   }
-  <main class="main-content" [class.with-header]="isAuthenticated">
+  <main class="main-content" [class.with-header]="isAuthenticated" [class.with-sidebar]="isAuthenticated && !isSidebarCollapsed" [class.with-sidebar-collapsed]="isAuthenticated && isSidebarCollapsed">
     <router-outlet />
   </main>
 </div>

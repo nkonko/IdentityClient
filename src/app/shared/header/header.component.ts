@@ -1,9 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
 import { AuthFacade } from '../../core/facades/auth.facade';
 import { RouterLink } from '@angular/router';
@@ -16,7 +17,8 @@ import { RouterLink } from '@angular/router';
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
-    MatSlideToggleModule,
+    MatMenuModule,
+    MatTooltipModule,
     FormsModule,
     RouterLink
   ],
@@ -25,6 +27,8 @@ import { RouterLink } from '@angular/router';
 })
 export class HeaderComponent {
   private readonly auth = inject(AuthFacade);
+
+  @Output() toggleSidebar = new EventEmitter<void>();
 
   protected isDarkMode = false;
 

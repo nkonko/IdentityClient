@@ -1,34 +1,43 @@
-<mat-toolbar color="primary" class="header-toolbar">
+<mat-toolbar class="header-toolbar">
   <div class="toolbar-content">
-    <div class="logo-section">
-      <mat-icon class="logo-icon">dashboard</mat-icon>
-      <span class="app-title">Mi Empresa</span>
+    <div class="left-section">
+      <button mat-icon-button class="menu-button" (click)="toggleSidebar.emit()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span class="page-title">Dashboard</span>
     </div>
 
-    <div class="toolbar-actions">
-      <button
-        mat-icon-button
-        routerLink="/profile"
-        matTooltip="Mi Perfil"
-        class="profile-button">
-        <mat-icon>person</mat-icon>
+    <div class="center-section">
+      <div class="search-box">
+        <mat-icon>search</mat-icon>
+        <input placeholder="Search..." />
+      </div>
+    </div>
+
+    <div class="right-section">
+      <button mat-icon-button matTooltip="Notifications">
+        <mat-icon>notifications</mat-icon>
+        <span class="badge">2</span>
       </button>
 
-      <mat-slide-toggle
-        [checked]="isDarkMode"
-        (change)="toggleDarkMode()"
-        color="accent"
-        class="dark-mode-toggle">
-        <mat-icon>{{ isDarkMode ? 'dark_mode' : 'light_mode' }}</mat-icon>
-      </mat-slide-toggle>
-
-      <button
-        mat-icon-button
-        (click)="logout()"
-        matTooltip="Cerrar sesión"
-        class="logout-button">
-        <mat-icon>logout</mat-icon>
+      <button mat-icon-button [matMenuTriggerFor]="userMenu" class="user-chip">
+        <div class="avatar">JD</div>
+        <div class="user-info">
+          <div class="name">John Doe</div>
+          <div class="role">Administrator</div>
+        </div>
       </button>
+
+      <mat-menu #userMenu="matMenu">
+        <button mat-menu-item routerLink="/profile">
+          <mat-icon>person</mat-icon>
+          <span>Profile</span>
+        </button>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
     </div>
   </div>
 </mat-toolbar>
