@@ -1,29 +1,26 @@
-/* Layout with fixed sidebar and top header */
+/* Unified layout: fixed header on top, sidebar below header, content fills remaining space without extra margins */
 .app-container {
   min-height: 100vh;
-}
-
-.app-container.authenticated {
-  display: grid;
-  grid-template-columns: 240px 1fr; /* sidebar + content */
-}
-
-/* Collapsed sidebar width handled via main classes */
-.main-content {
-  padding: 24px;
   background: var(--color-muted-bg);
 }
 
-.main-content.with-header { padding-top: 88px; }
-.main-content.with-sidebar { margin-left: 240px; }
-.main-content.with-sidebar-collapsed { margin-left: 72px; }
-
-/* When not authenticated, full width */
-.app-container:not(.authenticated) .main-content {
-  margin-left: 0;
-  padding-top: 0;
+/* Main content should account only for header height and sidebar width via padding/margins */
+.main-content {
+  padding: 24px;
+  padding-top: 88px; /* header (64px) + spacing */
 }
 
+/* When authenticated, the sidebar is fixed starting below the header; offset content accordingly */
+.app-container.authenticated .main-content.with-sidebar { margin-left: 240px; }
+.app-container.authenticated .main-content.with-sidebar-collapsed { margin-left: 72px; }
+
+/* On small screens, keep collapsed width */
 @media (max-width: 920px) {
-  .main-content.with-sidebar { margin-left: 72px; }
+  .app-container.authenticated .main-content.with-sidebar { margin-left: 72px; }
+}
+
+/* When not authenticated (login/register/recover), remove left margin and reduce paddings so forms are centered properly */
+.app-container:not(.authenticated) .main-content {
+  margin-left: 0;
+  padding:0;
 }
