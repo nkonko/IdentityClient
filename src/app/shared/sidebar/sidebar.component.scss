@@ -17,12 +17,16 @@
 .sidebar.collapsed { width: 72px; }
 
 .brand {
-  font-weight: 700;
-  font-size: var(--font-size-lg);
   color: var(--color-text);
   text-decoration: none;
   margin: 6px 8px 16px;
   cursor: pointer;
+}
+
+.logo {
+  width: 32px;
+  height: 32px;
+  color: var(--color-primary);
 }
 
 .nav { display: flex; flex-direction: column; gap: 6px; }
