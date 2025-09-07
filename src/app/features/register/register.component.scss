@@ -3,8 +3,8 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 20px;
-  background-color: #6a5af9; /* fallback */
+  padding: var(--space-5);
+  background-color: var(--color-primary);
   background-image:
     radial-gradient(800px 400px at 50% 40%, rgba(255, 255, 255, 0.20) 0%, rgba(255, 255, 255, 0.10) 25%, rgba(255, 255, 255, 0.00) 60%),
     linear-gradient(135deg, #4f67ff 0%, #5e63ff 25%, #6d5ff9 50%, #7a58f0 75%, #8a4de7 100%);
@@ -18,10 +18,10 @@
   max-width: 420px;
 
   mat-card {
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    border-radius: 12px;
-    background: #ffffff;
-    padding-bottom: 12px;
+    box-shadow: var(--shadow-lg);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    padding-bottom: var(--space-3);
   }
 }
 
@@ -46,21 +46,13 @@
   margin-top: 16px;
 }
 
-.full-width { width: 100%; }
+/* Use global .full-width from styles */
 
 .form-actions { margin-top: 8px; }
 
 // Responsive design
 @media (max-width: 480px) {
-  .register-container { padding: 10px; }
+  .register-container { padding: var(--space-3); }
 }
 
-// Dark theme adjustments
-.dark-theme .register-container {
-  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-}
-
-.dark-theme .register-card mat-card {
-  background: #424242;
-  color: white;
-}
+/* Dark theme inherits via CSS variables */

@@ -1,0 +1,45 @@
+// Centralized layout and utility styles
+
+// Layout styles
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+
+  &.with-header {
+    padding-top: 80px; // Space for fixed header
+  }
+}
+
+// Responsive breakpoints
+@media (max-width: 768px) {
+  .main-content {
+    padding: 10px;
+
+    &.with-header {
+      padding-top: 70px;
+    }
+  }
+}
+
+// Utility classes
+.text-center {
+  text-align: center;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.mt-16 {
+  margin-top: 16px;
+}
+
+.mb-16 {
+  margin-bottom: 16px;
+}

@@ -97,7 +97,7 @@ export class ProfileComponent implements OnInit {
           this.snackBar.open('Perfil actualizado correctamente', 'Cerrar', { duration: 3000 });
           this.loadUserProfile();
         },
-        error: (error) => {
+        error: (error: any) => {
           this.isLoading = false;
           const errorMessage = (error && (error as any).error) ? (error as any).error : 'Error al actualizar el perfil';
           this.snackBar.open(errorMessage, 'Cerrar', { duration: 5000 });

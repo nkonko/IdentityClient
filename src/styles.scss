@@ -1,65 +1,16 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global styles entry */
 
-html, body {
-  height: 100%;
-  margin: 0;
-}
+/* Import tokens and global modules first */
+@use './styles/tokens';
+@use './styles/typography';
+@use './styles/layout';
+@use './styles/buttons';
+@use './styles/links';
+@use './styles/lists';
+@use './styles/tables';
 
-body {
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-}
+/* Base resets */
+html, body { height: 100%; margin: 0; }
 
-// Layout styles
-.app-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-.main-content {
-  flex: 1;
-  padding: 20px;
-
-  &.with-header {
-    padding-top: 80px; // Space for fixed header
-  }
-}
-
-// Responsive breakpoints
-@media (max-width: 768px) {
-  .main-content {
-    padding: 10px;
-
-    &.with-header {
-      padding-top: 70px;
-    }
-  }
-}
-
-// Utility classes
-.text-center {
-  text-align: center;
-}
-
-.full-width {
-  width: 100%;
-}
-
-.mt-16 {
-  margin-top: 16px;
-}
-
-.mb-16 {
-  margin-bottom: 16px;
-}
-
-// Dark mode transitions
-* {
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-// Dark theme class
-.dark-theme {
-  background-color: #121212;
-  color: white;
-}
+/* Dark mode transitions */
+* { transition: background-color 0.3s ease, color 0.3s ease; }

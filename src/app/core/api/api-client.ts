@@ -2520,9 +2520,10 @@ export interface ISubscriptionUpdateDto {
 }
 
 export class UserCreateDto implements IUserCreateDto {
-    userName?: string | undefined;
+    name?: string | undefined;
     email?: string | undefined;
     password?: string | undefined;
+    status?: UserStatus;
 
     constructor(data?: IUserCreateDto) {
         if (data) {
@@ -2535,9 +2536,10 @@ export class UserCreateDto implements IUserCreateDto {
 
     init(_data?: any) {
         if (_data) {
-            this.userName = _data["userName"];
+            this.name = _data["name"];
             this.email = _data["email"];
             this.password = _data["password"];
+            this.status = _data["status"];
         }
     }
 
@@ -2550,24 +2552,31 @@ export class UserCreateDto implements IUserCreateDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["userName"] = this.userName;
+        data["name"] = this.name;
         data["email"] = this.email;
         data["password"] = this.password;
+        data["status"] = this.status;
         return data;
     }
 }
 
 export interface IUserCreateDto {
-    userName?: string | undefined;
+    name?: string | undefined;
     email?: string | undefined;
     password?: string | undefined;
+    status?: UserStatus;
 }
 
 export class UserDto implements IUserDto {
     id?: string | undefined;
-    userName?: string | undefined;
+    name?: string | undefined;
     email?: string | undefined;
     roles?: string[] | undefined;
+    status?: UserStatus;
+    position?: string | undefined;
+    bio?: string | undefined;
+    lastLogin?: Date | undefined;
+    profilePictureUrl?: string | undefined;
 
     constructor(data?: IUserDto) {
         if (data) {
@@ -2581,13 +2590,18 @@ export class UserDto implements IUserDto {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.userName = _data["userName"];
+            this.name = _data["name"];
             this.email = _data["email"];
             if (Array.isArray(_data["roles"])) {
                 this.roles = [] as any;
                 for (let item of _data["roles"])
                     this.roles!.push(item);
             }
+            this.status = _data["status"];
+            this.position = _data["position"];
+            this.bio = _data["bio"];
+            this.lastLogin = _data["lastLogin"] ? new Date(_data["lastLogin"].toString()) : undefined as any;
+            this.profilePictureUrl = _data["profilePictureUrl"];
         }
     }
 
@@ -2601,22 +2615,32 @@ export class UserDto implements IUserDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["userName"] = this.userName;
+        data["name"] = this.name;
         data["email"] = this.email;
         if (Array.isArray(this.roles)) {
             data["roles"] = [];
             for (let item of this.roles)
                 data["roles"].push(item);
         }
+        data["status"] = this.status;
+        data["position"] = this.position;
+        data["bio"] = this.bio;
+        data["lastLogin"] = this.lastLogin ? this.lastLogin.toISOString() : undefined as any;
+        data["profilePictureUrl"] = this.profilePictureUrl;
         return data;
     }
 }
 
 export interface IUserDto {
     id?: string | undefined;
-    userName?: string | undefined;
+    name?: string | undefined;
     email?: string | undefined;
     roles?: string[] | undefined;
+    status?: UserStatus;
+    position?: string | undefined;
+    bio?: string | undefined;
+    lastLogin?: Date | undefined;
+    profilePictureUrl?: string | undefined;
 }
 
 export class UserPasswordDto implements IUserPasswordDto {
@@ -2659,9 +2683,19 @@ export interface IUserPasswordDto {
     newPassword?: string | undefined;
 }
 
+export enum UserStatus {
+    Active = "Active",
+    Inactive = "Inactive",
+    Blocked = "Blocked",
+}
+
 export class UserUpdateDto implements IUserUpdateDto {
-    userName?: string | undefined;
     email?: string | undefined;
+    name?: string | undefined;
+    position?: string | undefined;
+    bio?: string | undefined;
+    profilePictureUrl?: string | undefined;
+    status?: UserStatus;
 
     constructor(data?: IUserUpdateDto) {
         if (data) {
@@ -2674,8 +2708,12 @@ export class UserUpdateDto implements IUserUpdateDto {
 
     init(_data?: any) {
         if (_data) {
-            this.userName = _data["userName"];
             this.email = _data["email"];
+            this.name = _data["name"];
+            this.position = _data["position"];
+            this.bio = _data["bio"];
+            this.profilePictureUrl = _data["profilePictureUrl"];
+            this.status = _data["status"];
         }
     }
 
@@ -2688,15 +2726,23 @@ export class UserUpdateDto implements IUserUpdateDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["userName"] = this.userName;
         data["email"] = this.email;
+        data["name"] = this.name;
+        data["position"] = this.position;
+        data["bio"] = this.bio;
+        data["profilePictureUrl"] = this.profilePictureUrl;
+        data["status"] = this.status;
         return data;
     }
 }
 
 export interface IUserUpdateDto {
-    userName?: string | undefined;
     email?: string | undefined;
+    name?: string | undefined;
+    position?: string | undefined;
+    bio?: string | undefined;
+    profilePictureUrl?: string | undefined;
+    status?: UserStatus;
 }
 
 export class ApiException extends Error {

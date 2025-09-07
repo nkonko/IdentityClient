@@ -20,7 +20,7 @@ export class UserManagementComponent implements OnInit {
   showModal = false;
   editingUser: UserRow | null = null;
   searchTerm = '';
-  users!: UserRow[] = [];
+  users: UserRow[] = [];
 
   private readonly userFacade = inject(UserFacade);
 
@@ -28,12 +28,11 @@ export class UserManagementComponent implements OnInit {
       this.userFacade.getUsers().pipe(
         map(users => users.map((u): UserRow => ({
           id: u.id,
-          name: u.userName,
-          // name: `${u.firstName} ${u.lastName}`,
+          name: u.name,
           email: u.email,
-          role: u.role,
-          status: u.isActive ? 'Active' : 'Inactive',
-          lastLogin: new Date(u.lastLogin).toLocaleDateString()
+          roles: u.roles,
+          status: u.status ? 'Active' : 'Inactive',
+          lastLogin: u.lastLogin?.toLocaleDateString()
         })))
       )
   }
@@ -44,7 +43,7 @@ export class UserManagementComponent implements OnInit {
     return this.users.filter(u =>
       u.name!.toLowerCase().includes(term) ||
       u.email!.toLowerCase().includes(term) ||
-      u.role.toLowerCase().includes(term) ||
+      u.roles?.includes(term) ||
       u.status.toLowerCase().includes(term)
     );
   }
@@ -70,17 +69,17 @@ export class UserManagementComponent implements OnInit {
     switch (status) {
       case 'Active': return 'badge status status-active';
       case 'Inactive': return 'badge status status-inactive';
-      case 'Pending': return 'badge status status-pending';
+      case 'Blocked': return 'badge status status-pending';
       default: return 'badge status';
     }
   }
 
-  getRoleClass(role: UserRow['role']): string {
-    switch (role) {
-      case 'Admin': return 'badge role role-admin';
-      case 'Editor': return 'badge role role-editor';
-      case 'Viewer': return 'badge role role-viewer';
-      default: return 'badge role';
-    }
-  }
+  // getRoleClass(role: UserRow['roles']): string {
+  //   switch (role) {
+  //     case 'Admin': return 'badge role role-admin';
+  //     case 'Editor': return 'badge role role-editor';
+  //     case 'Viewer': return 'badge role role-viewer';
+  //     default: return 'badge role';
+  //   }
+  // }
 }

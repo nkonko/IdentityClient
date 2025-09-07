@@ -35,7 +35,7 @@
             <tr class="row">
               <td>
                 <div class="user-cell">
-                  <div class="avatar">{{ user.name.charAt(0) }}</div>
+                  <div class="avatar">{{ user.name?.charAt(0) }}</div>
                   <div class="user-meta">
                     <div class="name">{{ user.name }}</div>
                     <div class="email">{{ user.email }}</div>
@@ -43,7 +43,7 @@
                 </div>
               </td>
               <td>
-                <span [class]="getRoleClass(user.role)">{{ user.role }}</span>
+                <!-- <span [class]="getRoleClass(user.roles)">{{ user.roles }}</span> -->
               </td>
               <td>
                 <span [class]="getStatusClass(user.status)">{{ user.status }}</span>

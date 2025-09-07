@@ -4,10 +4,10 @@
   left: 0;
   right: 0;
   height: 64px;
-  background: #ffffff;
-  color: #0f172a;
+  background: var(--color-surface);
+  color: var(--color-text);
   z-index: 1000;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .toolbar-content {
@@ -25,27 +25,27 @@
   gap: 12px;
 }
 
-.menu-button { color: #0f172a; }
-.page-title { font-size: 18px; font-weight: 600; }
+.menu-button { color: var(--color-text); }
+.page-title { font-size: var(--font-size-md); font-weight: 600; }
 
 .center-section { display: flex; justify-content: center; }
 .search-box {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-2);
   width: 520px;
   max-width: 100%;
-  background: #f3f4f6;
-  border: 1px solid #e5e7eb;
-  border-radius: 999px;
-  padding: 8px 12px;
+  background: var(--color-muted-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  padding: var(--space-2) var(--space-3);
 }
 .search-box input {
   border: 0;
   outline: 0;
   background: transparent;
   width: 100%;
-  font-size: 14px;
+  font-size: var(--font-size-sm);
 }
 
 .right-section {
@@ -59,10 +59,10 @@
   position: absolute;
   top: 6px;
   right: 42px;
-  background: #ef4444;
+  background: var(--color-danger);
   color: #fff;
-  border-radius: 999px;
-  font-size: 10px;
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-xs);
   line-height: 14px;
   padding: 0 6px;
 }
@@ -79,12 +79,12 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: #2563eb;
-  color: white;
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   font-weight: 600;
 }
 
@@ -96,5 +96,4 @@
 }
 
 /* Dark theme awareness */
-.dark-theme .header-toolbar { background: #0b1020; color: #e5e7eb; border-bottom-color: #1f2937; }
-.dark-theme .search-box { background: #0f172a; border-color: #1f2937; }
+/* Dark theme handled via CSS variables in :root overrides */

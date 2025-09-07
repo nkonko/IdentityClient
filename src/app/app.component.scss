@@ -11,7 +11,7 @@
 /* Collapsed sidebar width handled via main classes */
 .main-content {
   padding: 24px;
-  background: #f6f8fb; /* subtle gray like screenshot */
+  background: var(--color-muted-bg);
 }
 
 .main-content.with-header { padding-top: 88px; }
