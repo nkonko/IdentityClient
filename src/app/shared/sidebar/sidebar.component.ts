@@ -14,7 +14,7 @@ export class SidebarComponent {
   @Input() collapsed = false;
 
   navItems = [
-    { icon: 'home', label: 'home', link: '/home' },
+    { icon: 'home', label: 'Home', link: '/home' },
     { icon: 'group', label: 'Users', link: '/users' },
     { icon: 'admin_panel_settings', label: 'Roles', link: '/roles' },
     { icon: 'subscriptions', label: 'Subscriptions', link: '/subscriptions' },

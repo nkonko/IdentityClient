@@ -1,69 +1,70 @@
 <app-section-title></app-section-title>
 
 <div class="profile-page">
-  <mat-tab-group class="ud-tabs" mat-stretch-tabs>
-    <mat-tab label="Profile Information">
-      <div class="profile-info">
-        <mat-card class="profile-card">
-          <mat-card-content>
-            <div class="profile-info__left">
+  <mat-card class="profile-card">
+    <mat-tab-group class="ud-tabs" mat-stretch-tabs color="primary">
+      <mat-tab label="Profile Information">
+        <div class="profile-grid">
+          <mat-card class="profile-avatar-card">
+            <mat-card-content>
               <app-profile-avatar
-                [fullName]="form.value.name || user?.name || ''"
-                [imageUrl]="null"
-                (upload)="onAvatarUpload($event)">
-              </app-profile-avatar>
-            </div>
-          </mat-card-content>
-        </mat-card>
+              [fullName]="form.value.name || user?.name || ''"
+              [imageUrl]="null"
+              (upload)="onAvatarUpload($event)">
+            </app-profile-avatar>
+            </mat-card-content>
+          </mat-card>
 
-        <mat-card class="profile-card">
-          <mat-card-content>
-            <form [formGroup]="form" class="profile-form">
-              <div class="form-grid">
-                <mat-form-field appearance="outline" class="full-width" floatLabel="always">
-                  <mat-label>Full Name</mat-label>
-                  <input matInput formControlName="name" />
-                </mat-form-field>
+          <mat-card class="profile-form-card">
+            <mat-card-content>
+              <form [formGroup]="form" class="profile-form">
+                <div class="form-grid">
+                  <mat-form-field appearance="outline" class="full-width" floatLabel="always">
+                    <mat-label>Full Name</mat-label>
+                    <input matInput formControlName="name" />
+                  </mat-form-field>
 
-                <mat-form-field appearance="outline" class="full-width" floatLabel="always">
-                  <mat-label>Email Address</mat-label>
-                  <input matInput type="email" formControlName="email" />
-                </mat-form-field>
+                  <mat-form-field appearance="outline" class="full-width" floatLabel="always">
+                    <mat-label>Email Address</mat-label>
+                    <input matInput type="email" formControlName="email" />
+                  </mat-form-field>
 
-                <mat-form-field appearance="outline" class="full-width" floatLabel="always">
-                  <mat-label>Position</mat-label>
-                  <input matInput formControlName="position" />
-                </mat-form-field>
+                  <mat-form-field appearance="outline" class="full-width" floatLabel="always">
+                    <mat-label>Position</mat-label>
+                    <input matInput formControlName="position" />
+                  </mat-form-field>
 
-                <mat-form-field appearance="outline" class="full-width" floatLabel="always">
-                  <mat-label>Bio</mat-label>
-                  <textarea matInput formControlName="bio" rows="4"></textarea>
-                </mat-form-field>
-              </div>
+                  <mat-form-field appearance="outline" class="full-width" floatLabel="always">
+                    <mat-label>Bio</mat-label>
+                    <textarea matInput formControlName="bio" rows="4"></textarea>
+                  </mat-form-field>
+                </div>
+              </form>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-tab>
 
-              <div class="actions">
-                <button mat-raised-button color="primary" type="button" (click)="save()" [disabled]="isLoading || !form.valid">
-                  Save Changes
-                </button>
-              </div>
-            </form>
-          </mat-card-content>
-        </mat-card>
-      </div>
-    </mat-tab>
+      <mat-tab label="Security">
+        <div class="tab-placeholder">
+          <mat-icon>security</mat-icon>
+          <p>Security settings coming soon.</p>
+        </div>
+      </mat-tab>
 
-    <mat-tab label="Security">
-      <div class="tab-placeholder">
-        <mat-icon>security</mat-icon>
-        <p>Security settings coming soon.</p>
-      </div>
-    </mat-tab>
+      <mat-tab label="Notifications">
+        <div class="tab-placeholder">
+          <mat-icon>notifications</mat-icon>
+          <p>Notification preferences coming soon.</p>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
 
-    <mat-tab label="Notifications">
-      <div class="tab-placeholder">
-        <mat-icon>notifications</mat-icon>
-        <p>Notification preferences coming soon.</p>
-      </div>
-    </mat-tab>
-  </mat-tab-group>
+    <mat-card-actions align="end">
+      <button mat-raised-button color="primary" type="button" (click)="save()" [disabled]="isLoading || !form.valid">
+        Save Changes
+      </button>
+    </mat-card-actions>
+  </mat-card>
 </div>
+

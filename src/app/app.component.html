@@ -4,7 +4,9 @@
     <app-header (toggleSidebar)="toggleSidebar()" [class.with-sidebar]="!isSidebarCollapsed" [class.with-sidebar-collapsed]="isSidebarCollapsed"></app-header>
   }
   <main class="main-content" [class.with-header]="isAuthenticated" [class.with-sidebar]="isAuthenticated && !isSidebarCollapsed" [class.with-sidebar-collapsed]="isAuthenticated && isSidebarCollapsed">
-    <router-outlet />
+      <div [class.content-container]="useContentContainer">
+        <router-outlet />
+      </div>
   </main>
 </div>
 

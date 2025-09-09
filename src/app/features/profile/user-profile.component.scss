@@ -2,40 +2,48 @@
   padding: var(--space-6) var(--space-5);
 }
 
-/* Tabs styling */
+/* Tabs styling integrated in card */
+.ud-tabs ::ng-deep .mat-mdc-tab-header {
+  border-bottom: 1px solid var(--color-border);
+  margin: 0;
+  padding: 0 var(--space-6);
+  justify-content: center;
+}
 .ud-tabs ::ng-deep .mat-mdc-tab-labels {
   gap: var(--space-5);
 }
 .ud-tabs ::ng-deep .mdc-tab__text-label {
-  font-weight: 600;
+  font-weight: 500;
 }
 .ud-tabs ::ng-deep .mdc-tab--active .mdc-tab__text-label {
-  font-weight: 800;
+  font-weight: 600;
 }
 .ud-tabs ::ng-deep .mdc-tab-indicator__content--underline {
   border-top-width: 3px;
+}
+.ud-tabs.mat-primary ::ng-deep .mdc-tab-indicator__content--underline {
   border-color: var(--color-primary);
 }
+.ud-tabs ::ng-deep .mat-mdc-tab-body-wrapper {
+  padding: var(--space-6);
+}
 
-.profile-info {
+.profile-grid {
   display: grid;
   grid-template-columns: 320px 1fr;
   gap: var(--space-6);
-  margin-top: var(--space-5);
 }
 
 .profile-card {
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
+  background: var(--color-surface);
 }
 
-.profile-info__left {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.profile-info__right {
+.profile-avatar-card,
+.profile-form-card {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
 }
 
 .profile-form .form-grid {
@@ -44,10 +52,14 @@
   gap: var(--space-5);
 }
 
-.profile-form .actions {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: var(--space-6);
+@media (max-width: 960px) {
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-form .form-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .tab-placeholder {

@@ -37,13 +37,13 @@ export const routes: Routes = [
   {
     path: 'home',
     canActivate: [authGuard],
-    data: { title: 'Home' },
+    data: { title: 'Welcome' },
     loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent)
   },
   {
     path: 'profile',
     canActivate: [authGuard],
-    data: { title: 'My Profile' },
+    data: { title: 'My Profile', subtitle: 'Manage your personal information, security and notifications' },
     loadComponent: () => import('./features/profile/user-profile.component').then(m => m.UserProfileComponent)
   },
   {

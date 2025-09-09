@@ -11,9 +11,8 @@
   <div class="avatar-actions">
     <label class="upload-btn" [class.is-disabled]="disabled">
       <input type="file" accept="image/*" (change)="onFileSelected($event)" [disabled]="disabled" hidden />
-      <button mat-stroked-button color="primary" type="button" [disabled]="disabled">
-        <mat-icon>upload</mat-icon>
-        Upload Image
+      <button mat-icon-button color="primary" type="button" [disabled]="disabled">
+        <mat-icon>photo_camera</mat-icon>
       </button>
     </label>
   </div>
