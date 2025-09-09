@@ -35,14 +35,16 @@ export const routes: Routes = [
     loadComponent: () => import('./features/recover/recover.component').then(m => m.RecoverComponent)
   },
   {
-    path: 'dashboard',
+    path: 'home',
     canActivate: [authGuard],
+    data: { title: 'Home' },
     loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent)
   },
   {
     path: 'profile',
     canActivate: [authGuard],
-    loadComponent: () => import('./features/profile/profile.component').then(m => m.ProfileComponent)
+    data: { title: 'My Profile' },
+    loadComponent: () => import('./features/profile/user-profile.component').then(m => m.UserProfileComponent)
   },
   {
     path: 'users',

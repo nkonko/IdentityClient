@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { DashboardFacade } from '../../core/facades/dashboard.facade';
 import { DashboardSummaryDto, DashboardMetricsDto, DashboardRecentDto, DashboardNotificationDto } from '../../core/api/api-client';
+import { SectionTitleComponent } from '../../shared/section-title/section-title.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,7 +19,8 @@ import { DashboardSummaryDto, DashboardMetricsDto, DashboardRecentDto, Dashboard
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    SectionTitleComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']

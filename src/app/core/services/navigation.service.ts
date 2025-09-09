@@ -13,12 +13,12 @@ export class NavigationService {
 
     // Si está autenticado y está en una página pública, redirigir a dashboard
     if (hasToken && ['/login', '/register', '/recover', '/'].includes(currentUrl)) {
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/home']);
       return;
     }
 
     // Si no está autenticado y está en una página privada, redirigir a login
-    if (!hasToken && currentUrl === '/dashboard') {
+    if (!hasToken && currentUrl === '/home') {
       this.router.navigate(['/login']);
       return;
     }
@@ -29,6 +29,6 @@ export class NavigationService {
   }
 
   redirectToDashboard() {
-    this.router.navigate(['/dashboard']);
+    this.router.navigate(['/home']);
   }
 }

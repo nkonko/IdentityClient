@@ -1,0 +1,20 @@
+<div class="avatar-card">
+  <div class="avatar-wrapper" [class.avatar--image]="!!imageUrl">
+    <ng-container *ngIf="imageUrl; else initialsTpl">
+      <img [src]="imageUrl" alt="User avatar" class="avatar-img" />
+    </ng-container>
+    <ng-template #initialsTpl>
+      <div class="avatar-initials">{{ initials() }}</div>
+    </ng-template>
+  </div>
+
+  <div class="avatar-actions">
+    <label class="upload-btn" [class.is-disabled]="disabled">
+      <input type="file" accept="image/*" (change)="onFileSelected($event)" [disabled]="disabled" hidden />
+      <button mat-stroked-button color="primary" type="button" [disabled]="disabled">
+        <mat-icon>upload</mat-icon>
+        Upload Image
+      </button>
+    </label>
+  </div>
+</div>
