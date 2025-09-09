@@ -1,19 +1,21 @@
 .avatar-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-4);
+  display: grid;
+  place-items: center;
 }
 
 .avatar-wrapper {
-  width: 128px;
-  height: 128px;
-  border-radius: var(--radius-pill);
-  background: color-mix(in oklab, var(--color-primary) 16%, white);
+  /* grid contenedor para superposición sin absolute */
+  position: relative;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--color-primary) 80%, white);
   color: var(--color-primary-contrast);
-  box-shadow: var(--shadow-lg);
+
   display: grid;
   place-items: center;
+  /* capa base ocupa toda el área */
+  grid-template-areas: 'stack';
   overflow: hidden;
 }
 
@@ -21,24 +23,63 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  grid-area: stack; /* apilado en la misma celda */
 }
 
 .avatar-initials {
-  font-size: 42px;
+  font-size: 48px;
   font-weight: 700;
+  grid-area: stack; /* apilado en misma celda */
+  display: grid;
+  place-items: center; /* centrar ? */
 }
 
-.avatar-actions {
+.avatar-camera {
+  position: absolute;
+  right: 75px;
+  top: 120px;
+  z-index: 1000; /* ensure on top for clicks */
   display: flex;
-  gap: var(--space-3);
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: -2px 2px 6px rgba(0,0,0,.2);
+  cursor: pointer;
+  user-select: none;
 }
-
-.upload-btn button[mat-stroked-button] {
-  border-color: var(--color-primary);
-  color: var(--color-primary);
+/* allow clicks on the label to trigger the hidden file input */
+.avatar-camera label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
 }
-
-.upload-btn.is-disabled {
-  opacity: .6;
+/* disabled state on the label */
+.avatar-camera label.is-disabled {
+  cursor: not-allowed;
   pointer-events: none;
+  opacity: .6;
+}
+.avatar-camera mat-icon {
+  font-size: 20px; /* slightly bigger for 40px circle */
+  line-height: 1; /* avoid extra inline spacing */
+  width: 20px;
+  height: 20px;
+  color: #000; /* black icon */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.avatar-camera .file-input {
+  position: absolute;
+  inset: 0;          /* stretch over the button, but keep it invisible */
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
 }

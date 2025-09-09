@@ -19,22 +19,22 @@
             <mat-card-content>
               <form [formGroup]="form" class="profile-form">
                 <div class="form-grid">
-                  <mat-form-field appearance="outline" class="full-width" floatLabel="always">
+                  <mat-form-field appearance="fill" class="full-width" floatLabel="always">
                     <mat-label>Full Name</mat-label>
                     <input matInput formControlName="name" />
                   </mat-form-field>
 
-                  <mat-form-field appearance="outline" class="full-width" floatLabel="always">
+                  <mat-form-field appearance="fill" class="full-width" floatLabel="always">
                     <mat-label>Email Address</mat-label>
                     <input matInput type="email" formControlName="email" />
                   </mat-form-field>
 
-                  <mat-form-field appearance="outline" class="full-width" floatLabel="always">
+                  <mat-form-field appearance="fill" class="full-width" floatLabel="always">
                     <mat-label>Position</mat-label>
                     <input matInput formControlName="position" />
                   </mat-form-field>
 
-                  <mat-form-field appearance="outline" class="full-width" floatLabel="always">
+                  <mat-form-field appearance="fill" class="full-width" floatLabel="always">
                     <mat-label>Bio</mat-label>
                     <textarea matInput formControlName="bio" rows="4"></textarea>
                   </mat-form-field>
@@ -61,7 +61,8 @@
     </mat-tab-group>
 
     <mat-card-actions align="end">
-      <button mat-raised-button color="primary" type="button" (click)="save()" [disabled]="isLoading || !form.valid">
+      <button class="btn primary" mat-raised-button color="primary" type="button" (click)="save()" [disabled]="isLoading || !form.valid">
+        <mat-icon class="mr-2">save_as</mat-icon>
         Save Changes
       </button>
     </mat-card-actions>

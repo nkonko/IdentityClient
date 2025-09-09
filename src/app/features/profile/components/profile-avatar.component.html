@@ -7,13 +7,11 @@
       <div class="avatar-initials">{{ initials() }}</div>
     </ng-template>
   </div>
-
-  <div class="avatar-actions">
-    <label class="upload-btn" [class.is-disabled]="disabled">
-      <input type="file" accept="image/*" (change)="onFileSelected($event)" [disabled]="disabled" hidden />
-      <button mat-icon-button color="primary" type="button" [disabled]="disabled">
-        <mat-icon>photo_camera</mat-icon>
-      </button>
-    </label>
-  </div>
+  <div class="avatar-camera">
+    <label role="button" tabindex="0" [class.is-disabled]="disabled">
+      <input class="file-input" type="file" accept="image/*" (change)="onFileSelected($event)" [disabled]="disabled" />
+      <mat-icon>photo_camera</mat-icon>
+     </label>
+   </div>
 </div>
+
