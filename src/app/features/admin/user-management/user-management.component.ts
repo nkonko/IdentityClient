@@ -6,13 +6,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { UserRow } from './models/user-row';
 import { UserFacade } from '../../../core/facades/user.facade';
 import { map } from 'rxjs';
+import { ButtonComponent } from '../../../shared/button/button.component';
+import { SectionTitleComponent } from '../../../shared/section-title/section-title.component';
 
 
 
 @Component({
   selector: 'app-user-management',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatIconModule, MatButtonModule],
+  imports: [CommonModule, FormsModule, MatIconModule, MatButtonModule, ButtonComponent, SectionTitleComponent],
   templateUrl: './user-management.component.html',
   styleUrls: ['./user-management.component.scss']
 })

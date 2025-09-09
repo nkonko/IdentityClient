@@ -63,10 +63,12 @@
     </mat-tab-group>
 
     <mat-card-actions align="end">
-      <button class="btn primary" mat-raised-button color="primary" type="button" (click)="save()" [disabled]="isLoading || !form.valid">
-        <mat-icon class="mr-2">save_as</mat-icon>
-        Save Changes
-      </button>
+      <app-button
+        icon="save_as"
+        label="Save Changes"
+        [disabled]="isLoading || !form.valid"
+        (btnClick)="save()">
+      </app-button>
     </mat-card-actions>
   </mat-card>
 </div>

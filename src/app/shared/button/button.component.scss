@@ -1,0 +1,13 @@
+/* Reutiliza las clases globales .btn definidas en src/styles/_buttons.scss
+   Aquí solo añadimos utilidades pequeñas relacionadas al ícono o estados específicos */
+
+:host { display: inline-flex; }
+
+/* Margen a la derecha del icono para replicar User Management */
+.mr { margin-right: 6px; }
+
+/* Asegurar que disabled se vea correctamente con los estilos globales */
+button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

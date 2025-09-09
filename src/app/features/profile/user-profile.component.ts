@@ -13,6 +13,7 @@ import { SectionTitleComponent } from '../../shared/section-title/section-title.
 import { ProfileAvatarComponent } from './components/profile-avatar.component';
 import { UserFacade } from '../../core/facades/user.facade';
 import { UserDto, UserUpdateDto } from '../../core/api/api-client';
+import { ButtonComponent } from '../../shared/button/button.component';
 
 @Component({
   selector: 'app-user-profile',
@@ -28,7 +29,8 @@ import { UserDto, UserUpdateDto } from '../../core/api/api-client';
     SectionTitleComponent,
     ProfileAvatarComponent,
     TextInputComponent,
-    TextareaComponent
+    TextareaComponent,
+    ButtonComponent
   ],
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss']

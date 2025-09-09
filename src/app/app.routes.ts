@@ -48,6 +48,8 @@ export const routes: Routes = [
   },
   {
     path: 'users',
+    canActivate: [authGuard],
+     data: { title: 'User Management', subtitle: 'Manage users' },
     loadComponent: () => import('./features/admin/user-management/user-management.component').then(m => m.UserManagementComponent)
   },
   {

@@ -1,9 +1,10 @@
   <div class="um-toolbar">
-    <h1 class="title">User Management</h1>
-    <button class="btn primary" (click)="handleAddUser()">
-      <mat-icon class="mr">add</mat-icon>
-      Add User
-    </button>
+    <app-section-title></app-section-title>
+    <app-button
+        icon="add"
+        label="Add User"
+        (btnClick)="handleAddUser()">
+    </app-button>
   </div>
 
   <div class="card">
