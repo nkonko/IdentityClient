@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatCardModule } from '@angular/material/card';
 import { SectionTitleComponent } from '../../shared/section-title/section-title.component';
 import { ProfileAvatarComponent } from './components/profile-avatar.component';
 import { UserFacade } from '../../core/facades/user.facade';
@@ -25,6 +26,7 @@ import { UserDto, UserUpdateDto } from '../../core/api/api-client';
     MatButtonModule,
     MatIconModule,
     MatDividerModule,
+    MatCardModule,
     SectionTitleComponent,
     ProfileAvatarComponent
   ],

@@ -1,48 +1,54 @@
 <app-section-title></app-section-title>
 
 <div class="profile-page">
-  <mat-tab-group>
+  <mat-tab-group class="ud-tabs" mat-stretch-tabs>
     <mat-tab label="Profile Information">
       <div class="profile-info">
-        <div class="profile-info__left">
-          <app-profile-avatar
-            [fullName]="form.value.name || user?.name || ''"
-            [imageUrl]="null"
-            (upload)="onAvatarUpload($event)">
-          </app-profile-avatar>
-        </div>
-
-        <div class="profile-info__right">
-          <form [formGroup]="form" class="profile-form">
-            <div class="form-grid">
-              <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Full Name</mat-label>
-                <input matInput formControlName="name" />
-              </mat-form-field>
-
-              <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Email Address</mat-label>
-                <input matInput type="email" formControlName="email" />
-              </mat-form-field>
-
-              <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Position</mat-label>
-                <input matInput formControlName="position" />
-              </mat-form-field>
-
-              <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Bio</mat-label>
-                <textarea matInput formControlName="bio" rows="4"></textarea>
-              </mat-form-field>
+        <mat-card class="profile-card">
+          <mat-card-content>
+            <div class="profile-info__left">
+              <app-profile-avatar
+                [fullName]="form.value.name || user?.name || ''"
+                [imageUrl]="null"
+                (upload)="onAvatarUpload($event)">
+              </app-profile-avatar>
             </div>
+          </mat-card-content>
+        </mat-card>
 
-            <div class="actions">
-              <button mat-raised-button color="primary" type="button" (click)="save()" [disabled]="isLoading || !form.valid">
-                Save Changes
-              </button>
-            </div>
-          </form>
-        </div>
+        <mat-card class="profile-card">
+          <mat-card-content>
+            <form [formGroup]="form" class="profile-form">
+              <div class="form-grid">
+                <mat-form-field appearance="outline" class="full-width" floatLabel="always">
+                  <mat-label>Full Name</mat-label>
+                  <input matInput formControlName="name" />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width" floatLabel="always">
+                  <mat-label>Email Address</mat-label>
+                  <input matInput type="email" formControlName="email" />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width" floatLabel="always">
+                  <mat-label>Position</mat-label>
+                  <input matInput formControlName="position" />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width" floatLabel="always">
+                  <mat-label>Bio</mat-label>
+                  <textarea matInput formControlName="bio" rows="4"></textarea>
+                </mat-form-field>
+              </div>
+
+              <div class="actions">
+                <button mat-raised-button color="primary" type="button" (click)="save()" [disabled]="isLoading || !form.valid">
+                  Save Changes
+                </button>
+              </div>
+            </form>
+          </mat-card-content>
+        </mat-card>
       </div>
     </mat-tab>
 

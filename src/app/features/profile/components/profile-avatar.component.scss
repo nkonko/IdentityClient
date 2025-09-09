@@ -6,12 +6,12 @@
 }
 
 .avatar-wrapper {
-  width: 120px;
-  height: 120px;
+  width: 128px;
+  height: 128px;
   border-radius: var(--radius-pill);
-  background: var(--color-muted-bg);
-  color: var(--color-text);
-  box-shadow: var(--shadow-md);
+  background: color-mix(in oklab, var(--color-primary) 16%, white);
+  color: var(--color-primary-contrast);
+  box-shadow: var(--shadow-lg);
   display: grid;
   place-items: center;
   overflow: hidden;
@@ -24,13 +24,18 @@
 }
 
 .avatar-initials {
-  font-size: 40px;
-  font-weight: 600;
+  font-size: 42px;
+  font-weight: 700;
 }
 
 .avatar-actions {
   display: flex;
   gap: var(--space-3);
+}
+
+.upload-btn button[mat-stroked-button] {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
 }
 
 .upload-btn.is-disabled {
