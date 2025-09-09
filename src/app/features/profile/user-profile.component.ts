@@ -2,8 +2,8 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { TextInputComponent } from '../../shared/text-input/text-input.component';
+import { TextareaComponent } from '../../shared/textarea/textarea.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -21,14 +21,14 @@ import { UserDto, UserUpdateDto } from '../../core/api/api-client';
     CommonModule,
     ReactiveFormsModule,
     MatTabsModule,
-    MatFormFieldModule,
-    MatInputModule,
     MatButtonModule,
     MatIconModule,
     MatDividerModule,
     MatCardModule,
     SectionTitleComponent,
-    ProfileAvatarComponent
+    ProfileAvatarComponent,
+    TextInputComponent,
+    TextareaComponent
   ],
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss']

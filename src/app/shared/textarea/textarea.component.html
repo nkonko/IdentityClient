@@ -1,0 +1,11 @@
+<label class="ud-label">{{ label }}</label>
+<textarea
+  class="ud-textarea"
+  [attr.rows]="rows"
+  [attr.placeholder]="placeholder || null"
+  [ngClass]="{ 'ud-textarea--error': showError }"
+  [value]="control.value ?? ''"
+  (input)="onInput($event)"
+  (blur)="onBlur()"
+></textarea>
+<div class="ud-error" *ngIf="showError">{{ errorMessage }}</div>

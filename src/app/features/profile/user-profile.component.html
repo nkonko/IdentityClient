@@ -19,25 +19,27 @@
             <mat-card-content>
               <form [formGroup]="form" class="profile-form">
                 <div class="form-grid">
-                  <mat-form-field appearance="fill" class="full-width" floatLabel="always">
-                    <mat-label>Full Name</mat-label>
-                    <input matInput formControlName="name" />
-                  </mat-form-field>
+                  <app-text-input
+                    label="Full Name"
+                    [control]="form.controls.name">
+                  </app-text-input>
 
-                  <mat-form-field appearance="fill" class="full-width" floatLabel="always">
-                    <mat-label>Email Address</mat-label>
-                    <input matInput type="email" formControlName="email" />
-                  </mat-form-field>
+                  <app-text-input
+                    label="Email Address"
+                    type="email"
+                    [control]="form.controls.email">
+                  </app-text-input>
 
-                  <mat-form-field appearance="fill" class="full-width" floatLabel="always">
-                    <mat-label>Position</mat-label>
-                    <input matInput formControlName="position" />
-                  </mat-form-field>
+                  <app-text-input
+                    label="Position"
+                    [control]="form.controls.position">
+                  </app-text-input>
 
-                  <mat-form-field appearance="fill" class="full-width" floatLabel="always">
-                    <mat-label>Bio</mat-label>
-                    <textarea matInput formControlName="bio" rows="4"></textarea>
-                  </mat-form-field>
+                  <app-textarea
+                    label="Bio"
+                    [rows]="4"
+                    [control]="form.controls.bio">
+                  </app-textarea>
                 </div>
               </form>
             </mat-card-content>
@@ -68,4 +70,3 @@
     </mat-card-actions>
   </mat-card>
 </div>
-

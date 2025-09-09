@@ -52,38 +52,7 @@
   gap: var(--space-4);
 }
 
-/* Inputs stacked with labels on top */
-.profile-form .mat-mdc-form-field {
-  width: 100%;
-}
-.profile-form .mat-mdc-form-field-subscript-wrapper { display: none; }
-.profile-form .mdc-text-field--filled:not(.mdc-text-field--disabled) {
-  background-color: var(--color-surface);
-}
-.profile-form .mdc-text-field--filled .mdc-line-ripple {
-  /* remove default underline transition */
-  display: none;
-}
-.profile-form .mdc-text-field--filled .mdc-text-field__input {
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: 12px 14px;
-}
-.profile-form .mdc-text-field--filled.mdc-text-field--focused .mdc-text-field__input {
-  border-color: var(--color-primary);
-}
-.profile-form .mat-mdc-form-field-infix { padding: 0; }
-.profile-form .mat-mdc-form-field-focus-overlay { display: none; }
-.profile-form .mat-mdc-form-field-text-prefix,
-.profile-form .mat-mdc-form-field-text-suffix { display: none; }
-.profile-form .mat-mdc-floating-label.mdc-floating-label {
-  font-size: var(--font-size-sm);
-  font-weight: 400;
-  color: var(--color-text-muted);
-  transform: none !important;
-  left: 0 !important;
-  top: -6px !important;
-}
+/* Inputs now use shared components with their own styles */
 
 @media (max-width: 960px) {
   .profile-grid {

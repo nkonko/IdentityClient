@@ -1,0 +1,33 @@
+.ud-label {
+  display: block;
+  margin-bottom: 3px; /* exactly 3px above input */
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.ud-input {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid var(--color-border);
+  border-radius: 10px; /* slightly rounded but keeps shape */
+  padding: 12px 14px;
+  font-size: var(--font-size-base);
+  color: var(--color-text);
+  background: var(--color-surface);
+  outline: none;
+  transition: border-color .15s ease;
+}
+
+.ud-input:focus {
+  border-color: var(--color-primary);
+}
+
+.ud-input--error {
+  border-color: var(--color-danger);
+}
+
+.ud-error {
+  margin-top: 6px;
+  color: var(--color-danger);
+  font-size: var(--font-size-sm);
+}
