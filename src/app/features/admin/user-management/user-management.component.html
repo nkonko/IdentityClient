@@ -78,19 +78,16 @@
     </div>
   </div>
 
-  @if (showModal) {
-    <div class="modal-backdrop" (click)="handleCloseModal()"></div>
-    <div class="modal">
-      <div class="modal-header">
-        <h3>{{ editingUser ? 'Edit User' : 'Add User' }}</h3>
-        <button class="icon" (click)="handleCloseModal()"><mat-icon>close</mat-icon></button>
-      </div>
-      <div class="modal-body">
-        <p>Modal content placeholder. Hook up a real form here.</p>
-      </div>
-      <div class="modal-footer">
-        <button class="btn outline" (click)="handleCloseModal()">Cancel</button>
-        <button class="btn primary">Save</button>
-      </div>
-    </div>
-  }
+  <app-modal
+    [isOpen]="showModal"
+    [title]="editingUser ? 'Edit User' : 'Add User'"
+    [buttons]="[
+      { text: 'Cancel', action: 'cancel', style: 'secondary' },
+      { text: 'Save', action: 'save', style: 'primary' }
+ ]"
+    (buttonClick)="handleModalButtonClick($event)"
+    (close)="handleCloseModal()"
+  >
+    <p>Modal content placeholder. Hook up a real form here.</p>
+  </app-modal>
+

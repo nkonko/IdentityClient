@@ -8,13 +8,14 @@ import { UserFacade } from '../../../core/facades/user.facade';
 import { map } from 'rxjs';
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { SectionTitleComponent } from '../../../shared/section-title/section-title.component';
+import { ModalComponent, ModalButton } from '../../../shared/modal/modal.component'; // New import
 
 
 
 @Component({
   selector: 'app-user-management',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatIconModule, MatButtonModule, ButtonComponent, SectionTitleComponent],
+  imports: [CommonModule, FormsModule, MatIconModule, MatButtonModule, ButtonComponent, SectionTitleComponent, ModalComponent],
   templateUrl: './user-management.component.html',
   styleUrls: ['./user-management.component.scss']
 })
@@ -65,6 +66,16 @@ export class UserManagementComponent implements OnInit {
   handleCloseModal() {
     this.showModal = false;
     this.editingUser = null;
+  }
+
+  handleModalButtonClick(action: string): void {
+    if (action === 'cancel') {
+      this.handleCloseModal();
+    } else if (action === 'save') {
+      // TODO: Implement save logic for user management
+      console.log('Save button clicked for user management');
+      this.handleCloseModal(); // Close modal after save (or on success)
+    }
   }
 
   getStatusClass(status: UserRow['status']): string {

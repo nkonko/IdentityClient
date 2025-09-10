@@ -1,0 +1,19 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="onClose()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>{{ title }}</h2>
+      <button class="close-button" (click)="onClose()">X</button>
+    </div>
+    <div class="modal-body">
+      <ng-content></ng-content>
+    </div>
+    <div class="modal-footer">
+      <app-button
+        *ngFor="let button of buttons"
+        [label]="button.text"
+          [style]="button.style || 'secondary'"
+        (btnClick)="onButtonClick(button.action)"
+      ></app-button>
+    </div>
+  </div>
+</div>

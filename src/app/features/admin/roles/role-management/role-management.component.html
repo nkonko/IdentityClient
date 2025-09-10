@@ -1,5 +1,5 @@
 <div class="um-toolbar">
-  <app-section-title title="Roles" subtitle="Manage user roles and permissions"></app-section-title>
+  <app-section-title></app-section-title>
   <app-button
       icon="add"
       label="Add Role"
@@ -63,3 +63,16 @@
     </div>
   </div>
 </div>
+
+<app-modal
+  [isOpen]="showModal"
+  [title]="editingRole ? 'Edit Role' : 'Add Role'"
+  [buttons]="[
+    { text: 'Cancel', action: 'cancel', style: 'secondary' },
+    { text: 'Save', action: 'save', style: 'primary' }
+  ]"
+  (buttonClick)="handleModalButtonClick($event)"
+  (close)="handleCloseModal()"
+>
+  <!-- <app-role-dialog [isEditMode]="!!editingRole" [role]="editingRole"></app-role-dialog> -->
+</app-modal>

@@ -1,0 +1,65 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0; /* Shorthand for top, right, bottom, left 0 */
+  background: rgba(0,0,0,.35); /* Changed opacity */
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #fff; /* Changed to original color */
+  border-radius: 12px; /* Changed to original value */
+  box-shadow: 0 20px 50px rgba(0,0,0,.2); /* Changed to original value */
+  width: 520px; /* Changed to original value */
+  max-width: calc(100% - 32px); /* Changed to original value */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px; /* Changed to original value */
+  border-bottom: 1px solid #e5e7eb; /* Changed to original value */
+  h2 {
+    margin: 0;
+    font-size: var(--font-size-xl); /* Keep existing, assuming it's fine */
+    color: var(--color-text-primary); /* Keep existing, assuming it's fine */
+  }
+  .close-button {
+    background: none;
+    border: none;
+    width: 36px; /* Added */
+    height: 36px; /* Added */
+    border-radius: 999px; /* Added */
+    display: inline-flex; /* Added */
+    align-items: center; /* Added */
+    justify-content: center; /* Added */
+    font-size: var(--font-size-xxl); /* Keep this for the 'x' character size */
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    &:hover {
+      background: #f3f4f6; /* Added */
+      color: var(--color-text-primary);
+    }
+  }
+}
+
+.modal-body {
+  padding: 16px; /* Changed to original value */
+  flex-grow: 1;
+  overflow-y: auto;
+  color: var(--color-text-secondary); /* Keep existing, assuming it's fine */
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px; /* Changed to original value */
+  padding: 12px 16px; /* Changed to original value */
+  border-top: 1px solid #e5e7eb; /* Changed to original value */
+}
