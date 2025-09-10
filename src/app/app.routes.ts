@@ -48,9 +48,15 @@ export const routes: Routes = [
   },
   {
     path: 'users',
-    canActivate: [authGuard],
+    canActivate: [authGuard, adminGuard],
      data: { title: 'User Management', subtitle: 'Manage users' },
     loadComponent: () => import('./features/admin/user-management/user-management.component').then(m => m.UserManagementComponent)
+  },
+  {
+    path: 'roles',
+    canActivate: [authGuard, adminGuard],
+    data: { title: 'Role Management', subtitle: 'Manage user roles and permissions' },
+    loadComponent: () => import('./features/admin/roles/role-management/role-management.component').then(m => m.RoleManagementComponent)
   },
   {
     path: '**',

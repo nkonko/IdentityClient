@@ -27,16 +27,16 @@ export class UserManagementComponent implements OnInit {
   private readonly userFacade = inject(UserFacade);
 
   ngOnInit(): void {
-      this.userFacade.getUsers().pipe(
-        map(users => users.map((u): UserRow => ({
-          id: u.id,
-          name: u.name,
-          email: u.email,
-          roles: u.roles,
-          status: u.status ? 'Active' : 'Inactive',
-          lastLogin: u.lastLogin?.toLocaleDateString()
-        })))
-      )
+    this.userFacade.getUsers().pipe(
+      map(users => users.map((u): UserRow => ({
+        id: u.id,
+        name: u.name,
+        email: u.email,
+        roles: u.roles,
+        status: (u.status as 'Active' | 'Inactive' | 'Blocked') ?? 'Inactive',
+        lastLogin: u.lastLogin?.toLocaleDateString()
+      })))
+    ).subscribe(users => this.users = users);
   }
 
   get filteredUsers(): UserRow[] {

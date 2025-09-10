@@ -32,17 +32,17 @@ export const selectError = createSelector(
 // Selectores específicos para roles
 export const selectUserRole = createSelector(
   selectUser,
-  (user) => user?.role || null
+  (user) => user?.roles || null
 );
 
 export const selectIsAdmin = createSelector(
   selectUserRole,
-  (role) => role === 'admin'
+  (roles: string[] | null) => roles?.includes('Admin')
 );
 
 export const selectIsUser = createSelector(
   selectUserRole,
-  (role) => role === 'user'
+  (roles: string[] | null) => roles?.includes('User')
 );
 
 // Selectores combinados

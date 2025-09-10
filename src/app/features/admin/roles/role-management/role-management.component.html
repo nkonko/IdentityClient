@@ -1,0 +1,65 @@
+<div class="um-toolbar">
+  <app-section-title title="Roles" subtitle="Manage user roles and permissions"></app-section-title>
+  <app-button
+      icon="add"
+      label="Add Role"
+      (click)="handleAddRole()">
+  </app-button>
+</div>
+
+<div class="card">
+  <div class="card-toolbar">
+    <div class="search">
+      <mat-icon>search</mat-icon>
+      <input type="text" [(ngModel)]="searchTerm" placeholder="Search roles..." />
+    </div>
+    <button class="btn outline">
+      <mat-icon class="mr">filter_list</mat-icon>
+      Filters
+    </button>
+  </div>
+
+  <div class="table-wrapper">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Permissions</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (role of roles$ | async; track trackById($index, role)) {
+          <tr class="row">
+            <td class="muted">{{ role.id }}</td>
+            <td>{{ role.name }}</td>
+            <td>{{ role.permissions?.length }}</td>
+            <td class="actions">
+              <button class="icon" (click)="handleEditRole(role)" title="Edit">
+                <mat-icon class="blue">edit</mat-icon>
+              </button>
+              <button class="icon" title="Delete" (click)="handleDeleteRole(role.id!)">
+                <mat-icon class="red">delete</mat-icon>
+              </button>
+              <button class="icon" (click)="handleManagePermissions(role)" title="Manage Permissions">
+                <mat-icon>key</mat-icon>
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pagination">
+    <div class="info">Showing <b>1</b> to <b>5</b> of <b>20</b> results</div>
+    <div class="pager">
+      <button class="btn outline">Previous</button>
+      <button class="btn">1</button>
+      <button class="btn active">2</button>
+      <button class="btn">3</button>
+      <button class="btn outline">Next</button>
+    </div>
+  </div>
+</div>
