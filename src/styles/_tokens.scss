@@ -60,13 +60,24 @@
 
 /* Dark theme overrides */
 .dark-theme {
-  --color-bg: #0b1020;
-  --color-surface: #0f172a;
-  --color-text: #e5e7eb;
-  --color-text-muted: #9ca3af;
-  --color-border: #1f2937;
-  --color-muted-bg: #0f172a;
-  --color-hover-bg: #111827;
+  /* Backgrounds */
+  --color-bg: #1A1C2C;          /* Fondo principal más legible */
+  --color-surface: #2A2D3E;     /* Fondo de tarjetas/paneles */
+  --color-muted-bg: #212332;    /* Superficies sutiles (inputs, contenedores secundarios) */
+  --color-hover-bg: #3E415A;    /* Hover/focus perceptible */
 
+  /* Textos */
+  --color-text: #E0E0E0;        /* Texto principal alto contraste */
+  --color-text-muted: #A0A0A0;  /* Texto secundario/deshabilitado */
+
+  /* Bordes y separadores */
+  --color-border: #3A3F50;
+
+  /* Acentos/primario (mejor contraste en oscuro) */
+  --color-primary: #5C7DFF;
+  --color-primary-hover: #6E8AFF;
+  --color-primary-contrast: #FFFFFF;
+
+  /* Sombras más visibles en fondo oscuro */
   --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
 }

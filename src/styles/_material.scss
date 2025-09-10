@@ -1,0 +1,50 @@
+/* Angular Material overrides to align with CSS tokens and dark theme */
+
+/* Cards */
+.mat-mdc-card {
+  background: var(--color-surface) !important;
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+.mat-mdc-card .mat-mdc-card-subtitle,
+.mat-mdc-card .mat-mdc-card-content,
+.mat-mdc-card .mat-mdc-card-title {
+  color: var(--color-text);
+}
+.mat-mdc-card-actions {
+  background: var(--color-surface) !important;
+  border-top: 1px solid var(--color-border);
+}
+
+/* Tabs */
+.mat-mdc-tab-group,
+.mat-mdc-tab-header,
+.mdc-tab-bar {
+  background: transparent;
+  color: var(--color-text);
+}
+.mdc-tab__text-label { color: var(--color-text-muted); }
+.mdc-tab--active .mdc-tab__text-label { color: var(--color-text); }
+.mdc-tab-indicator__content--underline { border-top-color: var(--color-primary); }
+
+.mat-mdc-tab-body-wrapper { background: var(--color-surface); }
+
+/* Dividers */
+.mat-mdc-divider, .mat-divider { border-color: var(--color-border) !important; }
+
+/* Buttons (fallback if any Material buttons remain) */
+.mat-mdc-raised-button.mat-primary,
+.mat-mdc-unelevated-button.mat-primary {
+  background: var(--color-primary) !important;
+  color: var(--color-primary-contrast) !important;
+}
+.mat-mdc-outlined-button {
+  border-color: var(--color-border) !important;
+  color: var(--color-text) !important;
+}
+
+/* Icons inherit text color for consistency */
+.mat-icon, .mat-mdc-icon-button { color: var(--color-text); }
+
+/* Form field text color safety (if used) */
+.mat-mdc-form-field, .mat-mdc-input-element { color: var(--color-text); }
