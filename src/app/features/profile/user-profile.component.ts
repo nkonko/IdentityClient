@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -14,6 +14,9 @@ import { ProfileAvatarComponent } from './components/profile-avatar.component';
 import { UserFacade } from '../../core/facades/user.facade';
 import { UserDto, UserUpdateDto } from '../../core/api/api-client';
 import { ButtonComponent } from '../../shared/button/button.component';
+import { Store } from '@ngrx/store';
+import { selectUser } from '../../core/store/auth/auth.selectors';
+import { updateUserProfileSuccess } from '../../core/store/auth/auth.actions';
 
 @Component({
   selector: 'app-user-profile',
@@ -39,6 +42,7 @@ export class UserProfileComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly userFacade = inject(UserFacade);
   private readonly snackBar = inject(MatSnackBar);
+  private readonly store = inject(Store);
 
   user: UserDto | null = null;
   isLoading = false;
@@ -59,6 +63,20 @@ export class UserProfileComponent implements OnInit {
     this.userFacade.me().subscribe({
       next: (user) => {
         this.user = user;
+        // reflect in store so Header and other components get updated
+        this.store.dispatch(updateUserProfileSuccess({
+          user: {
+            id: user.id || '',
+            name: user.name || '',
+            email: user.email || '',
+            roles: user.roles || [],
+            position: user.position ?? null,
+            bio: user.bio ?? null,
+            profilePictureUrl: user.profilePictureUrl ?? null,
+            lastLogin: user.lastLogin ?? null
+          }
+        }));
+
         this.form.patchValue({
           name: user.name || '',
           email: user.email || '',

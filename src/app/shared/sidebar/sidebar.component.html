@@ -9,8 +9,9 @@
        routerLinkActive="active"
        class="nav-item">
       <mat-icon class="nav-icon">{{ item.icon }}</mat-icon>
-      <span class="nav-label" *ngIf="!collapsed">{{ item.label }}</span>
+      @if (!collapsed) {
+        <span class="nav-label">{{ item.label }}</span>
+      }
     </a>
   </nav>
 </aside>
-

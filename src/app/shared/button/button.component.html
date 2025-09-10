@@ -6,13 +6,14 @@
   (click)="onClick($event)"
 >
   <!-- Icono opcional al inicio -->
-  <mat-icon class="mr" *ngIf="showIcon && icon">{{ icon }}</mat-icon>
+  @if (showIcon && icon) {
+    <mat-icon class="mr">{{ icon }}</mat-icon>
+  }
 
   <!-- Contenido: label por defecto o proyección -->
-  <ng-container *ngIf="label; else projected">
+  @if (label) {
     {{ label }}
-  </ng-container>
-  <ng-template #projected>
+  } @else {
     <ng-content></ng-content>
-  </ng-template>
+  }
 </button>

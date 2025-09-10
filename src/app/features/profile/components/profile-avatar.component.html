@@ -1,11 +1,10 @@
 <div class="avatar-card">
   <div class="avatar-wrapper" [class.avatar--image]="!!imageUrl">
-    <ng-container *ngIf="imageUrl; else initialsTpl">
+    @if (imageUrl) {
       <img [src]="imageUrl" alt="User avatar" class="avatar-img" />
-    </ng-container>
-    <ng-template #initialsTpl>
+    } @else {
       <div class="avatar-initials">{{ initials() }}</div>
-    </ng-template>
+    }
   </div>
   <div class="avatar-camera">
     <label role="button" tabindex="0" [class.is-disabled]="disabled">
@@ -14,4 +13,3 @@
      </label>
    </div>
 </div>
-

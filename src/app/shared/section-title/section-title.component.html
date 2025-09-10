@@ -1,4 +1,6 @@
 <div class="section-title">
   <h1 class="section-title__heading">{{ title() }}</h1>
-  <p class="section-title__subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
+  @if (subtitle()) {
+    <p class="section-title__subtitle">{{ subtitle() }}</p>
+  }
 </div>

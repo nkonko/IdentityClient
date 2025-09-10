@@ -4,13 +4,16 @@ import { TokenService } from '../services/token.service';
 import { NavigationService } from '../services/navigation.service';
 import { map, BehaviorSubject, Observable, tap, switchMap, catchError, throwError } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { loginSuccess, User } from '../store/auth/auth.actions';
+import * as AuthActions from '../store/auth/auth.actions';
+import { User } from '../store/auth/auth.actions';
+import { UserProfileService } from '../services/user-profile.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthFacade {
   private readonly client = inject(IdentityClient);
   private readonly tokenService = inject(TokenService);
   private readonly navigationService = inject(NavigationService);
+  private readonly userProfileService = inject(UserProfileService);
 
   private readonly _isAuthenticated$ = new BehaviorSubject<boolean>(!!this.tokenService.getToken());
   public readonly isAuthenticated$ = this._isAuthenticated$.asObservable();
@@ -31,7 +34,7 @@ export class AuthFacade {
         console.log('AuthFacade - Token received:', !!res.token);
         console.log('AuthFacade - Token length:', res.token?.length);
       }),
-      map((res: AuthResponseDto) => {
+      switchMap((res: AuthResponseDto) => {
         if (res && res.token) {
           console.log('AuthFacade - Setting token in storage');
           this.tokenService.setToken(res.token);
@@ -41,23 +44,21 @@ export class AuthFacade {
             this.tokenService.setRefresh(res.refreshToken.token);
           }
 
-          // Extract user information from the response
-          // Note: Adjust these properties based on your actual AuthResponseDto structure
-          const user: User = {
-            id: (res as any).userId || '',
-            nombre: (res as any).username || '',
-            email: (res as any).email || '',
-            role: (res as any).roles?.includes('Admin') ? 'admin' : 'user'
-          };
+          // Una vez guardado el token, cargamos el perfil usando el servicio centralizado
+          return this.userProfileService.loadAndStoreProfile().pipe(
+            tap((userProfile: User) => {
+              // Además, disparamos el loginSuccess con el usuario (por compatibilidad si se usa en otros reducers/efectos)
+              this.store.dispatch(AuthActions.loginSuccess({ user: userProfile, token: res.token! }));
 
-          // Dispatch login success action with user info
-          this.store.dispatch(loginSuccess({ user, token: res.token }));
-
-          this._isAuthenticated$.next(true);
-          console.log('AuthFacade - Authentication state updated to true');
-          this.navigationService.redirectToDashboard();
+              this._isAuthenticated$.next(true);
+              console.log('AuthFacade - Authentication state updated to true');
+              this.navigationService.redirectToDashboard();
+            }),
+            map(() => void 0)
+          );
         } else {
           console.error('AuthFacade - No token received in response');
+          return throwError(() => new Error('No token'));
         }
       })
     );
@@ -94,12 +95,25 @@ export class AuthFacade {
 
   // Método para verificar el estado inicial
   checkAuthStatus() {
-    const hasToken = !!this.tokenService.getToken();
-    console.log('AuthFacade - Checking auth status, has token:', hasToken);
-    if (hasToken) {
-      console.log('AuthFacade - Token length:', this.tokenService.getToken()?.length);
-    }
+    const token = this.tokenService.getToken();
+    const hasToken = !!token;
     this._isAuthenticated$.next(hasToken);
+
+    if (hasToken) {
+      this.store.dispatch(AuthActions.checkAuthStatus());
+      this.userProfileService.loadProfile().subscribe({
+        next: (user) => {
+          if(token) {
+            this.store.dispatch(AuthActions.checkAuthStatusSuccess({ user, token }));
+          }
+        },
+        error: (err) => {
+          console.error('AuthFacade - Failed to load user profile on init, logging out:', err);
+          this.store.dispatch(AuthActions.checkAuthStatusFailure());
+          this.logout(); // If loading profile fails, log out
+        }
+      });
+    }
   }
 
   // Método para debug - obtener el token actual

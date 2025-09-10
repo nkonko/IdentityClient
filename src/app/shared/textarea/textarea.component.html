@@ -8,4 +8,6 @@
   (input)="onInput($event)"
   (blur)="onBlur()"
 ></textarea>
-<div class="ud-error" *ngIf="showError">{{ errorMessage }}</div>
+@if (showError) {
+  <div class="ud-error">{{ errorMessage }}</div>
+}

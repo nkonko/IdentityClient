@@ -1,11 +1,15 @@
 import { createAction, props } from '@ngrx/store';
 
-// User interface for authentication state
+// Modelo de usuario alineado con el perfil (UserDto)
 export interface User {
   id: string;
-  nombre: string;
+  name: string;
   email: string;
-  role: 'admin' | 'user';
+  roles: string[];
+  position?: string | null;
+  bio?: string | null;
+  profilePictureUrl?: string | null;
+  lastLogin?: Date | null;
 }
 
 // Acciones de autenticación
