@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { UserRow } from './models/user-row';
 import { UserFacade } from '../../../core/facades/user.facade';
+import { LoggingService } from '../../../core/services/logging.service';
 import { map } from 'rxjs';
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { SectionTitleComponent } from '../../../shared/section-title/section-title.component';
@@ -86,13 +87,4 @@ export class UserManagementComponent implements OnInit {
       default: return 'badge status';
     }
   }
-
-  // getRoleClass(role: UserRow['roles']): string {
-  //   switch (role) {
-  //     case 'Admin': return 'badge role role-admin';
-  //     case 'Editor': return 'badge role role-editor';
-  //     case 'Viewer': return 'badge role role-viewer';
-  //     default: return 'badge role';
-  //   }
-  // }
 }

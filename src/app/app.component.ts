@@ -15,6 +15,7 @@ import { SidebarComponent } from './shared/sidebar/sidebar.component';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
+  title = 'IdentityClient';
   private readonly auth = inject(AuthFacade);
   private readonly router = inject(Router);
   private readonly navigationService = inject(NavigationService);

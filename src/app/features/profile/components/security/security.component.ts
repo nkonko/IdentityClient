@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TextInputComponent } from '../../../../shared/text-input/text-input.component';
 import { UserFacade } from '../../../../core/facades/user.facade';
+import { passwordMatchValidator } from '../../../../core/validators/password.validators';
 
 interface PasswordForm {
   currentPassword: FormControl<string | null>;
@@ -45,7 +46,7 @@ export class SecurityComponent {
       this.passwordStrengthValidator()
     ]),
     confirmPassword: this.fb.control('', [Validators.required])
-  }, { validators: this.passwordMatchValidator() });
+  }, { validators: passwordMatchValidator('newPassword', 'confirmPassword') });
 
   private passwordStrengthValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -77,21 +78,6 @@ export class SecurityComponent {
     };
   }
 
-  private passwordMatchValidator(): ValidatorFn {
-    return (formGroup: AbstractControl): ValidationErrors | null => {
-      const newPassword = formGroup.get('newPassword')?.value;
-      const confirmPassword = formGroup.get('confirmPassword')?.value;
-
-      if (newPassword !== confirmPassword) {
-        formGroup.get('confirmPassword')?.setErrors({ passwordMismatch: true });
-        return { passwordMismatch: true };
-      }
-
-      formGroup.get('confirmPassword')?.setErrors(null);
-      return null;
-    };
-  }
-
   onSubmit(): void {
     if (this.passwordForm.invalid) {
       return;
@@ -103,19 +89,19 @@ export class SecurityComponent {
     const newPassword = this.passwordForm.value.newPassword;
 
     if (!currentPassword || !newPassword) {
-      this.snackBar.open('Please fill in all required fields', 'Close', { duration: 3000 });
+      this.snackBar.open('Por favor complete todos los campos requeridos', 'Cerrar', { duration: 3000 });
       this.isLoading = false;
       return;
     }
 
     this.userFacade.changePassword(currentPassword, newPassword).subscribe({
       next: () => {
-        this.snackBar.open('Password updated successfully', 'Close', { duration: 3000 });
+        this.snackBar.open('Contraseña actualizada exitosamente', 'Cerrar', { duration: 3000 });
         this.passwordForm.reset();
         this.isLoading = false;
       },
       error: (error: any) => {
-        this.snackBar.open(error.error?.message || 'Failed to update password', 'Close', { duration: 3000 });
+        this.snackBar.open(error.error?.message || 'Error al actualizar la contraseña', 'Cerrar', { duration: 3000 });
         this.isLoading = false;
       }
     });

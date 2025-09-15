@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { IdentityClient, AuthResponseDto, LoginModel, UserPasswordDto, RegisterModel } from '../api/api-client';
 import { TokenService } from '../services/token.service';
 import { NavigationService } from '../services/navigation.service';
+import { LoggingService } from '../services/logging.service';
 import { map, BehaviorSubject, Observable, tap, switchMap, catchError, throwError } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as AuthActions from '../store/auth/auth.actions';
@@ -14,33 +15,33 @@ export class AuthFacade {
   private readonly tokenService = inject(TokenService);
   private readonly navigationService = inject(NavigationService);
   private readonly userProfileService = inject(UserProfileService);
+  private readonly logger = inject(LoggingService);
+  private readonly store = inject(Store);
 
   private readonly _isAuthenticated$ = new BehaviorSubject<boolean>(!!this.tokenService.getToken());
   public readonly isAuthenticated$ = this._isAuthenticated$.asObservable();
+
+  private readonly componentName = 'AuthFacade';
 
   get isAuthenticated(): boolean {
     return this._isAuthenticated$.value;
   }
 
-  private store = inject(Store);
-
   login(username: string, password: string): Observable<void> {
-    console.log('AuthFacade - Login attempt for user:', username);
+    this.logger.log(this.componentName, 'Login attempt for user:', username);
 
     const model = new LoginModel({ username, password });
     return this.client.login(model).pipe(
       tap((res: AuthResponseDto) => {
-        console.log('AuthFacade - Login response:', res);
-        console.log('AuthFacade - Token received:', !!res.token);
-        console.log('AuthFacade - Token length:', res.token?.length);
+        this.logger.log(this.componentName, 'Login response received, token exists:', !!res.token);
       }),
       switchMap((res: AuthResponseDto) => {
         if (res && res.token) {
-          console.log('AuthFacade - Setting token in storage');
+          this.logger.log(this.componentName, 'Setting token in storage');
           this.tokenService.setToken(res.token);
 
           if (res.refreshToken && res.refreshToken.token) {
-            console.log('AuthFacade - Setting refresh token');
+            this.logger.log(this.componentName, 'Setting refresh token');
             this.tokenService.setRefresh(res.refreshToken.token);
           }
 
@@ -51,13 +52,13 @@ export class AuthFacade {
               this.store.dispatch(AuthActions.loginSuccess({ user: userProfile, token: res.token! }));
 
               this._isAuthenticated$.next(true);
-              console.log('AuthFacade - Authentication state updated to true');
+              this.logger.log(this.componentName, 'Authentication state updated to true');
               this.navigationService.redirectToDashboard();
             }),
             map(() => void 0)
           );
         } else {
-          console.error('AuthFacade - No token received in response');
+          this.logger.error(this.componentName, 'No token received in response');
           return throwError(() => new Error('No token'));
         }
       })
@@ -65,10 +66,10 @@ export class AuthFacade {
   }
 
   logout() {
-    console.log('AuthFacade - Logout called');
+    this.logger.log(this.componentName, 'Logout called');
     this.tokenService.clear();
     this._isAuthenticated$.next(false);
-    console.log('AuthFacade - Authentication state updated to false');
+    this.logger.log(this.componentName, 'Authentication state updated to false');
     this.navigationService.redirectToLogin();
   }
 
@@ -77,17 +78,17 @@ export class AuthFacade {
   }
 
   register(username: string, email: string, password: string): Observable<void> {
-    console.log('AuthFacade - Register attempt for user:', username);
+    this.logger.log(this.componentName, 'Register attempt for user:', username);
     const model = new RegisterModel({ username, email, password });
 
     return this.client.register(model).pipe(
       tap(() => {
-        console.log('AuthFacade - Registration successful, attempting auto-login');
+        this.logger.log(this.componentName, 'Registration successful, attempting auto-login');
       }),
       // After successful registration, automatically log the user in
       switchMap(() => this.login(username, password)),
       catchError(error => {
-        console.error('AuthFacade - Registration error:', error);
+        this.logger.error(this.componentName, 'Registration error:', error);
         return throwError(() => error);
       })
     );
@@ -108,7 +109,7 @@ export class AuthFacade {
           }
         },
         error: (err) => {
-          console.error('AuthFacade - Failed to load user profile on init, logging out:', err);
+          this.logger.error(this.componentName, 'Failed to load user profile on init, logging out:', err);
           this.store.dispatch(AuthActions.checkAuthStatusFailure());
           this.logout(); // If loading profile fails, log out
         }

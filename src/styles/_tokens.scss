@@ -1,38 +1,40 @@
 /* Design tokens using CSS variables for easy theming */
 :root {
-  /* Colors */
-  --color-bg: #ffffff;
+  /* Modern Light Theme Colors */
+  --color-bg: #fafbfc;
   --color-surface: #ffffff;
-  --color-text: #0f172a; /* slate-900 */
-  --color-text-muted: #6b7280; /* gray-500 */
-  --color-border: #e5e7eb; /* gray-200 */
-  --color-muted-bg: #f3f4f6; /* gray-100 */
-  --color-hover-bg: #f9fafb; /* gray-50 */
+  --color-text: #1c1e21; /* Darker for better contrast */
+  --color-text-muted: #5f6368; /* Google-like muted text */
+  --color-border: #e3e5e8; /* Softer border */
+  --color-muted-bg: #f1f3f4; /* Light neutral background */
+  --color-hover-bg: #f8f9fa; /* Subtle hover */
 
-  --color-primary: #2563eb; /* blue-600 */
-  --color-primary-hover: #1e4fd9;
+  /* Modern color palette */
+  --color-primary: #1a73e8; /* Google blue */
+  --color-primary-hover: #1557b0;
   --color-primary-contrast: #ffffff;
 
-  --color-accent: #7c3aed; /* purple-600 */
-  --color-success: #059669; /* emerald-600 */
-  --color-warning: #d97706; /* amber-600 */
-  --color-danger: #dc2626; /* red-600 */
+  --color-accent: #9c27b0; /* Material purple */
+  --color-success: #137333; /* Modern green */
+  --color-warning: #ea8600; /* Vibrant orange */
+  --color-danger: #d33b2c; /* Modern red */
 
-  --color-badge-admin-bg: #e8efff;
-  --color-badge-admin-text: #2f4dbd;
+  --color-badge-admin-bg: #e8f0fe;
+  --color-badge-admin-text: #1557b0;
 
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
-  --shadow-lg: 0 20px 50px rgba(0,0,0,.2);
+  /* Modern shadows */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.05);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
 
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 12px;
-  --radius-xl: 14px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
   --radius-pill: 999px;
 
   /* Typography */
-  --font-family-sans: Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-family-sans: 'Google Sans', Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-size-xs: 12px;
   --font-size-sm: 14px;
   --font-size-base: 16px;
@@ -53,31 +55,42 @@
   --space-6: 24px;
 
   /* Button sizes */
-  --btn-padding-sm: 6px 10px;
-  --btn-padding-md: 8px 14px;
-  --btn-padding-lg: 10px 18px;
+  --btn-padding-sm: 6px 12px;
+  --btn-padding-md: 8px 16px;
+  --btn-padding-lg: 12px 20px;
 }
 
-/* Dark theme overrides */
+/* Modern Dark Theme */
 .dark-theme {
-  /* Backgrounds */
-  --color-bg: #1A1C2C;          /* Fondo principal más legible */
-  --color-surface: #2A2D3E;     /* Fondo de tarjetas/paneles */
-  --color-muted-bg: #212332;    /* Superficies sutiles (inputs, contenedores secundarios) */
-  --color-hover-bg: #3E415A;    /* Hover/focus perceptible */
+  /* Dark backgrounds - following modern dark theme principles */
+  --color-bg: #0d1117;          /* GitHub dark background */
+  --color-surface: #161b22;     /* Card/panel background */
+  --color-muted-bg: #21262d;    /* Input/subtle backgrounds */
+  --color-hover-bg: #30363d;    /* Hover states */
 
-  /* Textos */
-  --color-text: #E0E0E0;        /* Texto principal alto contraste */
-  --color-text-muted: #A0A0A0;  /* Texto secundario/deshabilitado */
+  /* Dark theme text */
+  --color-text: #f0f6fc;        /* High contrast white */
+  --color-text-muted: #8b949e;  /* GitHub muted text */
 
-  /* Bordes y separadores */
-  --color-border: #3A3F50;
+  /* Dark borders */
+  --color-border: #30363d;
 
-  /* Acentos/primario (mejor contraste en oscuro) */
-  --color-primary: #5C7DFF;
-  --color-primary-hover: #6E8AFF;
-  --color-primary-contrast: #FFFFFF;
+  /* Adjusted primary for dark theme */
+  --color-primary: #58a6ff;     /* GitHub blue for dark */
+  --color-primary-hover: #79b8ff;
+  --color-primary-contrast: #0d1117;
 
-  /* Sombras más visibles en fondo oscuro */
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+  /* Dark theme accent colors */
+  --color-accent: #bc8cff;      /* Purple for dark */
+  --color-success: #3fb950;     /* Green for dark */
+  --color-warning: #f0883e;     /* Orange for dark */
+  --color-danger: #ff7b72;      /* Red for dark */
+
+  /* Badge colors for dark */
+  --color-badge-admin-bg: #1f2937;
+  --color-badge-admin-text: #58a6ff;
+
+  /* Dark theme shadows */
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.6);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.8);
 }

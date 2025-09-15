@@ -5,7 +5,6 @@ import { PermissionDto, RoleDto } from '../../../../core/api/api-client';
 import { Observable } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { ButtonComponent } from '../../../../shared/button/button.component';
 
 @Component({
   selector: 'app-role-dialog',
@@ -14,7 +13,6 @@ import { ButtonComponent } from '../../../../shared/button/button.component';
     CommonModule,
     FormsModule,
     MatCheckboxModule,
-    ButtonComponent,
   ],
   templateUrl: './role-dialog.component.html',
   styleUrls: ['./role-dialog.component.scss'],

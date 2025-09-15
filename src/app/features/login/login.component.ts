@@ -60,8 +60,8 @@ export class LoginComponent {
         },
         error: (e) => {
           this.isLoading = false;
-          const errorMessage = (e && (e as any).error) ? (e as any).error : 'Sign-in error';
-          this.snackBar.open(errorMessage, 'Close', { duration: 5000 });
+          const errorMessage = (e && (e as any).error) ? (e as any).error : 'Error al iniciar sesión';
+          this.snackBar.open(errorMessage, 'Cerrar', { duration: 5000 });
         }
       });
     }

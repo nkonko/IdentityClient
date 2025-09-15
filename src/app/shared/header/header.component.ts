@@ -10,6 +10,7 @@ import { AuthFacade } from '../../core/facades/auth.facade';
 import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { selectIsLoading, selectUser } from '../../core/store/auth/auth.selectors';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -40,17 +41,23 @@ export class HeaderComponent {
   isLoading = signal<boolean>(true);
 
   constructor() {
-    // Subscribe to store and update signal
-    this.store.select(selectUser).subscribe((u: any) => {
-      if (!u) { this.user.set(null); return; }
+    // Optimized: Combine both store selectors into a single subscription
+    combineLatest([
+      this.store.select(selectUser),
+      this.store.select(selectIsLoading)
+    ]).subscribe(([user, loading]) => {
+      if (!user) { 
+        this.user.set(null); 
+        this.isLoading.set(loading);
+        return; 
+      }
       this.user.set({
-        name: u.name,
-        roles: Array.isArray(u.roles) ? u.roles : [],
-        profilePictureUrl: u.profilePictureUrl ?? null
+        name: user.name,
+        roles: Array.isArray(user.roles) ? user.roles : [],
+        profilePictureUrl: user.profilePictureUrl ?? null
       });
+      this.isLoading.set(loading);
     });
-
-    this.store.select(selectIsLoading).subscribe(loading => this.isLoading.set(loading));
   }
 
   toggleDarkMode() {
