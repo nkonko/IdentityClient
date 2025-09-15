@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, input, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
@@ -11,26 +11,26 @@ import { ValidationErrorService } from './validation-error.service';
   imports: [CommonModule, ReactiveFormsModule, TextInputComponent],
   template: `
     <app-text-input
-      [label]="label"
-      [placeholder]="placeholder"
-      [type]="type"
-      [name]="name"
-      [autocomplete]="autocomplete"
-      [required]="required"
-      [disabled]="control.disabled"
+      [label]="label()"
+      [placeholder]="placeholder()"
+      [type]="type()"
+      [name]="name()"
+      [autocomplete]="autocomplete()"
+      [required]="required()"
+      [disabled]="control().disabled"
       [errorMessage]="currentErrorMessage"
-      [formControl]="control">
+      [formControl]="control()">
     </app-text-input>
   `
 })
 export class FormTextInputComponent implements OnInit, OnDestroy {
-  @Input() label = '';
-  @Input() placeholder = '';
-  @Input() type: 'text' | 'email' | 'password' = 'text';
-  @Input() name?: string;
-  @Input() autocomplete?: string;
-  @Input() required = false;
-  @Input() control!: FormControl;
+  label = input<string>('');
+  placeholder = input<string>('');
+  type = input<'text' | 'email' | 'password'>('text');
+  name = input<string>();
+  autocomplete = input<string>();
+  required = input<boolean>(false);
+  control = input.required<FormControl>();
 
   private readonly validationService = inject(ValidationErrorService);
   private readonly destroy$ = new Subject<void>();
@@ -38,16 +38,17 @@ export class FormTextInputComponent implements OnInit, OnDestroy {
   currentErrorMessage = '';
 
   ngOnInit(): void {
-    if (this.control) {
+    const control = this.control();
+    if (control) {
       // Listen to control status changes
-      this.control.statusChanges
+      control.statusChanges
         .pipe(takeUntil(this.destroy$))
         .subscribe(() => {
           this.updateErrorMessage();
         });
 
       // Listen to value changes to update error state
-      this.control.valueChanges
+      control.valueChanges
         .pipe(takeUntil(this.destroy$))
         .subscribe(() => {
           this.updateErrorMessage();
@@ -64,9 +65,10 @@ export class FormTextInputComponent implements OnInit, OnDestroy {
   }
 
   private updateErrorMessage(): void {
-    const shouldShowError = this.control?.invalid && (this.control?.dirty || this.control?.touched);
+    const control = this.control();
+    const shouldShowError = control?.invalid && (control?.dirty || control?.touched);
     this.currentErrorMessage = shouldShowError 
-      ? this.validationService.getErrorMessage(this.control?.errors) 
+      ? this.validationService.getErrorMessage(control?.errors) 
       : '';
   }
 }

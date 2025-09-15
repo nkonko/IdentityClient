@@ -1,14 +1,14 @@
 <div class="avatar-card">
-  <div class="avatar-wrapper" [class.avatar--image]="!!imageUrl">
-    @if (imageUrl) {
-      <img [src]="imageUrl" alt="User avatar" class="avatar-img" />
+  <div class="avatar-wrapper" [class.avatar--image]="!!imageUrl()">
+    @if (imageUrl()) {
+      <img [src]="imageUrl()" alt="User avatar" class="avatar-img" />
     } @else {
       <div class="avatar-initials">{{ initials() }}</div>
     }
   </div>
   <div class="avatar-camera">
-    <label role="button" tabindex="0" [class.is-disabled]="disabled">
-      <input class="file-input" type="file" accept="image/*" (change)="onFileSelected($event)" [disabled]="disabled" />
+    <label role="button" tabindex="0" [class.is-disabled]="disabled()">
+      <input class="file-input" type="file" accept="image/*" (change)="onFileSelected($event)" [disabled]="disabled()" />
       <mat-icon>photo_camera</mat-icon>
      </label>
    </div>

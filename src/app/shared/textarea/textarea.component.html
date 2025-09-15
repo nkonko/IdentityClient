@@ -1,18 +1,18 @@
 <div class="ud-field">
-  <label class="ud-label" [attr.for]="name">
-    {{ label }}
-    @if (required) {
+  <label class="ud-label" [attr.for]="name()">
+    {{ label() }}
+    @if (required()) {
       <span class="ud-label--required">*</span>
     }
   </label>
   <textarea
-    [id]="name"
+    [id]="name()"
     [ngClass]="textareaClasses"
-    [attr.rows]="rows"
-    [attr.name]="name || null"
-    [attr.placeholder]="placeholder || null"
+    [attr.rows]="rows()"
+    [attr.name]="name() || null"
+    [attr.placeholder]="placeholder() || null"
     [value]="value"
-    [disabled]="disabled"
+    [disabled]="disabled()"
     (input)="onInput($event)"
     (blur)="onBlur()"
   ></textarea>

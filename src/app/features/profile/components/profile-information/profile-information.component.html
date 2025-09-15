@@ -2,15 +2,15 @@
   <!-- Avatar section sin bordes innecesarios -->
   <div class="profile-avatar-section">
     <app-profile-avatar
-      [fullName]="form.get('name')?.value || user?.name || ''"
-      [imageUrl]="user?.profilePictureUrl || null"
+      [fullName]="form().get('name')?.value || user()?.name || ''"
+      [imageUrl]="user()?.profilePictureUrl || null"
       (fileSelected)="onFileSelected($event)">
     </app-profile-avatar>
   </div>
 
   <!-- Form section sin bordes innecesarios -->
   <div class="profile-form-section">
-    <form [formGroup]="form" class="profile-form" (ngSubmit)="onSubmit()">
+    <form [formGroup]="form()" class="profile-form" (ngSubmit)="onSubmit()">
       <div class="form-fields">
         <app-form-text-input
           label="Full Name"

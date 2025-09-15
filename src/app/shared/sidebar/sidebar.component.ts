@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,7 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent {
-  @Input() collapsed = false;
+  collapsed = input<boolean>(false);
 
   navItems = [
     { icon: 'home', label: 'Home', link: '/home' },

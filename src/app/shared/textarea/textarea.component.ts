@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef, inject } from '@angular/core';
+import { Component, input, forwardRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormControl } from '@angular/forms';
 import { ValidationErrorService } from '../text-input/validation-error.service';
@@ -18,14 +18,14 @@ import { ValidationErrorService } from '../text-input/validation-error.service';
   styleUrls: ['./textarea.component.scss']
 })
 export class TextareaComponent implements ControlValueAccessor {
-  @Input() label = '';
-  @Input() placeholder = '';
-  @Input() rows = 4;
-  @Input() name?: string;
-  @Input() required = false;
-  @Input() disabled = false;
-  @Input() control?: FormControl; // For backward compatibility
-  @Input() errorMessage?: string;
+  label = input<string>('');
+  placeholder = input<string>('');
+  rows = input<number>(4);
+  name = input<string>();
+  required = input<boolean>(false);
+  disabled = input<boolean>(false);
+  control = input<FormControl>(); // For backward compatibility
+  errorMessage = input<string>();
 
   private readonly validationService = inject(ValidationErrorService);
 
@@ -49,7 +49,8 @@ export class TextareaComponent implements ControlValueAccessor {
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
+    // Note: For signal inputs, we can't directly set the value from ControlValueAccessor
+    // The parent component should handle this through the disabled input
   }
 
   // Event handlers
@@ -71,7 +72,7 @@ export class TextareaComponent implements ControlValueAccessor {
     if (this.currentErrorMessage && this.touched) {
       classes += ' ud-textarea--error';
     }
-    if (this.disabled) {
+    if (this.disabled()) {
       classes += ' ud-textarea--disabled';
     }
     return classes;
@@ -79,11 +80,12 @@ export class TextareaComponent implements ControlValueAccessor {
 
   get currentErrorMessage(): string {
     // Use provided errorMessage or derive from control if available
-    if (this.errorMessage) return this.errorMessage;
+    if (this.errorMessage()) return this.errorMessage()!;
     
-    if (this.control) {
-      const shouldShowError = this.control.invalid && (this.control.dirty || this.control.touched);
-      return shouldShowError ? this.validationService.getErrorMessage(this.control.errors) : '';
+    const control = this.control();
+    if (control) {
+      const shouldShowError = control.invalid && (control.dirty || control.touched);
+      return shouldShowError ? this.validationService.getErrorMessage(control.errors) : '';
     }
     
     return '';

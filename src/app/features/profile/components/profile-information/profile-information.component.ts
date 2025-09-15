@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, input, Output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -32,21 +32,23 @@ import { ProfileAvatarComponent } from '../avatar/profile-avatar.component';
   styleUrls: ['./profile-information.component.scss']
 })
 export class ProfileInformationComponent implements OnInit {
-  @Input() user: UserDto | null = null;
-  @Input() isLoading = false;
-  @Input() form!: FormGroup;
+  user = input<UserDto | null>(null);
+  isLoading = input<boolean>(false);
+  form = input.required<FormGroup>();
   @Output() save = new EventEmitter<void>();
   @Output() avatarUpload = new EventEmitter<File>();
 
   constructor() {}
 
   ngOnInit(): void {
-    if (this.user && this.form) {
-      this.form.patchValue({
-        name: this.user.name || '',
-        email: this.user.email || '',
-        position: this.user.position || '',
-        bio: this.user.bio || ''
+    const user = this.user();
+    const form = this.form();
+    if (user && form) {
+      form.patchValue({
+        name: user.name || '',
+        email: user.email || '',
+        position: user.position || '',
+        bio: user.bio || ''
       });
     }
   }
@@ -60,25 +62,25 @@ export class ProfileInformationComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.form.valid) {
+    if (this.form().valid) {
       this.save.emit();
     }
   }
 
   // Helper methods to get properly typed FormControls
   get nameControl(): FormControl {
-    return this.form.get('name') as FormControl;
+    return this.form().get('name') as FormControl;
   }
 
   get emailControl(): FormControl {
-    return this.form.get('email') as FormControl;
+    return this.form().get('email') as FormControl;
   }
 
   get positionControl(): FormControl {
-    return this.form.get('position') as FormControl;
+    return this.form().get('position') as FormControl;
   }
 
   get bioControl(): FormControl {
-    return this.form.get('bio') as FormControl;
+    return this.form().get('bio') as FormControl;
   }
 }

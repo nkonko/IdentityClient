@@ -1,4 +1,4 @@
-import { Component, inject, CUSTOM_ELEMENTS_SCHEMA, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, inject, CUSTOM_ELEMENTS_SCHEMA, input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors, ValidatorFn, FormControl } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -32,7 +32,7 @@ interface PasswordForm {
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SecurityComponent implements OnInit {
-  @Input() isLoading = false;
+  isLoading = input<boolean>(false);
   @Output() save = new EventEmitter<void>();
   
   private readonly fb = inject(FormBuilder);

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, forwardRef } from '@angular/core';
+import { Component, input, OnInit, forwardRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -38,7 +38,7 @@ export interface NotificationPreferences {
   styleUrl: './notifications.component.scss'
 })
 export class NotificationsComponent implements OnInit, ControlValueAccessor {
-  @Input() isLoading = false;
+  isLoading = input<boolean>(false);
 
   notificationsForm: FormGroup;
   private onChange: (value: NotificationPreferences) => void = () => {};
