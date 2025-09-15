@@ -128,6 +128,28 @@ export class UserProfileComponent implements OnInit {
 
       this.userFacade.updateProfile(this.user.id || '', update).subscribe({
         next: () => {
+          // Actualizar el store para que el header se actualice
+          this.store.dispatch(updateUserProfileSuccess({
+            user: {
+              id: this.user?.id || '',
+              name: update.name || '',
+              email: update.email || '',
+              roles: this.user?.roles || [],
+              position: update.position || null,
+              bio: update.bio || null,
+              profilePictureUrl: this.user?.profilePictureUrl || null,
+              lastLogin: this.user?.lastLogin || null
+            }
+          }));
+          
+          // También actualizar el objeto local
+          if (this.user) {
+            this.user.name = update.name;
+            this.user.email = update.email;
+            this.user.position = update.position;
+            this.user.bio = update.bio;
+          }
+          
           this.snackBar.open('Profile updated successfully', 'Close', { duration: 3000 });
           this.form.markAsPristine();
           this.isLoading = false;
