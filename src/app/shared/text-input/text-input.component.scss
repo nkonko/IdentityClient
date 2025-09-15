@@ -1,33 +1,88 @@
+.ud-field {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 .ud-label {
   display: block;
-  margin-bottom: 3px; /* exactly 3px above input */
+  margin-bottom: 0.5rem;
   font-size: var(--font-size-sm);
-  color: var(--color-text-muted);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+  
+  .ud-label--required {
+    color: var(--error-color);
+    margin-left: 0.25rem;
+  }
 }
 
 .ud-input {
   width: 100%;
   box-sizing: border-box;
-  border: 1px solid var(--color-border);
-  border-radius: 10px; /* slightly rounded but keeps shape */
-  padding: 12px 14px;
+  border: 1px solid var(--border-primary);
+  border-radius: var(--border-radius-md);
+  padding: 0.75rem;
   font-size: var(--font-size-base);
-  color: var(--color-text);
-  background: var(--color-surface);
+  color: var(--text-primary);
+  background: var(--surface-primary);
   outline: none;
-  transition: border-color .15s ease;
-}
-
-.ud-input:focus {
-  border-color: var(--color-primary);
-}
-
-.ud-input--error {
-  border-color: var(--color-danger);
+  transition: all 0.2s ease;
+  
+  &::placeholder {
+    color: var(--text-tertiary);
+  }
+  
+  &:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-color-alpha);
+  }
+  
+  &:hover:not(:disabled) {
+    border-color: var(--border-secondary);
+  }
+  
+  &--error {
+    border-color: var(--error-color);
+    
+    &:focus {
+      border-color: var(--error-color);
+      box-shadow: 0 0 0 2px var(--error-color-alpha);
+    }
+  }
+  
+  &--disabled {
+    background-color: var(--surface-disabled);
+    color: var(--text-disabled);
+    cursor: not-allowed;
+    
+    &::placeholder {
+      color: var(--text-disabled);
+    }
+  }
 }
 
 .ud-error {
-  margin-top: 6px;
-  color: var(--color-danger);
+  margin-top: 0.5rem;
+  color: var(--error-color);
   font-size: var(--font-size-sm);
+  line-height: 1.4;
+}
+
+// Dark theme compatibility
+@media (prefers-color-scheme: dark) {
+  .ud-input {
+    background: var(--surface-primary);
+    border-color: var(--border-primary);
+    color: var(--text-primary);
+    
+    &:focus {
+      border-color: var(--primary-color);
+    }
+    
+    &--disabled {
+      background-color: var(--surface-disabled);
+      color: var(--text-disabled);
+    }
+  }
 }

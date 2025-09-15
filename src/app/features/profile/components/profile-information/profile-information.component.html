@@ -12,26 +12,37 @@
   <div class="profile-form-section">
     <form [formGroup]="form" class="profile-form" (ngSubmit)="onSubmit()">
       <div class="form-fields">
-        <app-text-input
-          label="Full Name *"
-          [control]="form.controls['name']">
-        </app-text-input>
+        <app-form-text-input
+          label="Full Name"
+          name="name"
+          autocomplete="name"
+          [required]="true"
+          [control]="nameControl">
+        </app-form-text-input>
 
-        <app-text-input
-          label="Email Address *"
+        <app-form-text-input
+          label="Email Address"
           type="email"
-          [control]="form.controls['email']">
-        </app-text-input>
+          name="email"
+          autocomplete="email"
+          [required]="true"
+          [control]="emailControl">
+        </app-form-text-input>
 
-        <app-text-input
+        <app-form-text-input
           label="Position"
-          [control]="form.controls['position']">
-        </app-text-input>
+          name="position"
+          autocomplete="organization-title"
+          placeholder="e.g. Senior Developer, Project Manager"
+          [control]="positionControl">
+        </app-form-text-input>
 
         <app-textarea
           label="Bio"
+          name="bio"
+          placeholder="Tell us a bit about yourself..."
           [rows]="4"
-          [control]="form.controls['bio']">
+          [control]="bioControl">
         </app-textarea>
       </div>
     </form>

@@ -1,13 +1,22 @@
-<label class="ud-label">{{ label }}</label>
-<textarea
-  class="ud-textarea"
-  [attr.rows]="rows"
-  [attr.placeholder]="placeholder || null"
-  [ngClass]="{ 'ud-textarea--error': showError }"
-  [value]="control.value ?? ''"
-  (input)="onInput($event)"
-  (blur)="onBlur()"
-></textarea>
-@if (showError) {
-  <div class="ud-error">{{ errorMessage }}</div>
-}
+<div class="ud-field">
+  <label class="ud-label" [attr.for]="name">
+    {{ label }}
+    @if (required) {
+      <span class="ud-label--required">*</span>
+    }
+  </label>
+  <textarea
+    [id]="name"
+    [ngClass]="textareaClasses"
+    [attr.rows]="rows"
+    [attr.name]="name || null"
+    [attr.placeholder]="placeholder || null"
+    [value]="value"
+    [disabled]="disabled"
+    (input)="onInput($event)"
+    (blur)="onBlur()"
+  ></textarea>
+  @if (showError) {
+    <div class="ud-error">{{ currentErrorMessage }}</div>
+  }
+</div>

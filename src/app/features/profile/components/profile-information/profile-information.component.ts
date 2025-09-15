@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { TextInputComponent } from '../../../../shared/text-input/text-input.component';
+import { FormTextInputComponent } from '../../../../shared/text-input/form-text-input.component';
 import { TextareaComponent } from '../../../../shared/textarea/textarea.component';
 import { UserDto } from '../../../../core/api/api-client';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -23,7 +23,7 @@ import { ProfileAvatarComponent } from '../avatar/profile-avatar.component';
     MatDividerModule,
     MatButtonModule,
     MatProgressSpinnerModule,
-    TextInputComponent,
+    FormTextInputComponent,
     TextareaComponent,
     ProfileAvatarComponent
   ],
@@ -63,5 +63,22 @@ export class ProfileInformationComponent implements OnInit {
     if (this.form.valid) {
       this.save.emit();
     }
+  }
+
+  // Helper methods to get properly typed FormControls
+  get nameControl(): FormControl {
+    return this.form.get('name') as FormControl;
+  }
+
+  get emailControl(): FormControl {
+    return this.form.get('email') as FormControl;
+  }
+
+  get positionControl(): FormControl {
+    return this.form.get('position') as FormControl;
+  }
+
+  get bioControl(): FormControl {
+    return this.form.get('bio') as FormControl;
   }
 }

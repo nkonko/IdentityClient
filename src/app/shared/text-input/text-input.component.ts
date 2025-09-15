@@ -1,55 +1,80 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, forwardRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormControl } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-text-input',
   standalone: true,
   imports: [CommonModule],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => TextInputComponent),
+      multi: true
+    }
+  ],
   templateUrl: './text-input.component.html',
   styleUrls: ['./text-input.component.scss']
 })
-export class TextInputComponent {
+export class TextInputComponent implements ControlValueAccessor {
   @Input() label = '';
   @Input() placeholder = '';
   @Input() type: 'text' | 'email' | 'password' = 'text';
   @Input() name?: string;
   @Input() autocomplete?: string;
-  @Input() required?: boolean;
-  @Input({ required: true }) control!: FormControl;
+  @Input() required = false;
+  @Input() disabled = false;
+  @Input() errorMessage?: string;
 
-  // Derived UI state
+  value = '';
+  touched = false;
+
+  private onChange: (value: string) => void = () => {};
+  private onTouched: () => void = () => {};
+
+  // ControlValueAccessor implementation
+  writeValue(value: string): void {
+    this.value = value || '';
+  }
+
+  registerOnChange(fn: (value: string) => void): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
+
+  // Event handlers
+  onInput(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    const value = target.value;
+    this.value = value;
+    this.onChange(value);
+  }
+
+  onBlur(): void {
+    this.touched = true;
+    this.onTouched();
+  }
+
+  // CSS classes for styling
+  get inputClasses(): string {
+    let classes = 'ud-input';
+    if (this.errorMessage && this.touched) {
+      classes += ' ud-input--error';
+    }
+    if (this.disabled) {
+      classes += ' ud-input--disabled';
+    }
+    return classes;
+  }
+
   get showError(): boolean {
-    return this.control?.invalid && (this.control?.dirty || this.control?.touched);
-  }
-
-  get errorMessage(): string {
-    const errors = this.control?.errors;
-    if (!errors) return '';
-
-    if (errors['required']) return 'Este campo es obligatorio';
-    if (errors['email']) return 'Formato de correo inválido';
-    if (errors['minlength']) {
-      const req = errors['minlength'].requiredLength;
-      return `Debe tener al menos ${req} caracteres`;
-    }
-    if (errors['maxlength']) {
-      const req = errors['maxlength'].requiredLength;
-      return `Debe tener como máximo ${req} caracteres`;
-    }
-    if (errors['pattern']) return 'El formato no es válido';
-
-    // Fallback: first error key as string
-    const firstKey = Object.keys(errors)[0];
-    return typeof errors[firstKey] === 'string' ? errors[firstKey] : 'Valor inválido';
-  }
-
-  onInput(value: string) {
-    this.control?.setValue(value);
-    if (!this.control?.dirty) this.control.markAsDirty();
-  }
-
-  onBlur() {
-    this.control?.markAsTouched();
+    return !!(this.errorMessage && this.touched);
   }
 }
