@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -30,6 +30,10 @@ export class UserManagementComponent implements OnInit {
   searchTerm = '';
   users: UserRow[] = [];
   
+  // Filter properties
+  statusFilter: 'All' | 'Active' | 'Inactive' | 'Blocked' = 'All';
+  showFilterDropdown = false;
+  
   // Pagination properties
   currentPage = 1;
   pageSize = 10;
@@ -52,12 +56,19 @@ export class UserManagementComponent implements OnInit {
 
   get filteredUsers(): UserRow[] {
     const term = this.searchTerm.trim().toLowerCase();
-    const filtered = !term ? this.users : this.users.filter(u =>
+    
+    // Apply text search filter
+    let filtered = !term ? this.users : this.users.filter(u =>
       (u.name?.toLowerCase().includes(term) || false) ||
       (u.email?.toLowerCase().includes(term) || false) ||
       (u.roles?.some(role => role.toLowerCase().includes(term)) || false) ||
       u.status.toLowerCase().includes(term)
     );
+    
+    // Apply status filter
+    if (this.statusFilter !== 'All') {
+      filtered = filtered.filter(u => u.status === this.statusFilter);
+    }
     
     // Apply pagination
     const startIndex = (this.currentPage - 1) * this.pageSize;
@@ -67,13 +78,21 @@ export class UserManagementComponent implements OnInit {
   
   get totalFilteredUsers(): number {
     const term = this.searchTerm.trim().toLowerCase();
-    if (!term) return this.users.length;
-    return this.users.filter(u =>
+    
+    // Apply text search filter
+    let filtered = !term ? this.users : this.users.filter(u =>
       (u.name?.toLowerCase().includes(term) || false) ||
       (u.email?.toLowerCase().includes(term) || false) ||
       (u.roles?.some(role => role.toLowerCase().includes(term)) || false) ||
       u.status.toLowerCase().includes(term)
-    ).length;
+    );
+    
+    // Apply status filter
+    if (this.statusFilter !== 'All') {
+      filtered = filtered.filter(u => u.status === this.statusFilter);
+    }
+    
+    return filtered.length;
   }
   
   get totalPages(): number {
@@ -182,5 +201,30 @@ export class UserManagementComponent implements OnInit {
   onSearchChange(): void {
     // Reset to first page when search term changes
     this.currentPage = 1;
+  }
+  
+  // Filter methods
+  toggleFilterDropdown(): void {
+    this.showFilterDropdown = !this.showFilterDropdown;
+  }
+  
+  selectStatusFilter(status: 'All' | 'Active' | 'Inactive' | 'Blocked'): void {
+    this.statusFilter = status;
+    this.showFilterDropdown = false;
+    this.currentPage = 1; // Reset to first page when filter changes
+  }
+  
+  get activeFilterCount(): number {
+    return this.statusFilter === 'All' ? 0 : 1;
+  }
+  
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event): void {
+    const target = event.target as HTMLElement;
+    const filterContainer = target.closest('.filter-container');
+    
+    if (!filterContainer) {
+      this.showFilterDropdown = false;
+    }
   }
 }

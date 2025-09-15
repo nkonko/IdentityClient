@@ -8,10 +8,56 @@
         <mat-icon>search</mat-icon>
         <input type="text" [(ngModel)]="searchTerm" (input)="onSearchChange()" placeholder="Search users..." />
       </div>
-      <button class="btn outline">
-        <mat-icon class="mr">filter_list</mat-icon>
-        Filters
-      </button>
+      <div class="filter-container">
+        <button 
+          class="btn outline filter-btn" 
+          (click)="toggleFilterDropdown()"
+          [class.active]="activeFilterCount > 0"
+        >
+          <mat-icon class="mr">filter_list</mat-icon>
+          Filters
+          <span *ngIf="activeFilterCount > 0" class="filter-badge">{{ activeFilterCount }}</span>
+        </button>
+        
+        <div class="filter-dropdown" [class.show]="showFilterDropdown">
+          <div class="filter-section">
+            <h4>Estado</h4>
+            <div class="filter-options">
+              <button 
+                class="filter-option" 
+                [class.active]="statusFilter === 'All'"
+                (click)="selectStatusFilter('All')"
+              >
+                <span class="filter-label">Todos</span>
+              </button>
+              <button 
+                class="filter-option" 
+                [class.active]="statusFilter === 'Active'"
+                (click)="selectStatusFilter('Active')"
+              >
+                <span class="status-indicator active"></span>
+                <span class="filter-label">Activos</span>
+              </button>
+              <button 
+                class="filter-option" 
+                [class.active]="statusFilter === 'Inactive'"
+                (click)="selectStatusFilter('Inactive')"
+              >
+                <span class="status-indicator inactive"></span>
+                <span class="filter-label">Inactivos</span>
+              </button>
+              <button 
+                class="filter-option" 
+                [class.active]="statusFilter === 'Blocked'"
+                (click)="selectStatusFilter('Blocked')"
+              >
+                <span class="status-indicator blocked"></span>
+                <span class="filter-label">Bloqueados</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="table-wrapper">
