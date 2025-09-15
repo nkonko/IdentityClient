@@ -1,52 +1,39 @@
 <div class="profile-grid">
-  <mat-card class="profile-avatar-card">
-    <mat-card-content>
-      <app-profile-avatar
-        [fullName]="form.get('name')?.value || user?.name || ''"
-        [imageUrl]="user?.profilePictureUrl || null"
-        (fileSelected)="onFileSelected($event)">
-      </app-profile-avatar>
-    </mat-card-content>
-  </mat-card>
+  <!-- Avatar section sin bordes innecesarios -->
+  <div class="profile-avatar-section">
+    <app-profile-avatar
+      [fullName]="form.get('name')?.value || user?.name || ''"
+      [imageUrl]="user?.profilePictureUrl || null"
+      (fileSelected)="onFileSelected($event)">
+    </app-profile-avatar>
+  </div>
 
-  <mat-card class="profile-form-card">
-    <mat-card-content>
-      <form [formGroup]="form" class="profile-form" (ngSubmit)="onSubmit()">
-        <div class="form-grid">
-          <app-text-input
-            label="Full Name"
-            [control]="form.controls['name']">
-          </app-text-input>
+  <!-- Form section sin bordes innecesarios -->
+  <div class="profile-form-section">
+    <form [formGroup]="form" class="profile-form" (ngSubmit)="onSubmit()">
+      <div class="form-fields">
+        <app-text-input
+          label="Full Name *"
+          [control]="form.controls['name']">
+        </app-text-input>
 
-          <app-text-input
-            label="Email Address"
-            type="email"
-            [control]="form.controls['email']">
-          </app-text-input>
+        <app-text-input
+          label="Email Address *"
+          type="email"
+          [control]="form.controls['email']">
+        </app-text-input>
 
-          <app-text-input
-            label="Position"
-            [control]="form.controls['position']">
-          </app-text-input>
+        <app-text-input
+          label="Position"
+          [control]="form.controls['position']">
+        </app-text-input>
 
-          <app-textarea
-            label="Bio"
-            [rows]="4"
-            [control]="form.controls['bio']">
-          </app-textarea>
-
-          <div class="form-actions">
-            <button
-              mat-raised-button
-              color="primary"
-              type="submit"
-              [disabled]="form.invalid || isLoading">
-              <span *ngIf="!isLoading">Save Changes</span>
-              <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
-            </button>
-          </div>
-        </div>
-      </form>
-    </mat-card-content>
-  </mat-card>
+        <app-textarea
+          label="Bio"
+          [rows]="4"
+          [control]="form.controls['bio']">
+        </app-textarea>
+      </div>
+    </form>
+  </div>
 </div>

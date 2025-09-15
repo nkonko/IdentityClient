@@ -1,21 +1,30 @@
 
 .profile-grid {
   display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 1.5rem;
+  grid-template-columns: 300px 1fr;
+  gap: 2rem;
   margin-bottom: 1.5rem;
 }
 
-.profile-avatar-card {
-  height: fit-content;
+.profile-avatar-section {
+  display: flex;
+  justify-content: center;
 }
 
-.form-grid {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-.form-grid app-textarea {
-  grid-column: 1 / -1;
+/* Responsive para pantallas más pequeñas */
+@media (max-width: 768px) {
+  .profile-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .profile-avatar-section {
+    justify-content: flex-start;
+  }
 }
