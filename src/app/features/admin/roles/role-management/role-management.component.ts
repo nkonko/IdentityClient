@@ -7,9 +7,11 @@ import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 import { SectionTitleComponent } from '../../../../shared/section-title/section-title.component';
 import { ButtonComponent } from '../../../../shared/button/button.component';
 import { RoleDialogComponent } from '../role-dialog/role-dialog.component';
+import { ConfirmationDialogComponent } from '../../../../shared/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-role-management',
@@ -19,6 +21,7 @@ import { RoleDialogComponent } from '../role-dialog/role-dialog.component';
     FormsModule, 
     MatIconModule, 
     MatSnackBarModule,
+    MatButtonModule,
     SectionTitleComponent, 
     ButtonComponent
   ],
@@ -193,9 +196,49 @@ export class RoleManagementComponent implements OnInit {
     });
   }
 
-  handleDeleteRole(roleId: string) {
-    this.rolesFacade.deleteRole(roleId);
-    this.snackBar.open('Role deleted successfully', 'Close', { duration: 3000 });
+  handleDeleteRole(role: RoleDto) {
+    // Protección especial para el rol admin
+    if (role.name?.toLowerCase() === 'admin' || role.name?.toLowerCase() === 'administrador') {
+      this.snackBar.open(
+        'No se puede eliminar el rol de administrador por razones de seguridad', 
+        'Cerrar', 
+        { 
+          duration: 5000,
+          panelClass: ['error-snackbar']
+        }
+      );
+      return;
+    }
+
+    // Mostrar diálogo de confirmación
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '400px',
+      data: {
+        title: 'Confirmar eliminación',
+        message: `¿Está seguro que desea eliminar el rol "${role.name}"? Esta acción no se puede deshacer.`,
+        confirmText: 'Eliminar',
+        cancelText: 'Cancelar',
+        type: 'danger'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(confirmed => {
+      if (confirmed && role.id) {
+        this.rolesFacade.deleteRole(role.id);
+        this.snackBar.open(
+          `Rol "${role.name}" eliminado correctamente`, 
+          'Cerrar', 
+          { duration: 3000 }
+        );
+      }
+    });
+  }
+  
+  // Helper method to check if a role can be deleted
+  canDeleteRole(role: RoleDto): boolean {
+    // Protect admin roles from deletion
+    const adminRoleNames = ['admin', 'administrador', 'administrator', 'root', 'superuser'];
+    return !adminRoleNames.includes(role.name?.toLowerCase() || '');
   }
   
   // Filter methods  

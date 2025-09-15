@@ -45,8 +45,12 @@
               <button class="icon" (click)="handleManagePermissions(role)" title="Manage Permissions">
                 <mat-icon class="green">key</mat-icon>
               </button>
-              <button class="icon" title="Delete Role" (click)="handleDeleteRole(role.id!)">
-                <mat-icon class="red">delete</mat-icon>
+              <button 
+                class="icon" 
+                [disabled]="!canDeleteRole(role)"
+                [title]="canDeleteRole(role) ? 'Eliminar Rol' : 'No se puede eliminar este rol'"
+                (click)="handleDeleteRole(role)">
+                <mat-icon [class]="canDeleteRole(role) ? 'red' : 'disabled'">delete</mat-icon>
               </button>
             </td>
           </tr>

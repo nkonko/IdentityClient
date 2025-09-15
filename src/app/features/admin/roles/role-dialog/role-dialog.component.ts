@@ -4,6 +4,11 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
 import { RoleDto } from '../../../../core/api/api-client';
 
 export interface RoleDialogData {
@@ -19,6 +24,11 @@ export interface RoleDialogData {
     ReactiveFormsModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatChipsModule,
   ],
   templateUrl: './role-dialog.component.html',
   styleUrls: ['./role-dialog.component.scss'],
@@ -75,6 +85,41 @@ export class RoleDialogComponent implements OnInit {
     } else {
       this.selectedPermissions = this.selectedPermissions.filter(p => p !== permissionName);
     }
+  }
+
+  getSelectedPermissions(): string[] {
+    return this.selectedPermissions;
+  }
+
+  removePermission(permissionName: string): void {
+    this.selectedPermissions = this.selectedPermissions.filter(p => p !== permissionName);
+  }
+
+  getPermissionIcon(permissionName: string): string {
+    if (permissionName.includes('user')) return 'person';
+    if (permissionName.includes('role')) return 'security';
+    if (permissionName.includes('dashboard')) return 'dashboard';
+    if (permissionName.includes('report')) return 'assessment';
+    if (permissionName.includes('system')) return 'settings';
+    if (permissionName.includes('view')) return 'visibility';
+    if (permissionName.includes('create')) return 'add';
+    if (permissionName.includes('edit')) return 'edit';
+    if (permissionName.includes('delete')) return 'delete';
+    return 'key';
+  }
+
+  getPermissionTypeClass(permissionName: string): string {
+    if (permissionName.includes('delete')) return 'danger';
+    if (permissionName.includes('create') || permissionName.includes('edit')) return 'warning';
+    if (permissionName.includes('view')) return 'info';
+    return 'primary';
+  }
+
+  canSave(): boolean {
+    if (!this.data.isPermissionsOnly) {
+      return this.roleForm.valid;
+    }
+    return true; // For permissions-only mode, always allow saving
   }
 
   onSave(): void {

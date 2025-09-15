@@ -1,70 +1,152 @@
-<h2 mat-dialog-title>
-  @if (data.isPermissionsOnly) {
-    Gestionar Permisos - {{ data.role?.name }}
-  } @else {
-    {{ data.role ? 'Editar Rol' : 'Crear Rol' }}
-  }
-</h2>
+<div class="role-dialog">
+  <!-- Dialog Header -->
+  <h2 mat-dialog-title class="dialog-title">
+    <mat-icon class="title-icon">
+      @if (data.isPermissionsOnly) {
+        key
+      } @else {
+        {{ data.role ? 'edit' : 'add_circle' }}
+      }
+    </mat-icon>
+    @if (data.isPermissionsOnly) {
+      Gestionar Permisos
+    } @else {
+      {{ data.role ? 'Editar Rol' : 'Crear Rol' }}
+    }
+  </h2>
 
-<div mat-dialog-content>
-  @if (!data.isPermissionsOnly) {
-    <form [formGroup]="roleForm" class="form">
-      <div class="form-group">
-        <label for="roleName">Nombre del Rol</label>
-        <input
-          id="roleName"
-          type="text"
-          class="form-input"
-          formControlName="name"
-          placeholder="Ingresa el nombre del rol"
-        />
-        @if (roleForm.get('name')?.invalid && roleForm.get('name')?.touched) {
-          <div class="error-message">
-            @if (roleForm.get('name')?.errors?.['required']) {
-              El nombre del rol es requerido
+  <!-- Dialog Content -->
+  <div mat-dialog-content class="dialog-content">
+    
+    <!-- Role Name Section (Only when not in permissions-only mode) -->
+    @if (!data.isPermissionsOnly) {
+      <mat-card class="section-card">
+        <mat-card-header>
+          <mat-card-title class="section-title">
+            <mat-icon>business</mat-icon>
+            Información del Rol
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <form [formGroup]="roleForm">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Nombre del Rol</mat-label>
+              <input 
+                matInput 
+                formControlName="name"
+                placeholder="Ej: Administrador, Editor, Viewer"
+                maxlength="50">
+              <mat-icon matPrefix>label</mat-icon>
+              <mat-hint>Nombre único para identificar el rol</mat-hint>
+              @if (roleForm.get('name')?.invalid && roleForm.get('name')?.touched) {
+                <mat-error>
+                  @if (roleForm.get('name')?.errors?.['required']) {
+                    El nombre del rol es requerido
+                  }
+                </mat-error>
+              }
+            </mat-form-field>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    } @else {
+      <!-- Role Info Display for Permissions Mode -->
+      <div class="role-info">
+        <mat-icon class="role-icon">security</mat-icon>
+        <div class="role-details">
+          <h3 class="role-name">{{ data.role?.name }}</h3>
+          <p class="role-description">Configura los permisos para este rol</p>
+        </div>
+      </div>
+    }
+
+    <!-- Permissions Section -->
+    <mat-card class="section-card permissions-card">
+      <mat-card-header>
+        <mat-card-title class="section-title">
+          <mat-icon>security</mat-icon>
+          Permisos del Sistema
+        </mat-card-title>
+        <mat-card-subtitle>
+          Selecciona los permisos que tendrá este rol
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="permissions-container">
+          @if (availablePermissions.length === 0) {
+            <div class="no-permissions">
+              <mat-icon class="empty-icon">info</mat-icon>
+              <p>No hay permisos disponibles</p>
+            </div>
+          } @else {
+            <div class="permissions-grid">
+              @for (permission of availablePermissions; track permission.name) {
+                <div class="permission-item">
+                  <mat-checkbox
+                    class="permission-checkbox"
+                    [checked]="isPermissionSelected(permission.name)"
+                    (change)="onPermissionToggle(permission.name, $event)"
+                    [color]="'primary'">
+                    <div class="permission-content">
+                      <div class="permission-header">
+                        <span class="permission-name">{{ permission.name }}</span>
+                        <mat-icon class="permission-type-icon" [ngClass]="getPermissionTypeClass(permission.name)">
+                          {{ getPermissionIcon(permission.name) }}
+                        </mat-icon>
+                      </div>
+                      <p class="permission-description">{{ permission.description }}</p>
+                    </div>
+                  </mat-checkbox>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Selected Permissions Summary -->
+    @if (getSelectedPermissions().length > 0) {
+      <mat-card class="section-card summary-card">
+        <mat-card-header>
+          <mat-card-title class="section-title">
+            <mat-icon>checklist</mat-icon>
+            Resumen de Permisos
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="selected-permissions">
+            @for (permission of getSelectedPermissions(); track permission) {
+              <mat-chip class="permission-chip" [removable]="true" (removed)="removePermission(permission)">
+                {{ permission }}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
             }
           </div>
-        }
-      </div>
-    </form>
-  } @else {
-    <div class="permissions-description">
-      Selecciona los permisos para el rol <strong>{{ data.role?.name }}</strong>.
-    </div>
-  }
-
-  <div class="permissions-section">
-    <h3 class="permissions-title">Permisos</h3>
-    
-    <div class="permissions-list">
-      @for (permission of availablePermissions; track permission.name) {
-        <div class="permission-item">
-          <label class="permission-label">
-            <mat-checkbox
-              class="permission-checkbox"
-              [checked]="isPermissionSelected(permission.name)"
-              (change)="onPermissionToggle(permission.name, $event)"
-            >
-            </mat-checkbox>
-            <div class="permission-content">
-              <span class="permission-name">{{ permission.name }}</span>
-              <span class="permission-description">{{ permission.description }}</span>
-            </div>
-          </label>
-        </div>
-      }
-    </div>
+          <div class="permissions-count">
+            <mat-icon>info</mat-icon>
+            <span>{{ getSelectedPermissions().length }} permisos seleccionados</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    }
   </div>
-</div>
 
-<div mat-dialog-actions align="end">
-  <button mat-button type="button" (click)="onCancel()">Cancelar</button>
-  <button 
-    mat-raised-button 
-    color="primary" 
-    (click)="onSave()"
-    [disabled]="!data.isPermissionsOnly && roleForm.invalid"
-  >
-    {{ data.isPermissionsOnly ? 'Guardar Permisos' : 'Guardar Rol' }}
-  </button>
+  <!-- Dialog Actions -->
+  <div mat-dialog-actions class="dialog-actions">
+    <button mat-stroked-button type="button" (click)="onCancel()" class="cancel-btn">
+      <mat-icon>close</mat-icon>
+      Cancelar
+    </button>
+    
+    <button 
+      mat-raised-button 
+      color="primary" 
+      (click)="onSave()"
+      [disabled]="!canSave()"
+      class="save-btn">
+      <mat-icon>save</mat-icon>
+      {{ data.isPermissionsOnly ? 'Guardar Permisos' : (data.role ? 'Actualizar Rol' : 'Crear Rol') }}
+    </button>
+  </div>
 </div>
