@@ -1,13 +1,70 @@
-<div class="form-group">
-  <label for="roleName">Role Name</label>
-  <input id="roleName" [(ngModel)]="role.name" required>
+<h2 mat-dialog-title>
+  @if (data.isPermissionsOnly) {
+    Gestionar Permisos - {{ data.role?.name }}
+  } @else {
+    {{ data.role ? 'Editar Rol' : 'Crear Rol' }}
+  }
+</h2>
+
+<div mat-dialog-content>
+  @if (!data.isPermissionsOnly) {
+    <form [formGroup]="roleForm" class="form">
+      <div class="form-group">
+        <label for="roleName">Nombre del Rol</label>
+        <input
+          id="roleName"
+          type="text"
+          class="form-input"
+          formControlName="name"
+          placeholder="Ingresa el nombre del rol"
+        />
+        @if (roleForm.get('name')?.invalid && roleForm.get('name')?.touched) {
+          <div class="error-message">
+            @if (roleForm.get('name')?.errors?.['required']) {
+              El nombre del rol es requerido
+            }
+          </div>
+        }
+      </div>
+    </form>
+  } @else {
+    <div class="permissions-description">
+      Selecciona los permisos para el rol <strong>{{ data.role?.name }}</strong>.
+    </div>
+  }
+
+  <div class="permissions-section">
+    <h3 class="permissions-title">Permisos</h3>
+    
+    <div class="permissions-list">
+      @for (permission of availablePermissions; track permission.name) {
+        <div class="permission-item">
+          <label class="permission-label">
+            <mat-checkbox
+              class="permission-checkbox"
+              [checked]="isPermissionSelected(permission.name)"
+              (change)="onPermissionToggle(permission.name, $event)"
+            >
+            </mat-checkbox>
+            <div class="permission-content">
+              <span class="permission-name">{{ permission.name }}</span>
+              <span class="permission-description">{{ permission.description }}</span>
+            </div>
+          </label>
+        </div>
+      }
+    </div>
+  </div>
 </div>
 
-<h4>Permissions</h4>
-<div class="permissions-grid">
-  @for (permission of availablePermissions$ | async; track permission.name) {
-    <mat-checkbox [checked]="isPermissionSelected(permission)" (change)="togglePermission(permission, $event)">
-      {{ permission.name }}
-    </mat-checkbox>
-  }
+<div mat-dialog-actions align="end">
+  <button mat-button type="button" (click)="onCancel()">Cancelar</button>
+  <button 
+    mat-raised-button 
+    color="primary" 
+    (click)="onSave()"
+    [disabled]="!data.isPermissionsOnly && roleForm.invalid"
+  >
+    {{ data.isPermissionsOnly ? 'Guardar Permisos' : 'Guardar Rol' }}
+  </button>
 </div>
