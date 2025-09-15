@@ -17,6 +17,7 @@ export class UserProfileService {
       name: dto.name || '',
       email: dto.email || '',
       roles: dto.roles || [],
+      status: dto.status,
       position: dto.position ?? null,
       bio: dto.bio ?? null,
       profilePictureUrl: dto.profilePictureUrl ?? null,

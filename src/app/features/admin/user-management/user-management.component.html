@@ -1,17 +1,12 @@
   <div class="um-toolbar">
     <app-section-title></app-section-title>
-    <app-button
-        icon="add"
-        label="Add User"
-        (btnClick)="handleAddUser()">
-    </app-button>
   </div>
 
   <div class="card">
     <div class="card-toolbar">
       <div class="search">
         <mat-icon>search</mat-icon>
-        <input type="text" [(ngModel)]="searchTerm" placeholder="Search users..." />
+        <input type="text" [(ngModel)]="searchTerm" (input)="onSearchChange()" placeholder="Search users..." />
       </div>
       <button class="btn outline">
         <mat-icon class="mr">filter_list</mat-icon>
@@ -50,14 +45,40 @@
               </td>
               <td class="muted">{{ user.lastLogin }}</td>
               <td class="actions">
-                <button class="icon" (click)="handleEditUser(user)" title="Edit">
-                  <mat-icon class="blue">edit</mat-icon>
+                <!-- Status action buttons based on current user status -->
+                <button 
+                  *ngIf="user.status !== 'Active'" 
+                  class="icon" 
+                  (click)="activateUser(user)" 
+                  title="Activate User"
+                >
+                  <mat-icon class="green">check_circle</mat-icon>
                 </button>
-                <button class="icon" title="Delete">
+                
+                <button 
+                  *ngIf="user.status === 'Active'" 
+                  class="icon" 
+                  (click)="deactivateUser(user)" 
+                  title="Deactivate User"
+                >
+                  <mat-icon class="orange">pause_circle</mat-icon>
+                </button>
+                
+                <button 
+                  *ngIf="user.status !== 'Blocked'" 
+                  class="icon" 
+                  (click)="blockUser(user)" 
+                  title="Block User"
+                >
+                  <mat-icon class="red">block</mat-icon>
+                </button>
+                
+                <button 
+                  class="icon" 
+                  (click)="deleteUser(user)" 
+                  title="Delete User"
+                >
                   <mat-icon class="red">delete</mat-icon>
-                </button>
-                <button class="icon" title="More">
-                  <mat-icon>more_horiz</mat-icon>
                 </button>
               </td>
             </tr>
@@ -67,27 +88,19 @@
     </div>
 
     <div class="pagination">
-      <div class="info">Showing <b>1</b> to <b>5</b> of <b>20</b> results</div>
+      <div class="info">Showing <b>{{ startItem }}</b> to <b>{{ endItem }}</b> of <b>{{ totalFilteredUsers }}</b> results</div>
       <div class="pager">
-        <button class="btn outline">Previous</button>
-        <button class="btn">1</button>
-        <button class="btn active">2</button>
-        <button class="btn">3</button>
-        <button class="btn outline">Next</button>
+        <button class="btn outline" (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+        <button 
+          class="btn" 
+          [class.active]="currentPage === page"
+          *ngFor="let page of [].constructor(totalPages); let i = index" 
+          (click)="goToPage(i + 1)"
+        >
+          {{ i + 1 }}
+        </button>
+        <button class="btn outline" (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
       </div>
     </div>
   </div>
-
-  <app-modal
-    [isOpen]="showModal"
-    [title]="editingUser ? 'Edit User' : 'Add User'"
-    [buttons]="[
-      { text: 'Cancel', action: 'cancel', style: 'secondary' },
-      { text: 'Save', action: 'save', style: 'primary' }
- ]"
-    (buttonClick)="handleModalButtonClick($event)"
-    (close)="handleCloseModal()"
-  >
-    <p>Modal content placeholder. Hook up a real form here.</p>
-  </app-modal>
 

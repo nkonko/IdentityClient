@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+import { UserStatus } from '../../api/api-client';
 
 // Modelo de usuario alineado con el perfil (UserDto)
 export interface User {
@@ -6,6 +7,7 @@ export interface User {
   name: string;
   email: string;
   roles: string[];
+  status?: UserStatus;
   position?: string | null;
   bio?: string | null;
   profilePictureUrl?: string | null;
