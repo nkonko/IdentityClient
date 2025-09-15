@@ -1,20 +1,18 @@
 .avatar-card {
   display: grid;
   place-items: center;
+  position: relative;
 }
 
 .avatar-wrapper {
-  /* grid contenedor para superposición sin absolute */
   position: relative;
   width: 160px;
   height: 160px;
   border-radius: 50%;
   background: color-mix(in oklab, var(--color-primary) 80%, white);
   color: var(--color-primary-contrast);
-
   display: grid;
   place-items: center;
-  /* capa base ocupa toda el área */
   grid-template-areas: 'stack';
   overflow: hidden;
 }
@@ -23,22 +21,22 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  grid-area: stack; /* apilado en la misma celda */
+  grid-area: stack;
 }
 
 .avatar-initials {
   font-size: 48px;
   font-weight: 700;
-  grid-area: stack; /* apilado en misma celda */
+  grid-area: stack;
   display: grid;
-  place-items: center; /* centrar ? */
+  place-items: center;
 }
 
 .avatar-camera {
   position: absolute;
-  right: 75px;
-  top: 120px;
-  z-index: 1000; /* ensure on top for clicks */
+  bottom: 8px;
+  right: 8px;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -46,12 +44,18 @@
   height: 40px;
   border-radius: 50%;
   background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  box-shadow: -2px 2px 6px rgba(0,0,0,.2);
+  border: 2px solid var(--color-border);
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
   cursor: pointer;
   user-select: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-/* allow clicks on the label to trigger the hidden file input */
+
+.avatar-camera:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,.2);
+}
+
 .avatar-camera label {
   display: flex;
   align-items: center;
@@ -59,26 +63,29 @@
   width: 100%;
   height: 100%;
   cursor: pointer;
+  border-radius: 50%;
 }
-/* disabled state on the label */
+
 .avatar-camera label.is-disabled {
   cursor: not-allowed;
   pointer-events: none;
   opacity: .6;
 }
+
 .avatar-camera mat-icon {
-  font-size: 20px; /* slightly bigger for 40px circle */
-  line-height: 1; /* avoid extra inline spacing */
-  width: 20px;
-  height: 20px;
-  color: var(--color-text); /* adapt to theme */
+  font-size: 18px;
+  line-height: 1;
+  width: 18px;
+  height: 18px;
+  color: var(--color-text);
   display: inline-flex;
   align-items: center;
   justify-content: center;
 }
+
 .avatar-camera .file-input {
   position: absolute;
-  inset: 0;          /* stretch over the button, but keep it invisible */
+  inset: 0;
   opacity: 0;
   width: 100%;
   height: 100%;

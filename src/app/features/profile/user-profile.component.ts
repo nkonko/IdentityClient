@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators, FormGroup } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -12,7 +12,7 @@ import { UserDto, UserUpdateDto } from '../../core/api/api-client';
 import { Store } from '@ngrx/store';
 import { updateUserProfileSuccess } from '../../core/store/auth/auth.actions';
 import { ProfileInformationComponent } from './components/profile-information/profile-information.component';
-import { NotificationsComponent } from './components/notifications/notifications.component';
+import { NotificationsComponent, NotificationPreferences } from './components/notifications/notifications.component';
 import { SecurityComponent } from './components/security/security.component';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { SectionTitleComponent } from "../../shared/section-title/section-title.component";
@@ -39,6 +39,9 @@ import { SectionTitleComponent } from "../../shared/section-title/section-title.
   styleUrls: ['./user-profile.component.scss']
 })
 export class UserProfileComponent implements OnInit {
+  @ViewChild(SecurityComponent) securityComponent!: SecurityComponent;
+  @ViewChild(NotificationsComponent) notificationsComponent!: NotificationsComponent;
+  
   private readonly fb = inject(FormBuilder);
   private readonly userFacade = inject(UserFacade);
   private readonly snackBar = inject(MatSnackBar);
@@ -46,6 +49,7 @@ export class UserProfileComponent implements OnInit {
 
   user: UserDto | null = null;
   isLoading = false;
+  currentTab = 0; // Para saber qué tab está activa
 
   form = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(3)]],
@@ -53,6 +57,17 @@ export class UserProfileComponent implements OnInit {
     position: [''],
     bio: ['']
   });
+
+  // Form for notification preferences
+  notificationPreferences: NotificationPreferences = {
+    emailNotifications: false,
+    inAppNotifications: true,
+    emailSecurityAlerts: true,
+    emailAccountActivity: false,
+    emailSystemUpdates: false,
+    inAppRealTimeAlerts: true,
+    inAppSystemMessages: true
+  };
 
   ngOnInit(): void {
     this.loadUserProfile();
@@ -97,27 +112,81 @@ export class UserProfileComponent implements OnInit {
     this.snackBar.open('Avatar upload functionality coming soon', 'Close', { duration: 3000 });
   }
 
-  save() {
-    if (this.form.invalid || !this.user) {
-      return;
-    }
-
-    this.isLoading = true;
-    const update = new UserUpdateDto();
-    update.name = this.form.value.name || '';
-    update.email = this.form.value.email || '';
-    update.position = this.form.value.position || '';
-    update.bio = this.form.value.bio || '';
-
-    this.userFacade.updateProfile(this.user.id || '', update).subscribe({
-      next: () => {
-        this.snackBar.open('Profile updated successfully', 'Close', { duration: 3000 });
-        this.isLoading = false;
-      },
-      error: (error) => {
-        this.snackBar.open(error.error?.message || 'Failed to update profile', 'Close', { duration: 3000 });
-        this.isLoading = false;
+  async save() {
+    if (this.currentTab === 0) {
+      // Tab Profile Information
+      if (this.form.invalid || !this.user) {
+        return;
       }
-    });
+
+      this.isLoading = true;
+      const update = new UserUpdateDto();
+      update.name = this.form.value.name || '';
+      update.email = this.form.value.email || '';
+      update.position = this.form.value.position || '';
+      update.bio = this.form.value.bio || '';
+
+      this.userFacade.updateProfile(this.user.id || '', update).subscribe({
+        next: () => {
+          this.snackBar.open('Profile updated successfully', 'Close', { duration: 3000 });
+          this.form.markAsPristine();
+          this.isLoading = false;
+        },
+        error: (error) => {
+          this.snackBar.open(error.error?.message || 'Failed to update profile', 'Close', { duration: 3000 });
+          this.isLoading = false;
+        }
+      });
+    } else if (this.currentTab === 1) {
+      // Tab Security
+      if (this.securityComponent && this.securityComponent.isFormValid) {
+        this.isLoading = true;
+        try {
+          await this.securityComponent.savePassword();
+          this.snackBar.open('Password updated successfully', 'Close', { duration: 3000 });
+        } catch (error) {
+          this.snackBar.open('Failed to update password', 'Close', { duration: 3000 });
+        } finally {
+          this.isLoading = false;
+        }
+      }
+    } else if (this.currentTab === 2) {
+      // Tab Notifications
+      if (this.notificationsComponent) {
+        this.isLoading = true;
+        try {
+          await this.notificationsComponent.saveNotificationPreferences();
+          this.snackBar.open('Notification preferences updated successfully', 'Close', { duration: 3000 });
+        } catch (error) {
+          this.snackBar.open('Failed to update notification preferences', 'Close', { duration: 3000 });
+        } finally {
+          this.isLoading = false;
+        }
+      }
+    }
+  }
+
+  onTabChanged(event: any): void {
+    this.currentTab = event.index;
+  }
+
+  get canSave(): boolean {
+    if (this.currentTab === 0) {
+      return this.form.valid && this.form.dirty && !this.isLoading;
+    } else if (this.currentTab === 1) {
+      return this.securityComponent?.isFormValid && !this.isLoading;
+    } else if (this.currentTab === 2) {
+      return this.notificationsComponent?.hasUnsavedChanges && !this.isLoading;
+    }
+    return false;
+  }
+
+  get saveButtonText(): string {
+    switch (this.currentTab) {
+      case 0: return 'Save Profile';
+      case 1: return 'Update Password';
+      case 2: return 'Save Preferences';
+      default: return 'Save';
+    }
   }
 }

@@ -2,11 +2,12 @@
 
 <div class="profile-page">
   <mat-card class="profile-card">
-    <mat-tab-group class="ud-tabs" mat-stretch-tabs color="primary">
+    <mat-tab-group class="ud-tabs" mat-stretch-tabs color="primary" (selectedTabChange)="onTabChanged($event)">
       <mat-tab label="Profile Information">
         <div class="tab-content">
           <app-profile-information
             [user]="user"
+            [form]="form"
             [isLoading]="isLoading"
             (save)="save()"
             (avatarUpload)="onAvatarUpload($event)">
@@ -16,13 +17,13 @@
 
       <mat-tab label="Security">
         <div class="tab-content">
-          <app-security></app-security>
+          <app-security [isLoading]="isLoading"></app-security>
         </div>
       </mat-tab>
 
       <mat-tab label="Notifications">
         <div class="tab-content">
-          <app-notifications></app-notifications>
+          <app-notifications [isLoading]="isLoading"></app-notifications>
         </div>
       </mat-tab>
     </mat-tab-group>
@@ -30,8 +31,8 @@
     <mat-card-actions align="end">
       <app-button
         icon="save_as"
-        label="Save Changes"
-        [disabled]="isLoading"
+        [label]="saveButtonText"
+        [disabled]="!canSave"
         (btnClick)="save()">
       </app-button>
     </mat-card-actions>

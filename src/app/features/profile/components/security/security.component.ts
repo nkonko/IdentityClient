@@ -1,4 +1,4 @@
-import { Component, inject, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, inject, CUSTOM_ELEMENTS_SCHEMA, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors, ValidatorFn, FormControl } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -31,12 +31,13 @@ interface PasswordForm {
   styleUrls: ['./security.component.scss'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class SecurityComponent {
+export class SecurityComponent implements OnInit {
+  @Input() isLoading = false;
+  @Output() save = new EventEmitter<void>();
+  
   private readonly fb = inject(FormBuilder);
   private readonly userFacade = inject(UserFacade);
   private readonly snackBar = inject(MatSnackBar);
-
-  isLoading = false;
 
   passwordForm = this.fb.group<PasswordForm>({
     currentPassword: this.fb.control('', [Validators.required]),
@@ -47,6 +48,10 @@ export class SecurityComponent {
     ]),
     confirmPassword: this.fb.control('', [Validators.required])
   }, { validators: passwordMatchValidator('newPassword', 'confirmPassword') });
+
+  ngOnInit(): void {
+    // Componente inicializado
+  }
 
   private passwordStrengthValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -79,18 +84,20 @@ export class SecurityComponent {
   }
 
   onSubmit(): void {
+    this.save.emit();
+  }
+
+  // Método público para ser llamado desde el componente padre
+  savePassword(): void {
     if (this.passwordForm.invalid) {
       return;
     }
-
-    this.isLoading = true;
 
     const currentPassword = this.passwordForm.value.currentPassword;
     const newPassword = this.passwordForm.value.newPassword;
 
     if (!currentPassword || !newPassword) {
       this.snackBar.open('Por favor complete todos los campos requeridos', 'Cerrar', { duration: 3000 });
-      this.isLoading = false;
       return;
     }
 
@@ -98,12 +105,15 @@ export class SecurityComponent {
       next: () => {
         this.snackBar.open('Contraseña actualizada exitosamente', 'Cerrar', { duration: 3000 });
         this.passwordForm.reset();
-        this.isLoading = false;
       },
       error: (error: any) => {
         this.snackBar.open(error.error?.message || 'Error al actualizar la contraseña', 'Cerrar', { duration: 3000 });
-        this.isLoading = false;
       }
     });
+  }
+
+  // Método público para verificar si el formulario es válido
+  get isFormValid(): boolean {
+    return this.passwordForm.valid;
   }
 }

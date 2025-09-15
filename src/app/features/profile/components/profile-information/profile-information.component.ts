@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDividerModule } from '@angular/material/divider';
@@ -11,13 +11,6 @@ import { TextareaComponent } from '../../../../shared/textarea/textarea.componen
 import { UserDto } from '../../../../core/api/api-client';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ProfileAvatarComponent } from '../avatar/profile-avatar.component';
-
-interface ProfileForm extends FormGroup<{
-  name: FormControl<string | null>;
-  email: FormControl<string | null>;
-  position: FormControl<string | null>;
-  bio: FormControl<string | null>;
-}> {}
 
 @Component({
   selector: 'app-profile-information',
@@ -38,25 +31,17 @@ interface ProfileForm extends FormGroup<{
   templateUrl: './profile-information.component.html',
   styleUrls: ['./profile-information.component.scss']
 })
-export class ProfileInformationComponent {
+export class ProfileInformationComponent implements OnInit {
   @Input() user: UserDto | null = null;
   @Input() isLoading = false;
+  @Input() form!: FormGroup;
   @Output() save = new EventEmitter<void>();
   @Output() avatarUpload = new EventEmitter<File>();
 
-  form: ProfileForm;
-
-  constructor(private fb: FormBuilder) {
-    this.form = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      email: [{value: '', disabled: true}, [Validators.required, Validators.email]],
-      position: [''],
-      bio: ['']
-    }) as ProfileForm;
-  }
+  constructor() {}
 
   ngOnInit(): void {
-    if (this.user) {
+    if (this.user && this.form) {
       this.form.patchValue({
         name: this.user.name || '',
         email: this.user.email || '',
