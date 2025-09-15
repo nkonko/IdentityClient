@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { AuthFacade } from '../../core/facades/auth.facade';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TokenService } from '../../core/services/token.service';
@@ -25,7 +26,8 @@ import { TokenService } from '../../core/services/token.service';
     MatIconModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
-    RouterLink
+    RouterLink,
+    TranslocoDirective
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']

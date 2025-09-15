@@ -50,6 +50,22 @@
   gap: 8px;
 }
 
+/* Language selector styles */
+.flag {
+  font-size: 18px;
+  margin-right: 8px;
+}
+
+.mat-mdc-menu-item.active {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+.checkmark {
+  color: var(--color-primary);
+  margin-left: auto;
+}
+
 .badge {
   position: absolute;
   top: 6px;

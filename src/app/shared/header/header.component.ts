@@ -6,11 +6,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { AuthFacade } from '../../core/facades/auth.facade';
 import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { selectIsLoading, selectUser } from '../../core/store/auth/auth.selectors';
 import { combineLatest } from 'rxjs';
+import { LanguageService, Language } from '../../core/services/language.service';
 
 @Component({
   selector: 'app-header',
@@ -23,7 +25,8 @@ import { combineLatest } from 'rxjs';
     MatMenuModule,
     MatTooltipModule,
     FormsModule,
-    RouterLink
+    RouterLink,
+    TranslocoDirective
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
@@ -31,6 +34,8 @@ import { combineLatest } from 'rxjs';
 export class HeaderComponent {
   private readonly auth = inject(AuthFacade);
   private readonly store = inject(Store);
+  private readonly languageService = inject(LanguageService);
+  private readonly translocoService = inject(TranslocoService);
 
   @Output() toggleSidebar = new EventEmitter<void>();
 
@@ -39,6 +44,10 @@ export class HeaderComponent {
   // Signals for user info
   user = signal<{ name: string; roles: string[]; profilePictureUrl?: string | null } | null>(null);
   isLoading = signal<boolean>(true);
+
+  // Language properties
+  currentLanguage = signal<Language | undefined>(undefined);
+  availableLanguages = this.languageService.availableLanguages;
 
   constructor() {
     // Optimized: Combine both store selectors into a single subscription
@@ -58,6 +67,11 @@ export class HeaderComponent {
       });
       this.isLoading.set(loading);
     });
+
+    // Subscribe to language changes
+    this.languageService.currentLanguage$.subscribe(() => {
+      this.currentLanguage.set(this.languageService.getCurrentLanguageInfo());
+    });
   }
 
   toggleDarkMode() {
@@ -70,10 +84,17 @@ export class HeaderComponent {
     this.auth.logout();
   }
 
+  changeLanguage(languageCode: string) {
+    this.languageService.setLanguage(languageCode);
+  }
+
   ngOnInit() {
     const savedDarkMode = localStorage.getItem('darkMode');
     this.isDarkMode = savedDarkMode === 'true';
     document.body.classList.toggle('dark-theme', this.isDarkMode);
+
+    // Initialize current language
+    this.currentLanguage.set(this.languageService.getCurrentLanguageInfo());
   }
 }
 
