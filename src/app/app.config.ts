@@ -30,7 +30,7 @@ export const appConfig: ApplicationConfig = {
       trace: false,
       traceLimit: 75,
     }),
-    { provide: API_BASE_URL, useValue: 'http://localhost:32770' },
+    { provide: API_BASE_URL, useValue: 'http://localhost:32768' },
     { provide: IdentityClient,
       useFactory: (http: HttpClient, baseUrl: string) =>
          new IdentityClient(http, baseUrl), deps: [HttpClient, API_BASE_URL] }

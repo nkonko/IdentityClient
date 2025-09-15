@@ -15,6 +15,7 @@ export class TextInputComponent {
   @Input() type: 'text' | 'email' | 'password' = 'text';
   @Input() name?: string;
   @Input() autocomplete?: string;
+  @Input() required?: boolean;
   @Input({ required: true }) control!: FormControl;
 
   // Derived UI state

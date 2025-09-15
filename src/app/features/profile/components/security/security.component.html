@@ -1,0 +1,43 @@
+<mat-card class="security-card">
+  <mat-card-header>
+    <mat-card-title>Change Password</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form [formGroup]="passwordForm" (ngSubmit)="onSubmit()" class="security-form">
+      <div class="form-fields">
+        <app-text-input
+          label="Current Password"
+          type="password"
+          [control]="passwordForm.controls.currentPassword"
+          [required]="true">
+        </app-text-input>
+
+        <app-text-input
+          label="New Password"
+          type="password"
+          [control]="passwordForm.controls.newPassword"
+          [required]="true">
+        </app-text-input>
+
+        <app-text-input
+          label="Confirm New Password"
+          type="password"
+          [control]="passwordForm.controls.confirmPassword"
+          [required]="true">
+        </app-text-input>
+      </div>
+
+      <div class="form-actions">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="isLoading || passwordForm.invalid">
+          <span *ngIf="!isLoading">Update Password</span>
+          <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

@@ -1,22 +1,21 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators, FormGroup } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
-import { TextInputComponent } from '../../shared/text-input/text-input.component';
-import { TextareaComponent } from '../../shared/textarea/textarea.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
-import { SectionTitleComponent } from '../../shared/section-title/section-title.component';
-import { ProfileAvatarComponent } from './components/profile-avatar.component';
 import { UserFacade } from '../../core/facades/user.facade';
 import { UserDto, UserUpdateDto } from '../../core/api/api-client';
-import { ButtonComponent } from '../../shared/button/button.component';
 import { Store } from '@ngrx/store';
-import { selectUser } from '../../core/store/auth/auth.selectors';
 import { updateUserProfileSuccess } from '../../core/store/auth/auth.actions';
+import { ProfileInformationComponent } from './components/profile-information/profile-information.component';
+import { NotificationsComponent } from './components/notifications/notifications.component';
+import { SecurityComponent } from './components/security/security.component';
+import { ButtonComponent } from '../../shared/button/button.component';
+import { SectionTitleComponent } from "../../shared/section-title/section-title.component";
 
 @Component({
   selector: 'app-user-profile',
@@ -29,12 +28,13 @@ import { updateUserProfileSuccess } from '../../core/store/auth/auth.actions';
     MatIconModule,
     MatDividerModule,
     MatCardModule,
-    SectionTitleComponent,
-    ProfileAvatarComponent,
-    TextInputComponent,
-    TextareaComponent,
-    ButtonComponent
-  ],
+    MatSnackBarModule,
+    ProfileInformationComponent,
+    SecurityComponent,
+    NotificationsComponent,
+    ButtonComponent,
+    SectionTitleComponent
+],
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss']
 })
@@ -50,8 +50,8 @@ export class UserProfileComponent implements OnInit {
   form = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.email]],
-    position: ['', []],
-    bio: ['', []]
+    position: [''],
+    bio: ['']
   });
 
   ngOnInit(): void {
@@ -92,32 +92,31 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
-  onAvatarUpload(file: File) {
-    // TODO: Integrate with backend endpoint for avatar upload if available.
-    this.snackBar.open('Imagen seleccionada: ' + file.name, 'Cerrar', { duration: 3000 });
+  onAvatarUpload(file: File): void {
+    // TODO: Implement avatar upload logic
+    this.snackBar.open('Avatar upload functionality coming soon', 'Close', { duration: 3000 });
   }
 
   save() {
-    if (!this.form.valid || !this.user?.id) return;
+    if (this.form.invalid || !this.user) {
+      return;
+    }
 
     this.isLoading = true;
-    const dto = new UserUpdateDto({
-      name: this.form.value.name || '',
-      email: this.form.value.email || '',
-      position: this.form.value.position || '',
-      bio: this.form.value.bio || ''
-    });
+    const update = new UserUpdateDto();
+    update.name = this.form.value.name || '';
+    update.email = this.form.value.email || '';
+    update.position = this.form.value.position || '';
+    update.bio = this.form.value.bio || '';
 
-    this.userFacade.updateProfile(this.user.id, dto).subscribe({
+    this.userFacade.updateProfile(this.user.id || '', update).subscribe({
       next: () => {
+        this.snackBar.open('Profile updated successfully', 'Close', { duration: 3000 });
         this.isLoading = false;
-        this.snackBar.open('Perfil actualizado correctamente', 'Cerrar', { duration: 3000 });
-        this.loadUserProfile();
       },
-      error: (error: any) => {
+      error: (error) => {
+        this.snackBar.open(error.error?.message || 'Failed to update profile', 'Close', { duration: 3000 });
         this.isLoading = false;
-        const msg = error && (error as any).error ? (error as any).error : 'Error al actualizar el perfil';
-        this.snackBar.open(msg, 'Cerrar', { duration: 5000 });
       }
     });
   }
