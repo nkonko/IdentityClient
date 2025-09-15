@@ -1,11 +1,11 @@
 import { Component, Input, forwardRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-text-input',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -25,6 +25,7 @@ export class TextInputComponent implements ControlValueAccessor {
   @Input() required = false;
   @Input() disabled = false;
   @Input() errorMessage?: string;
+  @Input() formControl?: FormControl; // Para uso directo con reactive forms
 
   value = '';
   touched = false;
@@ -65,7 +66,7 @@ export class TextInputComponent implements ControlValueAccessor {
   // CSS classes for styling
   get inputClasses(): string {
     let classes = 'ud-input';
-    if (this.errorMessage && this.touched) {
+    if (this.currentErrorMessage && (this.touched || this.hasFormControlErrors)) {
       classes += ' ud-input--error';
     }
     if (this.disabled) {
@@ -74,7 +75,49 @@ export class TextInputComponent implements ControlValueAccessor {
     return classes;
   }
 
+  get currentErrorMessage(): string {
+    // Use provided errorMessage first
+    if (this.errorMessage) return this.errorMessage;
+    
+    // If using formControl directly, get errors from it
+    if (this.formControl) {
+      return this.getFormControlError();
+    }
+    
+    return '';
+  }
+
+  get hasFormControlErrors(): boolean {
+    return !!(this.formControl && this.formControl.invalid && (this.formControl.dirty || this.formControl.touched));
+  }
+
   get showError(): boolean {
-    return !!(this.errorMessage && this.touched);
+    return !!(this.currentErrorMessage && (this.touched || this.hasFormControlErrors));
+  }
+
+  private getFormControlError(): string {
+    if (!this.formControl || !this.formControl.errors) return '';
+    
+    const errors = this.formControl.errors;
+    const shouldShowError = this.formControl.invalid && (this.formControl.dirty || this.formControl.touched);
+    
+    if (!shouldShowError) return '';
+
+    if (errors['required']) return 'Este campo es obligatorio';
+    if (errors['email']) return 'Formato de correo inválido';
+    if (errors['minlength']) {
+      const required = errors['minlength'].requiredLength;
+      const actual = errors['minlength'].actualLength;
+      return `Debe tener al menos ${required} caracteres (actual: ${actual})`;
+    }
+    if (errors['maxlength']) {
+      const required = errors['maxlength'].requiredLength;
+      return `Debe tener como máximo ${required} caracteres`;
+    }
+    if (errors['pattern']) return 'El formato no es válido';
+    
+    // Fallback
+    const firstErrorKey = Object.keys(errors)[0];
+    return typeof errors[firstErrorKey] === 'string' ? errors[firstErrorKey] : 'Valor inválido';
   }
 }

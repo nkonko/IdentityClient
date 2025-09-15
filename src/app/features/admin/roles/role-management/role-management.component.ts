@@ -13,7 +13,7 @@ import { RoleDialogComponent } from '../role-dialog/role-dialog.component'; // K
 @Component({
   selector: 'app-role-management',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatIconModule, SectionTitleComponent, ButtonComponent, ModalComponent, RoleDialogComponent],
+  imports: [CommonModule, FormsModule, MatIconModule, SectionTitleComponent, ButtonComponent, ModalComponent],
   templateUrl: './role-management.component.html',
   styleUrls: ['./role-management.component.scss']
 })

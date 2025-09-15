@@ -17,7 +17,7 @@ import { ValidationErrorService } from './validation-error.service';
       [name]="name"
       [autocomplete]="autocomplete"
       [required]="required"
-      [disabled]="control.disabled || false"
+      [disabled]="control.disabled"
       [errorMessage]="currentErrorMessage"
       [formControl]="control">
     </app-text-input>

@@ -9,6 +9,23 @@
   --color-muted-bg: #f1f3f4; /* Light neutral background */
   --color-hover-bg: #f8f9fa; /* Subtle hover */
 
+  /* Semantic color variables for consistency */
+  --text-primary: var(--color-text);
+  --text-secondary: var(--color-text-muted);
+  --text-tertiary: #8b949e;
+  --text-disabled: #9ca3af;
+  
+  --surface-primary: var(--color-surface);
+  --surface-secondary: var(--color-muted-bg);
+  --surface-tertiary: var(--color-hover-bg);
+  --surface-disabled: #f3f4f6;
+  
+  --border-primary: var(--color-border);
+  --border-secondary: #d1d5db;
+  
+  --primary-color: var(--color-primary);
+  --primary-color-alpha: rgba(26, 115, 232, 0.2);
+
   /* Modern color palette */
   --color-primary: #1a73e8; /* Google blue */
   --color-primary-hover: #1557b0;
@@ -32,6 +49,10 @@
   --radius-lg: 16px;
   --radius-xl: 20px;
   --radius-pill: 999px;
+  
+  /* Form elements radius */
+  --radius-input: 10px; /* Inputs and textareas */
+  --radius-button: 8px; /* Buttons */
 
   /* Typography */
   --font-family-sans: 'Google Sans', Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -71,6 +92,23 @@
   /* Dark theme text */
   --color-text: #f0f6fc;        /* High contrast white */
   --color-text-muted: #8b949e;  /* GitHub muted text */
+  
+  /* Update semantic variables for dark theme */
+  --text-primary: var(--color-text);
+  --text-secondary: var(--color-text-muted);
+  --text-tertiary: #6e7681;
+  --text-disabled: #484f58;
+  
+  --surface-primary: var(--color-surface);
+  --surface-secondary: var(--color-muted-bg);
+  --surface-tertiary: var(--color-hover-bg);
+  --surface-disabled: #21262d;
+  
+  --border-primary: var(--color-border);
+  --border-secondary: #373e47;
+  
+  --primary-color: var(--color-primary);
+  --primary-color-alpha: rgba(88, 166, 255, 0.2);
 
   /* Dark borders */
   --color-border: #30363d;

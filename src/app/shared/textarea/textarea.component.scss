@@ -12,7 +12,7 @@
   color: var(--text-primary);
   
   .ud-label--required {
-    color: var(--error-color);
+    color: var(--color-danger);
     margin-left: 0.25rem;
   }
 }
@@ -21,8 +21,8 @@
   width: 100%;
   box-sizing: border-box;
   border: 1px solid var(--border-primary);
-  border-radius: var(--border-radius-md);
-  padding: 0.75rem;
+  border-radius: var(--radius-input); /* Usando token para consistencia */
+  padding: 12px 14px; /* Padding como estaba antes */
   font-size: var(--font-size-base);
   color: var(--text-primary);
   background: var(--surface-primary);
@@ -47,11 +47,11 @@
   }
   
   &--error {
-    border-color: var(--error-color);
+    border-color: var(--color-danger) !important;
     
     &:focus {
-      border-color: var(--error-color);
-      box-shadow: 0 0 0 2px var(--error-color-alpha);
+      border-color: var(--color-danger) !important;
+      box-shadow: 0 0 0 2px rgba(211, 59, 44, 0.2) !important;
     }
   }
   
@@ -69,7 +69,7 @@
 
 .ud-error {
   margin-top: 0.5rem;
-  color: var(--error-color);
+  color: var(--color-danger);
   font-size: var(--font-size-sm);
   line-height: 1.4;
 }
