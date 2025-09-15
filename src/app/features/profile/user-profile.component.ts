@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, ViewChild } from '@angular/core';
+import { Component, OnInit, inject, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators, FormGroup } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -39,8 +39,8 @@ import { SectionTitleComponent } from "../../shared/section-title/section-title.
   styleUrls: ['./user-profile.component.scss']
 })
 export class UserProfileComponent implements OnInit {
-  @ViewChild(SecurityComponent) securityComponent!: SecurityComponent;
-  @ViewChild(NotificationsComponent) notificationsComponent!: NotificationsComponent;
+  securityComponent = viewChild(SecurityComponent);
+  notificationsComponent = viewChild(NotificationsComponent);
   
   private readonly fb = inject(FormBuilder);
   private readonly userFacade = inject(UserFacade);
@@ -161,10 +161,11 @@ export class UserProfileComponent implements OnInit {
       });
     } else if (this.currentTab === 1) {
       // Tab Security
-      if (this.securityComponent && this.securityComponent.isFormValid) {
+      const securityComp = this.securityComponent();
+      if (securityComp && securityComp.isFormValid) {
         this.isLoading = true;
         try {
-          await this.securityComponent.savePassword();
+          await securityComp.savePassword();
           this.snackBar.open('Password updated successfully', 'Close', { duration: 3000 });
         } catch (error) {
           this.snackBar.open('Failed to update password', 'Close', { duration: 3000 });
@@ -174,10 +175,11 @@ export class UserProfileComponent implements OnInit {
       }
     } else if (this.currentTab === 2) {
       // Tab Notifications
-      if (this.notificationsComponent) {
+      const notificationsComp = this.notificationsComponent();
+      if (notificationsComp) {
         this.isLoading = true;
         try {
-          await this.notificationsComponent.saveNotificationPreferences();
+          await notificationsComp.saveNotificationPreferences();
           this.snackBar.open('Notification preferences updated successfully', 'Close', { duration: 3000 });
         } catch (error) {
           this.snackBar.open('Failed to update notification preferences', 'Close', { duration: 3000 });
@@ -196,9 +198,11 @@ export class UserProfileComponent implements OnInit {
     if (this.currentTab === 0) {
       return this.form.valid && this.form.dirty && !this.isLoading;
     } else if (this.currentTab === 1) {
-      return this.securityComponent?.isFormValid && !this.isLoading;
+      const securityComp = this.securityComponent();
+      return (securityComp?.isFormValid || false) && !this.isLoading;
     } else if (this.currentTab === 2) {
-      return this.notificationsComponent?.hasUnsavedChanges && !this.isLoading;
+      const notificationsComp = this.notificationsComponent();
+      return (notificationsComp?.hasUnsavedChanges || false) && !this.isLoading;
     }
     return false;
   }

@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, input, forwardRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule, FormControl } from '@angular/forms';
 
@@ -17,15 +17,15 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule, FormContr
   styleUrls: ['./text-input.component.scss']
 })
 export class TextInputComponent implements ControlValueAccessor {
-  @Input() label = '';
-  @Input() placeholder = '';
-  @Input() type: 'text' | 'email' | 'password' = 'text';
-  @Input() name?: string;
-  @Input() autocomplete?: string;
-  @Input() required = false;
-  @Input() disabled = false;
-  @Input() errorMessage?: string;
-  @Input() formControl?: FormControl; // Para uso directo con reactive forms
+  label = input<string>('');
+  placeholder = input<string>('');
+  type = input<'text' | 'email' | 'password'>('text');
+  name = input<string>();
+  autocomplete = input<string>();
+  required = input<boolean>(false);
+  disabled = input<boolean>(false);
+  errorMessage = input<string>();
+  formControl = input<FormControl>(); // Para uso directo con reactive forms
 
   value = '';
   touched = false;
@@ -47,7 +47,8 @@ export class TextInputComponent implements ControlValueAccessor {
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
+    // Note: For signal inputs, we can't directly set the value from ControlValueAccessor
+    // The parent component should handle this through the disabled input
   }
 
   // Event handlers
@@ -69,7 +70,7 @@ export class TextInputComponent implements ControlValueAccessor {
     if (this.currentErrorMessage && (this.touched || this.hasFormControlErrors)) {
       classes += ' ud-input--error';
     }
-    if (this.disabled) {
+    if (this.disabled()) {
       classes += ' ud-input--disabled';
     }
     return classes;
@@ -77,10 +78,10 @@ export class TextInputComponent implements ControlValueAccessor {
 
   get currentErrorMessage(): string {
     // Use provided errorMessage first
-    if (this.errorMessage) return this.errorMessage;
+    if (this.errorMessage()) return this.errorMessage()!;
     
     // If using formControl directly, get errors from it
-    if (this.formControl) {
+    if (this.formControl()) {
       return this.getFormControlError();
     }
     
@@ -88,7 +89,8 @@ export class TextInputComponent implements ControlValueAccessor {
   }
 
   get hasFormControlErrors(): boolean {
-    return !!(this.formControl && this.formControl.invalid && (this.formControl.dirty || this.formControl.touched));
+    const formControl = this.formControl();
+    return !!(formControl && formControl.invalid && (formControl.dirty || formControl.touched));
   }
 
   get showError(): boolean {
@@ -96,10 +98,11 @@ export class TextInputComponent implements ControlValueAccessor {
   }
 
   private getFormControlError(): string {
-    if (!this.formControl || !this.formControl.errors) return '';
+    const formControl = this.formControl();
+    if (!formControl || !formControl.errors) return '';
     
-    const errors = this.formControl.errors;
-    const shouldShowError = this.formControl.invalid && (this.formControl.dirty || this.formControl.touched);
+    const errors = formControl.errors;
+    const shouldShowError = formControl.invalid && (formControl.dirty || formControl.touched);
     
     if (!shouldShowError) return '';
 

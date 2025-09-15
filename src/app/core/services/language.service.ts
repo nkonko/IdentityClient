@@ -1,6 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
-import { BehaviorSubject } from 'rxjs';
 
 export interface Language {
   code: string;
@@ -20,8 +19,7 @@ export class LanguageService {
     { code: 'en', name: 'English', flag: '🇺🇸' }
   ];
 
-  private currentLanguageSubject = new BehaviorSubject<string>(this.DEFAULT_LANGUAGE);
-  public currentLanguage$ = this.currentLanguageSubject.asObservable();
+  public readonly currentLanguage = signal<string>(this.DEFAULT_LANGUAGE);
 
   constructor(private translocoService: TranslocoService) {
     this.initializeLanguage();
@@ -62,12 +60,12 @@ export class LanguageService {
     // Save to localStorage
     localStorage.setItem(this.STORAGE_KEY, languageCode);
     
-    // Update the subject
-    this.currentLanguageSubject.next(languageCode);
+    // Update the signal
+    this.currentLanguage.set(languageCode);
   }
 
   public getCurrentLanguage(): string {
-    return this.currentLanguageSubject.value;
+    return this.currentLanguage();
   }
 
   public getCurrentLanguageInfo(): Language | undefined {

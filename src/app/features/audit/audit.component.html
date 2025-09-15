@@ -24,9 +24,11 @@
           <mat-label>{{ t('audit.filters.action') }}</mat-label>
           <mat-select [formControl]="actionFilter">
             <mat-option value="">{{ t('common.all') }}</mat-option>
-            <mat-option *ngFor="let action of uniqueActions()" [value]="action">
-              {{ action }}
-            </mat-option>
+            @for (action of uniqueActions(); track action) {
+              <mat-option [value]="action">
+                {{ action }}
+              </mat-option>
+            }
           </mat-select>
           <mat-icon matPrefix>category</mat-icon>
         </mat-form-field>

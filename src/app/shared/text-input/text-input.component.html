@@ -1,34 +1,34 @@
 <div class="ud-field">
-  <label class="ud-label" [attr.for]="name">
-    {{ label }}
-    @if (required) {
+  <label class="ud-label" [attr.for]="name()">
+    {{ label() }}
+    @if (required()) {
       <span class="ud-label--required">*</span>
     }
   </label>
   
   <!-- Si tenemos formControl, usar reactive forms -->
-  @if (formControl) {
+  @if (formControl()) {
     <input
-      [id]="name"
+      [id]="name()"
       [ngClass]="inputClasses"
-      [attr.type]="type"
-      [attr.name]="name || null"
-      [attr.autocomplete]="autocomplete || null"
-      [attr.placeholder]="placeholder || null"
-      [formControl]="formControl"
+      [attr.type]="type()"
+      [attr.name]="name() || null"
+      [attr.autocomplete]="autocomplete() || null"
+      [attr.placeholder]="placeholder() || null"
+      [formControl]="formControl()!"
       (blur)="onBlur()"
     />
   } @else {
     <!-- Fallback para ControlValueAccessor -->
     <input
-      [id]="name"
+      [id]="name()"
       [ngClass]="inputClasses"
-      [attr.type]="type"
-      [attr.name]="name || null"
-      [attr.autocomplete]="autocomplete || null"
-      [attr.placeholder]="placeholder || null"
+      [attr.type]="type()"
+      [attr.name]="name() || null"
+      [attr.autocomplete]="autocomplete() || null"
+      [attr.placeholder]="placeholder() || null"
       [value]="value"
-      [disabled]="disabled"
+      [disabled]="disabled()"
       (input)="onInput($event)"
       (blur)="onBlur()"
     />

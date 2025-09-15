@@ -31,69 +31,73 @@
       </div>
 
       <!-- Conditional sub-options for email notifications -->
-      <div class="notification-suboptions" *ngIf="notificationsForm.get('emailNotifications')?.value">
-        <h4 class="suboptions-title">Email notification types:</h4>
+      @if (notificationsForm.get('emailNotifications')?.value) {
+        <div class="notification-suboptions">
+          <h4 class="suboptions-title">Email notification types:</h4>
         
-        <div class="notification-item suboption">
-          <div class="notification-info">
-            <h5>Security Alerts</h5>
-            <p>Important security and account changes</p>
+          <div class="notification-item suboption">
+            <div class="notification-info">
+              <h5>Security Alerts</h5>
+              <p>Important security and account changes</p>
+            </div>
+            <mat-slide-toggle 
+              formControlName="emailSecurityAlerts"
+              color="primary">
+            </mat-slide-toggle>
           </div>
-          <mat-slide-toggle 
-            formControlName="emailSecurityAlerts"
-            color="primary">
-          </mat-slide-toggle>
-        </div>
 
-        <div class="notification-item suboption">
-          <div class="notification-info">
-            <h5>Account Activity</h5>
-            <p>Login activities and profile changes</p>
+          <div class="notification-item suboption">
+            <div class="notification-info">
+              <h5>Account Activity</h5>
+              <p>Login activities and profile changes</p>
+            </div>
+            <mat-slide-toggle 
+              formControlName="emailAccountActivity"
+              color="primary">
+            </mat-slide-toggle>
           </div>
-          <mat-slide-toggle 
-            formControlName="emailAccountActivity"
-            color="primary">
-          </mat-slide-toggle>
-        </div>
 
-        <div class="notification-item suboption">
-          <div class="notification-info">
-            <h5>System Updates</h5>
-            <p>Product updates and new features</p>
+          <div class="notification-item suboption">
+            <div class="notification-info">
+              <h5>System Updates</h5>
+              <p>Product updates and new features</p>
+            </div>
+            <mat-slide-toggle 
+              formControlName="emailSystemUpdates"
+              color="primary">
+            </mat-slide-toggle>
           </div>
-          <mat-slide-toggle 
-            formControlName="emailSystemUpdates"
-            color="primary">
-          </mat-slide-toggle>
         </div>
-      </div>
+      }
 
       <!-- Conditional sub-options for in-app notifications -->
-      <div class="notification-suboptions" *ngIf="notificationsForm.get('inAppNotifications')?.value">
-        <h4 class="suboptions-title">In-app notification types:</h4>
+      @if (notificationsForm.get('inAppNotifications')?.value) {
+        <div class="notification-suboptions">
+          <h4 class="suboptions-title">In-app notification types:</h4>
         
-        <div class="notification-item suboption">
-          <div class="notification-info">
-            <h5>Real-time Alerts</h5>
-            <p>Instant notifications for important events</p>
+          <div class="notification-item suboption">
+            <div class="notification-info">
+              <h5>Real-time Alerts</h5>
+              <p>Instant notifications for important events</p>
+            </div>
+            <mat-slide-toggle 
+              formControlName="inAppRealTimeAlerts"
+              color="primary">
+            </mat-slide-toggle>
           </div>
-          <mat-slide-toggle 
-            formControlName="inAppRealTimeAlerts"
-            color="primary">
-          </mat-slide-toggle>
-        </div>
 
-        <div class="notification-item suboption">
-          <div class="notification-info">
-            <h5>System Messages</h5>
-            <p>Maintenance and system-related notifications</p>
+          <div class="notification-item suboption">
+            <div class="notification-info">
+              <h5>System Messages</h5>
+              <p>Maintenance and system-related notifications</p>
+            </div>
+            <mat-slide-toggle 
+              formControlName="inAppSystemMessages"
+              color="primary">
+            </mat-slide-toggle>
           </div>
-          <mat-slide-toggle 
-            formControlName="inAppSystemMessages"
-            color="primary">
-          </mat-slide-toggle>
         </div>
-      </div>
+      }
 
     </div>
   </form>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, inject, signal } from '@angular/core';
+import { Component, EventEmitter, Output, inject, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -68,8 +68,10 @@ export class HeaderComponent {
       this.isLoading.set(loading);
     });
 
-    // Subscribe to language changes
-    this.languageService.currentLanguage$.subscribe(() => {
+    // Subscribe to language changes using signal
+    effect(() => {
+      // This effect will run whenever the currentLanguage signal changes
+      const language = this.languageService.currentLanguage();
       this.currentLanguage.set(this.languageService.getCurrentLanguageInfo());
     });
   }

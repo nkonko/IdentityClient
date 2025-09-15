@@ -22,16 +22,18 @@
       </app-text-input>
 
       <!-- Mostrar criterios de contraseña -->
-      <div class="password-requirements" *ngIf="passwordForm.controls.newPassword.errors?.['passwordStrength'] && passwordForm.controls.newPassword.touched">
-        <p class="requirements-title">Password must contain:</p>
-        <ul class="requirements-list">
-          <li [class.valid]="!passwordForm.controls.newPassword.errors?.['passwordStrength']?.hasUpperCase">At least one uppercase letter</li>
-          <li [class.valid]="!passwordForm.controls.newPassword.errors?.['passwordStrength']?.hasLowerCase">At least one lowercase letter</li>
-          <li [class.valid]="!passwordForm.controls.newPassword.errors?.['passwordStrength']?.hasNumeric">At least one number</li>
-          <li [class.valid]="!passwordForm.controls.newPassword.errors?.['passwordStrength']?.hasSpecialChar">At least one special character</li>
-          <li [class.valid]="!passwordForm.controls.newPassword.errors?.['passwordStrength']?.minLength">At least 8 characters</li>
-        </ul>
-      </div>
+      @if (passwordForm.controls.newPassword.errors?.['passwordStrength'] && passwordForm.controls.newPassword.touched) {
+        <div class="password-requirements">
+          <p class="requirements-title">Password must contain:</p>
+          <ul class="requirements-list">
+            <li [class.valid]="!passwordForm.controls.newPassword.errors?.['passwordStrength']?.hasUpperCase">At least one uppercase letter</li>
+            <li [class.valid]="!passwordForm.controls.newPassword.errors?.['passwordStrength']?.hasLowerCase">At least one lowercase letter</li>
+            <li [class.valid]="!passwordForm.controls.newPassword.errors?.['passwordStrength']?.hasNumeric">At least one number</li>
+            <li [class.valid]="!passwordForm.controls.newPassword.errors?.['passwordStrength']?.hasSpecialChar">At least one special character</li>
+            <li [class.valid]="!passwordForm.controls.newPassword.errors?.['passwordStrength']?.minLength">At least 8 characters</li>
+          </ul>
+        </div>
+      }
     </div>
   </form>
 </div>
