@@ -2,7 +2,7 @@
 
 .dashboard-header {
   margin: 8px 0 18px;
-  h1 { margin: 0; font-size: 28px; font-weight: 700; color: #0f172a; }
+  h1 { margin: 0; font-size: 28px; font-weight: 700; color: var(--color-dashboard-title); }
 }
 
 .cards-row {
@@ -18,33 +18,72 @@
 }
 
 .card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-.title { color: #6b7280; font-weight: 600; }
+.title { color: var(--color-dashboard-muted); font-weight: 600; }
 .icon {
   width: 36px; height: 36px; border-radius: 8px;
-  display: inline-flex; align-items: center; justify-content: center; color: #1e293b;
+  display: inline-flex; align-items: center; justify-content: center; color: var(--color-dashboard-icon);
 }
-.gradient-blue { background: linear-gradient(135deg, #eaefff, #d7e0ff); color: #2f4dbd; }
-.gradient-green { background: linear-gradient(135deg, #eafff3, #d2ffe7); color: #059669; }
-.gradient-purple { background: linear-gradient(135deg, #f3e8ff, #efe7ff); color: #7c3aed; }
-.gradient-gray { background: #f4f5f7; color: #111827; }
+.gradient-blue { background: linear-gradient(135deg, var(--gradient-blue-light-start), var(--gradient-blue-light-end)); color: var(--gradient-blue-light-text); }
+.gradient-green { background: linear-gradient(135deg, var(--gradient-green-light-start), var(--gradient-green-light-end)); color: var(--gradient-green-light-text); }
+.gradient-purple { background: linear-gradient(135deg, var(--gradient-purple-light-start), var(--gradient-purple-light-end)); color: var(--gradient-purple-light-text); }
+.gradient-gray { background: var(--gradient-gray-light-start); color: var(--gradient-gray-light-text); }
 
-.value { font-size: 28px; font-weight: 800; color: #0f172a; }
+.value { font-size: 28px; font-weight: 800; color: var(--color-dashboard-value); }
 .delta { margin: 4px 0 8px; font-size: 12px; display: flex; align-items: baseline; gap: 4px; }
-.delta span { color: #6b7280; }
-.delta.positive { color: #16a34a; }
-.delta.negative { color: #ef4444; }
-.delta.neutral { color: #9ca3af; }
+.delta span { color: var(--color-dashboard-muted); }
+.delta.positive { color: var(--color-success); }
+.delta.negative { color: var(--color-danger); }
+.delta.neutral { color: var(--color-action-disabled); }
 
 .skeleton {
-  height: 8px; border-radius: 999px; background: #eef1f5; margin-top: 16px;
+  height: 8px; border-radius: 999px; background: var(--color-dashboard-skeleton); margin-top: 16px;
 }
 
 /* Dark theme */
 .dark-theme {
-  .dashboard-header h1 { color: #e5e7eb; }
-  .metric-card { box-shadow: 0 6px 16px rgba(0,0,0,0.25); }
-  .title { color: #94a3b8; }
-  .value { color: #f8fafc; }
+  .dashboard-header h1 { color: var(--color-dashboard-title); }
+  .metric-card { 
+    box-shadow: 0 6px 16px rgba(0,0,0,0.25); 
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+  }
+  .title { color: var(--color-dashboard-muted); }
+  .value { color: var(--color-dashboard-value); }
+  
+  // Improved gradients and contrast for dark mode
+  .gradient-blue { 
+    background: linear-gradient(135deg, var(--gradient-blue-dark-start), var(--gradient-blue-dark-end)); 
+    color: var(--gradient-blue-dark-text); 
+  }
+  .gradient-green { 
+    background: linear-gradient(135deg, var(--gradient-green-dark-start), var(--gradient-green-dark-end)); 
+    color: var(--gradient-green-dark-text); 
+  }
+  .gradient-purple { 
+    background: linear-gradient(135deg, var(--gradient-purple-dark-start), var(--gradient-purple-dark-end)); 
+    color: var(--gradient-purple-dark-text); 
+  }
+  .gradient-gray { 
+    background: linear-gradient(135deg, var(--gradient-gray-dark-start), var(--gradient-gray-dark-end)); 
+    color: var(--gradient-gray-dark-text); 
+  }
+  
+  .icon {
+    // Ensure better contrast in dark mode
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .skeleton {
+    background: var(--color-dashboard-skeleton);
+  }
+  
+  .delta {
+    &.positive { color: var(--color-success); }
+    &.negative { color: var(--color-danger); }
+    &.neutral { color: var(--color-action-disabled); }
+    
+    span { color: var(--color-dashboard-muted); }
+  }
 }
 
 @media (max-width: 1200px) { .cards-row { grid-template-columns: repeat(2, 1fr); } }

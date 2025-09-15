@@ -8,12 +8,12 @@
   .dialog-title {
     margin-bottom: 24px;
     padding-bottom: 16px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    border-bottom: 1px solid var(--color-dialog-border);
     
     h2 {
       margin: 0;
       font-weight: 500;
-      color: rgba(0, 0, 0, 0.87);
+      color: var(--color-dialog-text);
     }
   }
   
@@ -33,11 +33,11 @@
           align-items: center;
           margin-bottom: 16px;
           font-weight: 500;
-          color: rgba(0, 0, 0, 0.87);
+          color: var(--color-dialog-text);
           
           mat-icon {
             margin-right: 8px;
-            color: #1976d2;
+            color: var(--color-dialog-accent);
           }
         }
         
@@ -58,18 +58,18 @@
           display: flex;
           align-items: flex-start;
           padding: 12px;
-          border: 1px solid rgba(0, 0, 0, 0.12);
+          border: 1px solid var(--color-dialog-border);
           border-radius: 8px;
           transition: all 0.2s ease;
           
           &:hover {
-            background-color: rgba(0, 0, 0, 0.04);
-            border-color: #1976d2;
+            background-color: var(--color-dialog-hover);
+            border-color: var(--color-dialog-accent);
           }
           
           &.selected {
-            background-color: rgba(25, 118, 210, 0.08);
-            border-color: #1976d2;
+            background-color: var(--color-dialog-selected);
+            border-color: var(--color-dialog-accent);
           }
           
           .permission-checkbox {
@@ -83,7 +83,7 @@
             
             .permission-name {
               font-weight: 500;
-              color: rgba(0, 0, 0, 0.87);
+              color: var(--color-dialog-text);
               margin-bottom: 4px;
               display: flex;
               align-items: center;
@@ -94,16 +94,16 @@
                 width: 18px;
                 height: 18px;
                 
-                &.danger { color: #f44336; }
-                &.warning { color: #ff9800; }
-                &.info { color: #2196f3; }
-                &.primary { color: #1976d2; }
+                &.danger { color: var(--color-icon-danger); }
+                &.warning { color: var(--color-icon-warning); }
+                &.info { color: var(--color-icon-info); }
+                &.primary { color: var(--color-icon-primary); }
               }
             }
             
             .permission-description {
               font-size: 12px;
-              color: rgba(0, 0, 0, 0.6);
+              color: var(--color-dialog-text-muted);
               line-height: 1.4;
             }
           }
@@ -119,23 +119,23 @@
           margin: 4px 8px 4px 0;
           
           &.danger {
-            background-color: #ffebee;
-            color: #c62828;
+            background-color: var(--color-chip-danger-bg);
+            color: var(--color-chip-danger-text);
           }
           
           &.warning {
-            background-color: #fff3e0;
-            color: #e65100;
+            background-color: var(--color-chip-warning-bg);
+            color: var(--color-chip-warning-text);
           }
           
           &.info {
-            background-color: #e3f2fd;
-            color: #1565c0;
+            background-color: var(--color-chip-info-bg);
+            color: var(--color-chip-info-text);
           }
           
           &.primary {
-            background-color: #e8f4fd;
-            color: #1976d2;
+            background-color: var(--color-chip-primary-bg);
+            color: var(--color-chip-primary-text);
           }
           
           mat-icon {
@@ -146,11 +146,11 @@
         }
         
         .no-permissions {
-          color: rgba(0, 0, 0, 0.6);
+          color: var(--color-dialog-text-muted);
           font-style: italic;
           padding: 16px;
           text-align: center;
-          background-color: rgba(0, 0, 0, 0.04);
+          background-color: var(--color-dialog-hover);
           border-radius: 8px;
         }
       }
@@ -159,7 +159,7 @@
   
   .dialog-actions {
     padding: 16px 0 0 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    border-top: 1px solid var(--color-dialog-border);
     display: flex;
     gap: 12px;
     justify-content: flex-end;
@@ -168,17 +168,17 @@
       min-width: 80px;
       
       &.save-button {
-        background-color: #1976d2;
+        background-color: var(--color-dialog-accent);
         color: white;
         
         &:disabled {
-          background-color: rgba(0, 0, 0, 0.12);
-          color: rgba(0, 0, 0, 0.26);
+          background-color: var(--color-dialog-border);
+          color: var(--color-dialog-text-muted);
         }
       }
       
       &.cancel-button {
-        color: rgba(0, 0, 0, 0.6);
+        color: var(--color-dialog-text-muted);
       }
     }
   }
@@ -188,47 +188,64 @@
 @media (prefers-color-scheme: dark) {
   .role-dialog-container {
     .dialog-title {
-      border-bottom-color: rgba(255, 255, 255, 0.12);
+      border-bottom-color: var(--color-dialog-border);
       
       h2 {
-        color: rgba(255, 255, 255, 0.87);
+        color: var(--color-dialog-text);
       }
     }
     
     .dialog-content {
       .role-section .section-card .card-title {
-        color: rgba(255, 255, 255, 0.87);
+        color: var(--color-dialog-text);
+        
+        mat-icon {
+          color: var(--color-dialog-accent);
+        }
       }
       
       .permissions-section .permissions-grid .permission-item {
-        border-color: rgba(255, 255, 255, 0.12);
+        border-color: var(--color-dialog-border);
         
         &:hover {
-          background-color: rgba(255, 255, 255, 0.04);
+          background-color: var(--color-dialog-hover);
+          border-color: var(--color-dialog-accent);
+        }
+        
+        &.selected {
+          background-color: var(--color-dialog-selected);
+          border-color: var(--color-dialog-accent);
         }
         
         .permission-content {
           .permission-name {
-            color: rgba(255, 255, 255, 0.87);
+            color: var(--color-dialog-text);
+            
+            mat-icon {
+              &.danger { color: var(--color-icon-danger); }
+              &.warning { color: var(--color-icon-warning); }
+              &.info { color: var(--color-icon-info); }
+              &.primary { color: var(--color-icon-primary); }
+            }
           }
           
           .permission-description {
-            color: rgba(255, 255, 255, 0.6);
+            color: var(--color-dialog-text-muted);
           }
         }
       }
       
       .summary-section .selected-permissions .no-permissions {
-        color: rgba(255, 255, 255, 0.6);
-        background-color: rgba(255, 255, 255, 0.04);
+        color: var(--color-dialog-text-muted);
+        background-color: var(--color-dialog-hover);
       }
     }
     
     .dialog-actions {
-      border-top-color: rgba(255, 255, 255, 0.12);
+      border-top-color: var(--color-dialog-border);
       
       .action-button.cancel-button {
-        color: rgba(255, 255, 255, 0.6);
+        color: var(--color-dialog-text-muted);
       }
     }
   }

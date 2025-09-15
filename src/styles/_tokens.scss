@@ -38,6 +38,98 @@
 
   --color-badge-admin-bg: #e8f0fe;
   --color-badge-admin-text: #1557b0;
+  
+  /* Light theme utility colors */
+  --color-gray-100: #f7fafc;
+  --color-gray-200: #edf2f7;
+  --color-gray-300: #e2e8f0;
+  --color-gray-400: #a0aec0;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #5f6368;
+  --color-gray-700: #374151;
+  --color-gray-800: #2d3748;
+  --color-gray-900: #1a202c;
+  
+  /* Modal and backdrop colors */
+  --color-modal-backdrop: rgba(0, 0, 0, 0.35);
+  --color-modal-bg: #ffffff;
+  --color-modal-border: #e5e7eb;
+  --shadow-modal: 0 20px 50px rgba(0, 0, 0, 0.2);
+  
+  /* Table colors for light theme */
+  --color-table-header-bg: #f8fafc;
+  --color-table-header-text: var(--color-text-muted);
+  --color-table-border: #eef1f5;
+  --color-table-hover: var(--color-hover-bg);
+  
+  /* Dashboard specific colors */
+  --color-dashboard-title: #0f172a;
+  --color-dashboard-value: #0f172a;
+  --color-dashboard-muted: #6b7280;
+  --color-dashboard-skeleton: #eef1f5;
+  --color-dashboard-icon: #1e293b;
+  
+  /* Gradient colors for light theme */
+  --gradient-blue-light-start: #eaefff;
+  --gradient-blue-light-end: #d7e0ff;
+  --gradient-blue-light-text: #2f4dbd;
+  
+  --gradient-green-light-start: #eafff3;
+  --gradient-green-light-end: #d2ffe7;
+  --gradient-green-light-text: #059669;
+  
+  --gradient-purple-light-start: #f3e8ff;
+  --gradient-purple-light-end: #efe7ff;
+  --gradient-purple-light-text: #7c3aed;
+  
+  --gradient-gray-light-start: #f4f5f7;
+  --gradient-gray-light-end: #f4f5f7;
+  --gradient-gray-light-text: #111827;
+  
+  /* Status and role colors for light theme */
+  --color-status-active-bg: #eafff3;
+  --color-status-active-text: #059669;
+  --color-status-inactive-bg: #f3f4f6;
+  --color-status-inactive-text: #1f2937;
+  --color-status-pending-bg: #fff7ed;
+  --color-status-pending-text: #d97706;
+  
+  --color-role-admin-bg: #e8efff;
+  --color-role-admin-text: #2f4dbd;
+  --color-role-editor-bg: #f3e8ff;
+  --color-role-editor-text: #7c3aed;
+  --color-role-viewer-bg: #eafff3;
+  --color-role-viewer-text: #059669;
+  
+  /* Action colors */
+  --color-action-red: #dc2626;
+  --color-action-blue: #2563eb;
+  --color-action-green: var(--color-success);
+  --color-action-disabled: #9ca3af;
+  
+  /* Dialog specific colors */
+  --color-dialog-border: rgba(0, 0, 0, 0.12);
+  --color-dialog-text: rgba(0, 0, 0, 0.87);
+  --color-dialog-text-muted: rgba(0, 0, 0, 0.6);
+  --color-dialog-hover: rgba(0, 0, 0, 0.04);
+  --color-dialog-selected: rgba(25, 118, 210, 0.08);
+  --color-dialog-accent: #1976d2;
+  
+  /* Permission chip colors */
+  --color-chip-danger-bg: #ffebee;
+  --color-chip-danger-text: #c62828;
+  --color-chip-warning-bg: #fff3e0;
+  --color-chip-warning-text: #e65100;
+  --color-chip-info-bg: #e3f2fd;
+  --color-chip-info-text: #1565c0;
+  --color-chip-primary-bg: #e8f4fd;
+  --color-chip-primary-text: #1976d2;
+  
+  /* Icon colors for permissions */
+  --color-icon-danger: #f44336;
+  --color-icon-warning: #ff9800;
+  --color-icon-info: #2196f3;
+  --color-icon-primary: #1976d2;
 
   /* Modern shadows */
   --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
@@ -127,6 +219,86 @@
   /* Badge colors for dark */
   --color-badge-admin-bg: #1f2937;
   --color-badge-admin-text: #58a6ff;
+  
+  /* Enhanced badge colors for better contrast */
+  --color-badge-success-bg: #0d4429;
+  --color-badge-success-text: #3fb950;
+  --color-badge-warning-bg: #2d1b00;
+  --color-badge-warning-text: #f0883e;
+  --color-badge-danger-bg: #4c1319;
+  --color-badge-danger-text: #ff7b72;
+  --color-badge-info-bg: #1f2937;
+  --color-badge-info-text: #58a6ff;
+  
+  /* Common utility colors for dark theme */
+  --color-gray-100: #f7fafc;
+  --color-gray-200: #edf2f7;
+  --color-gray-300: #e2e8f0;
+  --color-gray-400: #a0aec0;
+  --color-gray-500: #8b949e;
+  --color-gray-600: #6e7681;
+  --color-gray-700: #4a5568;
+  --color-gray-800: #2d3748;
+  --color-gray-900: #1a202c;
+  
+  /* Modal and backdrop colors */
+  --color-modal-backdrop: rgba(0, 0, 0, 0.5);
+  --color-modal-bg: var(--color-surface);
+  --color-modal-border: var(--color-border);
+  --shadow-modal: 0 20px 50px rgba(0, 0, 0, 0.4);
+  
+  /* Table colors */
+  --color-table-header-bg: #1f2937;
+  --color-table-header-text: #9ca3af;
+  --color-table-border: #374151;
+  --color-table-hover: #374151;
+  
+  /* Dashboard specific colors */
+  --color-dashboard-title: #e5e7eb;
+  --color-dashboard-value: #f8fafc;
+  --color-dashboard-muted: #94a3b8;
+  --color-dashboard-skeleton: #374151;
+  
+  /* Gradient colors for dark theme */
+  --gradient-blue-dark-start: #1e3a8a;
+  --gradient-blue-dark-end: #1d4ed8;
+  --gradient-blue-dark-text: #dbeafe;
+  
+  --gradient-green-dark-start: #065f46;
+  --gradient-green-dark-end: #047857;
+  --gradient-green-dark-text: #d1fae5;
+  
+  --gradient-purple-dark-start: #581c87;
+  --gradient-purple-dark-end: #7c2d12;
+  --gradient-purple-dark-text: #e9d5ff;
+  
+  --gradient-gray-dark-start: #374151;
+  --gradient-gray-dark-end: #4b5563;
+  --gradient-gray-dark-text: #f3f4f6;
+  
+  /* Dialog colors for dark theme */
+  --color-dialog-border: rgba(255, 255, 255, 0.12);
+  --color-dialog-text: rgba(255, 255, 255, 0.87);
+  --color-dialog-text-muted: rgba(255, 255, 255, 0.6);
+  --color-dialog-hover: rgba(255, 255, 255, 0.04);
+  --color-dialog-selected: rgba(88, 166, 255, 0.08);
+  --color-dialog-accent: var(--color-primary);
+  
+  /* Dark theme permission chips */
+  --color-chip-danger-bg: var(--color-badge-danger-bg);
+  --color-chip-danger-text: var(--color-badge-danger-text);
+  --color-chip-warning-bg: var(--color-badge-warning-bg);
+  --color-chip-warning-text: var(--color-badge-warning-text);
+  --color-chip-info-bg: var(--color-badge-info-bg);
+  --color-chip-info-text: var(--color-badge-info-text);
+  --color-chip-primary-bg: var(--color-badge-info-bg);
+  --color-chip-primary-text: var(--color-badge-info-text);
+  
+  /* Icon colors remain the same in dark theme */
+  --color-icon-danger: #ff7b72;
+  --color-icon-warning: #f0883e;
+  --color-icon-info: #58a6ff;
+  --color-icon-primary: #58a6ff;
 
   /* Dark theme shadows */
   --shadow-md: 0 4px 12px rgba(0,0,0,0.6);
