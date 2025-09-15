@@ -1,0 +1,116 @@
+<div class="settings-container" *transloco="let t">
+  <app-section-title></app-section-title>
+
+  @if (isLoading()) {
+    <div class="loading-container">
+      <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+      <p>{{ t('settings.loading') }}</p>
+    </div>
+  } @else {
+    <form [formGroup]="settingsForm" (ngSubmit)="saveSettings()" novalidate>
+      
+      <!-- Company Settings Card -->
+      <mat-card class="settings-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>business</mat-icon>
+            {{ t('settings.company.title') }}
+          </mat-card-title>
+          <mat-card-subtitle>
+            {{ t('settings.company.description') }}
+          </mat-card-subtitle>
+        </mat-card-header>
+        
+        <mat-card-content>
+          <!-- Company Name Field -->
+          <mat-form-field appearance="outline" class="settings-field">
+            <mat-label>{{ t('settings.company.companyName') }}</mat-label>
+            <input 
+              matInput 
+              formControlName="companyName"
+              [placeholder]="t('settings.company.companyNamePlaceholder')"
+              maxlength="100">
+            <mat-icon matPrefix>business</mat-icon>
+            <mat-hint>{{ t('settings.company.companyNameHint') }}</mat-hint>
+            @if (getFieldErrorMessage('companyName')) {
+              <mat-error>{{ getFieldErrorMessage('companyName') }}</mat-error>
+            }
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Support Settings Card -->
+      <mat-card class="settings-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>support_agent</mat-icon>
+            {{ t('settings.support.title') }}
+          </mat-card-title>
+          <mat-card-subtitle>
+            {{ t('settings.support.description') }}
+          </mat-card-subtitle>
+        </mat-card-header>
+        
+        <mat-card-content>
+          <!-- Support Email Field -->
+          <mat-form-field appearance="outline" class="settings-field">
+            <mat-label>{{ t('settings.support.supportEmail') }}</mat-label>
+            <input 
+              matInput 
+              type="email"
+              formControlName="supportEmail"
+              [placeholder]="t('settings.support.supportEmailPlaceholder')"
+              maxlength="254">
+            <mat-icon matPrefix>email</mat-icon>
+            <mat-hint>{{ t('settings.support.supportEmailHint') }}</mat-hint>
+            @if (getFieldErrorMessage('supportEmail')) {
+              <mat-error>{{ getFieldErrorMessage('supportEmail') }}</mat-error>
+            }
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Actions Card -->
+      <mat-card class="actions-card">
+        <mat-card-content>
+          <div class="form-actions">
+            
+            <!-- Unsaved Changes Indicator -->
+            @if (hasUnsavedChanges) {
+              <div class="unsaved-changes">
+                <mat-icon class="warning-icon">edit</mat-icon>
+                <span>{{ t('settings.unsavedChanges') }}</span>
+              </div>
+            }
+
+            <!-- Action Buttons -->
+            <div class="buttons">
+              <button 
+                mat-stroked-button 
+                type="button"
+                (click)="resetForm()"
+                [disabled]="!settingsForm.dirty || isSaving()">
+                <mat-icon>refresh</mat-icon>
+                {{ t('common.reset') }}
+              </button>
+              
+              <button 
+                mat-raised-button 
+                color="primary"
+                type="submit"
+                [disabled]="!canSave">
+                @if (isSaving()) {
+                  <mat-progress-spinner mode="indeterminate" diameter="20"></mat-progress-spinner>
+                } @else {
+                  <mat-icon>save</mat-icon>
+                }
+                {{ t('common.save') }}
+              </button>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+    </form>
+  }
+</div>

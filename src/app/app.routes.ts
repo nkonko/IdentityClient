@@ -59,6 +59,18 @@ export const routes: Routes = [
     loadComponent: () => import('./features/admin/roles/role-management/role-management.component').then(m => m.RoleManagementComponent)
   },
   {
+    path: 'audit',
+    canActivate: [authGuard, adminGuard],
+    data: { title: 'Audit Logs', subtitle: 'View system activity and user actions' },
+    loadComponent: () => import('./features/audit/audit.component').then(m => m.AuditComponent)
+  },
+  {
+    path: 'settings',
+    canActivate: [authGuard, adminGuard],
+    data: { title: 'System Settings', subtitle: 'Configure application settings and preferences' },
+    loadComponent: () => import('./features/settings/settings.component').then(m => m.SettingsComponent)
+  },
+  {
     path: '**',
     loadComponent: () => import('./features/not-found/not-found.component').then(m => m.NotFoundComponent)
   }

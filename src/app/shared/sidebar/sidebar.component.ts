@@ -17,8 +17,8 @@ export class SidebarComponent {
     { icon: 'home', label: 'Home', link: '/home' },
     { icon: 'group', label: 'Users', link: '/users' },
     { icon: 'admin_panel_settings', label: 'Roles', link: '/roles' },
+    { icon: 'history', label: 'Audit', link: '/audit' },
     { icon: 'subscriptions', label: 'Subscriptions', link: '/subscriptions' },
-    { icon: 'list_alt', label: 'Logs', link: '/logs' },
     { icon: 'settings', label: 'Settings', link: '/settings' },
   ];
 }

@@ -25,12 +25,16 @@
     "close": "Close",
     "notifications": "Notifications",
     "toggle_theme": "Toggle theme",
-    "guest": "Guest"
+    "guest": "Guest",
+    "unknown": "Unknown",
+    "refresh": "Refresh",
+    "reset": "Reset"
   },
   "navigation": {
     "dashboard": "Dashboard",
     "users": "Users",
     "roles": "Roles",
+    "audit": "Audit",
     "profile": "Profile",
     "settings": "Settings",
     "logout": "Logout"
@@ -92,6 +96,56 @@
     "confirm_delete": "Are you sure you want to delete the role \"{{roleName}}\"?",
     "role_name_required": "Role name is required",
     "showing_results": "Showing {{start}} - {{end}} of {{total}} roles"
+  },
+  "audit": {
+    "title": "System Audit",
+    "loading": "Loading audit logs...",
+    "filters": {
+      "title": "Filters",
+      "search": "General Search",
+      "searchPlaceholder": "Search in logs...",
+      "action": "Action",
+      "userId": "User ID",
+      "userIdPlaceholder": "Search by user...",
+      "loadUserLogs": "Load user logs",
+      "dateFrom": "Date From",
+      "dateTo": "Date To",
+      "clear": "Clear Filters"
+    },
+    "results": {
+      "title": "Audit Logs",
+      "records": "records"
+    },
+    "columns": {
+      "date": "Date",
+      "userId": "User",
+      "action": "Action",
+      "id": "Log ID"
+    },
+    "empty": {
+      "title": "No logs available",
+      "message": "No logs found with the applied filters. Try changing the search criteria.",
+      "clearFilters": "Clear Filters"
+    }
+  },
+  "settings": {
+    "title": "System Settings",
+    "loading": "Loading settings...",
+    "unsavedChanges": "You have unsaved changes",
+    "company": {
+      "title": "Company Information",
+      "description": "Basic organization settings",
+      "companyName": "Company Name",
+      "companyNamePlaceholder": "Enter your company name",
+      "companyNameHint": "This name will appear throughout the application"
+    },
+    "support": {
+      "title": "Support Configuration",
+      "description": "Contact information for technical support",
+      "supportEmail": "Support Email",
+      "supportEmailPlaceholder": "support@company.com",
+      "supportEmailHint": "Users can contact this email for help"
+    }
   },
   "permissions": {
     "users.view": "View system users",

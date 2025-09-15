@@ -1,0 +1,179 @@
+<div class="audit-container" *transloco="let t">
+  <app-section-title></app-section-title>
+
+  <!-- Filters Card -->
+  <mat-card class="filters-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>filter_list</mat-icon>
+        {{ t('audit.filters.title') }}
+      </mat-card-title>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <div class="filters-grid">
+        <!-- Search Filter -->
+        <mat-form-field appearance="outline" class="filter-field">
+          <mat-label>{{ t('audit.filters.search') }}</mat-label>
+          <input matInput [formControl]="searchControl" placeholder="{{ t('audit.filters.searchPlaceholder') }}">
+          <mat-icon matPrefix>search</mat-icon>
+        </mat-form-field>
+
+        <!-- Action Filter -->
+        <mat-form-field appearance="outline" class="filter-field">
+          <mat-label>{{ t('audit.filters.action') }}</mat-label>
+          <mat-select [formControl]="actionFilter">
+            <mat-option value="">{{ t('common.all') }}</mat-option>
+            <mat-option *ngFor="let action of uniqueActions()" [value]="action">
+              {{ action }}
+            </mat-option>
+          </mat-select>
+          <mat-icon matPrefix>category</mat-icon>
+        </mat-form-field>
+
+        <!-- User ID Filter -->
+        <mat-form-field appearance="outline" class="filter-field">
+          <mat-label>{{ t('audit.filters.userId') }}</mat-label>
+          <input matInput [formControl]="userIdFilter" placeholder="{{ t('audit.filters.userIdPlaceholder') }}">
+          <mat-icon matPrefix>person</mat-icon>
+          <button mat-icon-button matSuffix (click)="loadUserLogs()" [disabled]="isLoading()" 
+                  [attr.aria-label]="t('audit.filters.loadUserLogs')" matTooltip="{{ t('audit.filters.loadUserLogs') }}">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <!-- Date From Filter -->
+        <mat-form-field appearance="outline" class="filter-field">
+          <mat-label>{{ t('audit.filters.dateFrom') }}</mat-label>
+          <input matInput [matDatepicker]="fromPicker" [formControl]="dateFromFilter">
+          <mat-datepicker-toggle matIconSuffix [for]="fromPicker"></mat-datepicker-toggle>
+          <mat-datepicker #fromPicker></mat-datepicker>
+        </mat-form-field>
+
+        <!-- Date To Filter -->
+        <mat-form-field appearance="outline" class="filter-field">
+          <mat-label>{{ t('audit.filters.dateTo') }}</mat-label>
+          <input matInput [matDatepicker]="toPicker" [formControl]="dateToFilter">
+          <mat-datepicker-toggle matIconSuffix [for]="toPicker"></mat-datepicker-toggle>
+          <mat-datepicker #toPicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="filter-actions">
+        <button mat-stroked-button (click)="clearFilters()" [disabled]="isLoading()">
+          <mat-icon>clear_all</mat-icon>
+          {{ t('audit.filters.clear') }}
+        </button>
+        
+        <button mat-raised-button color="primary" (click)="refresh()" [disabled]="isLoading()">
+          <mat-icon>refresh</mat-icon>
+          {{ t('common.refresh') }}
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Results Card -->
+  <mat-card class="results-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>history</mat-icon>
+        {{ t('audit.results.title') }}
+        <span class="results-count">({{ totalCount() }} {{ t('audit.results.records') }})</span>
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      @if (isLoading()) {
+        <div class="loading-container">
+          <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+          <p>{{ t('audit.loading') }}</p>
+        </div>
+      } @else if (paginatedLogs().length === 0) {
+        <div class="empty-state">
+          <mat-icon class="empty-icon">history_toggle_off</mat-icon>
+          <h3>{{ t('audit.empty.title') }}</h3>
+          <p>{{ t('audit.empty.message') }}</p>
+          <button mat-raised-button color="primary" (click)="clearFilters()">
+            <mat-icon>clear_all</mat-icon>
+            {{ t('audit.empty.clearFilters') }}
+          </button>
+        </div>
+      } @else {
+        <!-- Audit Logs Table -->
+        <div class="table-container">
+          <table mat-table [dataSource]="paginatedLogs()" matSort (matSortChange)="onSort($event)" class="audit-table">
+            
+            <!-- Date Column -->
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header="date">
+                {{ t('audit.columns.date') }}
+              </th>
+              <td mat-cell *matCellDef="let log">
+                <div class="date-cell">
+                  <mat-icon class="date-icon">schedule</mat-icon>
+                  <div class="date-content">
+                    <div class="date-primary">{{ log.date | date:'short' }}</div>
+                    <div class="date-relative">{{ log.date | date:'MMM d, y' }}</div>
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- User ID Column -->
+            <ng-container matColumnDef="userId">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header="userId">
+                {{ t('audit.columns.userId') }}
+              </th>
+              <td mat-cell *matCellDef="let log">
+                <div class="user-cell">
+                  <mat-icon class="user-icon">person</mat-icon>
+                  <span class="user-id">{{ log.userId || t('common.unknown') }}</span>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Action Column -->
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header="action">
+                {{ t('audit.columns.action') }}
+              </th>
+              <td mat-cell *matCellDef="let log">
+                <mat-chip [color]="getActionChipColor(log.action || '')" class="action-chip">
+                  {{ log.action || t('common.unknown') }}
+                </mat-chip>
+              </td>
+            </ng-container>
+
+            <!-- ID Column -->
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header="id">
+                {{ t('audit.columns.id') }}
+              </th>
+              <td mat-cell *matCellDef="let log">
+                <div class="id-cell">
+                  <mat-icon class="id-icon">tag</mat-icon>
+                  <span class="log-id" [title]="log.id">{{ log.id }}</span>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="audit-row"></tr>
+          </table>
+        </div>
+
+        <!-- Paginator -->
+        <mat-paginator
+          [length]="totalCount()"
+          [pageSize]="pageSize()"
+          [pageIndex]="pageIndex()"
+          [pageSizeOptions]="[5, 10, 25, 50, 100]"
+          [showFirstLastButtons]="true"
+          (page)="onPageChange($event)"
+          class="audit-paginator">
+        </mat-paginator>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>

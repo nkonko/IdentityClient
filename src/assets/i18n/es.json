@@ -25,14 +25,18 @@
     "close": "Cerrar",
     "notifications": "Notificaciones",
     "toggle_theme": "Cambiar tema",
-    "guest": "Invitado"
+    "guest": "Invitado",
+    "unknown": "Desconocido",
+    "refresh": "Actualizar",
+    "reset": "Restablecer"
   },
   "navigation": {
     "dashboard": "Panel de Control",
     "users": "Usuarios",
     "roles": "Roles",
+    "audit": "Auditoría",
+    "settings": "Configuraciones",
     "profile": "Perfil",
-    "settings": "Configuración",
     "logout": "Cerrar Sesión"
   },
   "auth": {
@@ -92,6 +96,56 @@
     "confirm_delete": "¿Estás seguro de que quieres eliminar el rol \"{{roleName}}\"?",
     "role_name_required": "El nombre del rol es requerido",
     "showing_results": "Mostrando {{start}} - {{end}} de {{total}} roles"
+  },
+  "audit": {
+    "title": "Auditoría del Sistema",
+    "loading": "Cargando logs de auditoría...",
+    "filters": {
+      "title": "Filtros",
+      "search": "Búsqueda General",
+      "searchPlaceholder": "Buscar en logs...",
+      "action": "Acción",
+      "userId": "ID de Usuario",
+      "userIdPlaceholder": "Buscar por usuario...",
+      "loadUserLogs": "Cargar logs del usuario",
+      "dateFrom": "Fecha Desde",
+      "dateTo": "Fecha Hasta",
+      "clear": "Limpiar Filtros"
+    },
+    "results": {
+      "title": "Logs de Auditoría",
+      "records": "registros"
+    },
+    "columns": {
+      "date": "Fecha",
+      "userId": "Usuario",
+      "action": "Acción",
+      "id": "ID del Log"
+    },
+    "empty": {
+      "title": "No hay logs disponibles",
+      "message": "No se encontraron logs con los filtros aplicados. Intenta cambiar los criterios de búsqueda.",
+      "clearFilters": "Limpiar Filtros"
+    }
+  },
+  "settings": {
+    "title": "Configuraciones del Sistema",
+    "loading": "Cargando configuraciones...",
+    "unsavedChanges": "Tienes cambios sin guardar",
+    "company": {
+      "title": "Información de la Empresa",
+      "description": "Configuración básica de la organización",
+      "companyName": "Nombre de la Empresa",
+      "companyNamePlaceholder": "Ingrese el nombre de su empresa",
+      "companyNameHint": "Este nombre aparecerá en toda la aplicación"
+    },
+    "support": {
+      "title": "Configuración de Soporte",
+      "description": "Información de contacto para soporte técnico",
+      "supportEmail": "Correo de Soporte",
+      "supportEmailPlaceholder": "soporte@empresa.com",
+      "supportEmailHint": "Los usuarios podrán contactar a este correo para obtener ayuda"
+    }
   },
   "permissions": {
     "users.view": "Ver usuarios del sistema",
