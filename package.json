@@ -4,9 +4,15 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:docker": "ng serve --host 0.0.0.0 --port 4200 --poll 2000",
     "build": "ng build",
+    "build:prod": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "lint": "eslint src/**/*.{js,ts}",
+    "lint:fix": "eslint src/**/*.{js,ts} --fix",
+    "format": "prettier --write src/**/*.{js,ts,html,scss,css,json}",
+    "format:check": "prettier --check src/**/*.{js,ts,html,scss,css,json}"
   },
   "private": true,
   "dependencies": {
