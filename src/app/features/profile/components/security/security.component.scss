@@ -1,0 +1,61 @@
+.security-section {
+  margin-bottom: 2rem;
+}
+
+.section-heading {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 1.5rem 0;
+}
+
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.password-requirements {
+  margin-top: 0.5rem;
+  padding: 1rem;
+  background: var(--color-muted-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.requirements-title {
+  margin: 0 0 0.5rem 0;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.requirements-list {
+  margin: 0;
+  padding-left: 1.25rem;
+  list-style-type: none;
+}
+
+.requirements-list li {
+  position: relative;
+  font-size: var(--font-size-sm);
+  color: var(--color-danger);
+  margin-bottom: 0.25rem;
+}
+
+.requirements-list li::before {
+  content: "✗";
+  position: absolute;
+  left: -1.25rem;
+  color: var(--color-danger);
+  font-weight: bold;
+}
+
+.requirements-list li.valid {
+  color: var(--color-success);
+}
+
+.requirements-list li.valid::before {
+  content: "✓";
+  color: var(--color-success);
+}

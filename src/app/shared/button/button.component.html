@@ -1,18 +1,18 @@
 <button
-  class="btn {{ size }} {{ variantClass }}"
-  [attr.type]="type"
-  [disabled]="disabled"
+  class="btn {{ size() }} {{ variantClass }}"
+  [attr.type]="type()"
+  [disabled]="disabled()"
   [ngStyle]="styleVars"
   (click)="onClick($event)"
 >
   <!-- Icono opcional al inicio -->
-  @if (showIcon && icon) {
-    <mat-icon class="mr">{{ icon }}</mat-icon>
+  @if (showIcon() && icon()) {
+    <mat-icon class="mr">{{ icon() }}</mat-icon>
   }
 
   <!-- Contenido: label por defecto o proyección -->
-  @if (label) {
-    {{ label }}
+  @if (label()) {
+    {{ label() }}
   } @else {
     <ng-content></ng-content>
   }

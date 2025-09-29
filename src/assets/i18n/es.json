@@ -1,0 +1,195 @@
+{
+  "common": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "add": "Agregar",
+    "search": "Buscar",
+    "loading": "Cargando...",
+    "actions": "Acciones",
+    "status": "Estado",
+    "active": "Activo",
+    "inactive": "Inactivo",
+    "blocked": "Bloqueado",
+    "all": "Todos",
+    "name": "Nombre",
+    "email": "Correo electrónico",
+    "role": "Rol",
+    "permissions": "Permisos",
+    "created": "Creado",
+    "updated": "Actualizado",
+    "yes": "Sí",
+    "no": "No",
+    "confirm": "Confirmar",
+    "close": "Cerrar",
+    "notifications": "Notificaciones",
+    "toggle_theme": "Cambiar tema",
+    "guest": "Invitado",
+    "unknown": "Desconocido",
+    "refresh": "Actualizar",
+    "reset": "Restablecer"
+  },
+  "navigation": {
+    "dashboard": "Panel de Control",
+    "users": "Usuarios",
+    "roles": "Roles",
+    "audit": "Auditoría",
+    "settings": "Configuraciones",
+    "profile": "Perfil",
+    "logout": "Cerrar Sesión"
+  },
+  "auth": {
+    "login": "Iniciar Sesión",
+    "register": "Registrarse",
+    "forgot_password": "Olvidé mi Contraseña",
+    "email": "Correo Electrónico",
+    "password": "Contraseña",
+    "confirm_password": "Confirmar Contraseña",
+    "remember_me": "Recordarme",
+    "login_button": "Iniciar Sesión",
+    "register_button": "Crear Cuenta",
+    "recover_button": "Recuperar Contraseña",
+    "back_to_login": "Volver al Inicio de Sesión",
+    "welcome_back": "¡Bienvenido de vuelta!",
+    "create_account": "Crear una cuenta nueva",
+    "recover_password": "Recuperar tu contraseña"
+  },
+  "user_management": {
+    "title": "Gestión de Usuarios",
+    "add_user": "Agregar Usuario",
+    "edit_user": "Editar Usuario",
+    "user_details": "Detalles del Usuario",
+    "user_status": "Estado del Usuario",
+    "activate": "Activar",
+    "deactivate": "Desactivar",
+    "block": "Bloquear",
+    "unblock": "Desbloquear",
+    "filters": "Filtros",
+    "filter_by_status": "Filtrar por Estado",
+    "search_users": "Buscar usuarios...",
+    "no_users": "No se encontraron usuarios",
+    "user_activated": "Usuario activado correctamente",
+    "user_deactivated": "Usuario desactivado correctamente",
+    "user_blocked": "Usuario bloqueado correctamente",
+    "user_deleted": "Usuario eliminado correctamente",
+    "confirm_delete": "¿Estás seguro de que quieres eliminar este usuario?",
+    "showing_results": "Mostrando {{start}} - {{end}} de {{total}} usuarios"
+  },
+  "role_management": {
+    "title": "Gestión de Roles",
+    "add_role": "Agregar Rol",
+    "edit_role": "Editar Rol",
+    "create_role": "Crear Rol",
+    "role_name": "Nombre del Rol",
+    "role_description": "Descripción del Rol",
+    "manage_permissions": "Gestionar Permisos",
+    "permissions_for_role": "Permisos para {{roleName}}",
+    "select_permissions": "Selecciona los permisos para el rol {{roleName}}",
+    "save_permissions": "Guardar Permisos",
+    "role_created": "Rol {{roleName}} creado correctamente",
+    "role_updated": "Rol {{roleName}} actualizado correctamente",
+    "permissions_updated": "Permisos de {{roleName}} actualizados correctamente",
+    "role_activated": "Rol {{roleName}} activado correctamente",
+    "role_deactivated": "Rol {{roleName}} desactivado correctamente",
+    "role_deleted": "Rol {{roleName}} eliminado correctamente",
+    "confirm_delete": "¿Estás seguro de que quieres eliminar el rol \"{{roleName}}\"?",
+    "role_name_required": "El nombre del rol es requerido",
+    "showing_results": "Mostrando {{start}} - {{end}} de {{total}} roles"
+  },
+  "audit": {
+    "title": "Auditoría del Sistema",
+    "loading": "Cargando logs de auditoría...",
+    "filters": {
+      "title": "Filtros",
+      "search": "Búsqueda General",
+      "searchPlaceholder": "Buscar en logs...",
+      "action": "Acción",
+      "userId": "ID de Usuario",
+      "userIdPlaceholder": "Buscar por usuario...",
+      "loadUserLogs": "Cargar logs del usuario",
+      "dateFrom": "Fecha Desde",
+      "dateTo": "Fecha Hasta",
+      "clear": "Limpiar Filtros"
+    },
+    "results": {
+      "title": "Logs de Auditoría",
+      "records": "registros"
+    },
+    "columns": {
+      "date": "Fecha",
+      "userId": "Usuario",
+      "action": "Acción",
+      "id": "ID del Log"
+    },
+    "empty": {
+      "title": "No hay logs disponibles",
+      "message": "No se encontraron logs con los filtros aplicados. Intenta cambiar los criterios de búsqueda.",
+      "clearFilters": "Limpiar Filtros"
+    }
+  },
+  "settings": {
+    "title": "Configuraciones del Sistema",
+    "loading": "Cargando configuraciones...",
+    "unsavedChanges": "Tienes cambios sin guardar",
+    "company": {
+      "title": "Información de la Empresa",
+      "description": "Configuración básica de la organización",
+      "companyName": "Nombre de la Empresa",
+      "companyNamePlaceholder": "Ingrese el nombre de su empresa",
+      "companyNameHint": "Este nombre aparecerá en toda la aplicación"
+    },
+    "support": {
+      "title": "Configuración de Soporte",
+      "description": "Información de contacto para soporte técnico",
+      "supportEmail": "Correo de Soporte",
+      "supportEmailPlaceholder": "soporte@empresa.com",
+      "supportEmailHint": "Los usuarios podrán contactar a este correo para obtener ayuda"
+    }
+  },
+  "permissions": {
+    "users.view": "Ver usuarios del sistema",
+    "users.create": "Crear nuevos usuarios",
+    "users.edit": "Editar información de usuarios",
+    "users.delete": "Eliminar usuarios del sistema",
+    "users.manage_status": "Cambiar estado de usuarios (activo/inactivo/bloqueado)",
+    "roles.view": "Ver roles del sistema",
+    "roles.create": "Crear nuevos roles",
+    "roles.edit": "Editar roles existentes",
+    "roles.delete": "Eliminar roles del sistema",
+    "roles.manage_permissions": "Gestionar permisos de roles",
+    "dashboard.admin": "Acceso completo al panel de administración",
+    "reports.view": "Ver reportes del sistema",
+    "reports.export": "Exportar reportes",
+    "system.settings": "Configurar ajustes del sistema",
+    "system.logs": "Ver logs del sistema"
+  },
+  "dashboard": {
+    "title": "Panel de Control",
+    "welcome": "Bienvenido, {{userName}}",
+    "total_users": "Total de Usuarios",
+    "active_users": "Usuarios Activos",
+    "total_roles": "Total de Roles",
+    "recent_activity": "Actividad Reciente"
+  },
+  "profile": {
+    "title": "Mi Perfil",
+    "edit_profile": "Editar Perfil",
+    "change_password": "Cambiar Contraseña",
+    "current_password": "Contraseña Actual",
+    "new_password": "Nueva Contraseña",
+    "profile_updated": "Perfil actualizado correctamente",
+    "password_changed": "Contraseña cambiada correctamente"
+  },
+  "validation": {
+    "required": "Este campo es requerido",
+    "email": "Ingrese un correo electrónico válido",
+    "min_length": "Debe tener al menos {{min}} caracteres",
+    "passwords_match": "Las contraseñas deben coincidir"
+  },
+  "language": {
+    "spanish": "Español",
+    "english": "English",
+    "select_language": "Seleccionar idioma"
+  }
+}

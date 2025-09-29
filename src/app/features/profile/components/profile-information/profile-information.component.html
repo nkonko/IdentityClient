@@ -1,0 +1,50 @@
+<div class="profile-grid">
+  <!-- Avatar section sin bordes innecesarios -->
+  <div class="profile-avatar-section">
+    <app-profile-avatar
+      [fullName]="form().get('name')?.value || user()?.name || ''"
+      [imageUrl]="user()?.profilePictureUrl || null"
+      (fileSelected)="onFileSelected($event)">
+    </app-profile-avatar>
+  </div>
+
+  <!-- Form section sin bordes innecesarios -->
+  <div class="profile-form-section">
+    <form [formGroup]="form()" class="profile-form" (ngSubmit)="onSubmit()">
+      <div class="form-fields">
+        <app-form-text-input
+          label="Full Name"
+          name="name"
+          autocomplete="name"
+          [required]="true"
+          [control]="nameControl">
+        </app-form-text-input>
+
+        <app-form-text-input
+          label="Email Address"
+          type="email"
+          name="email"
+          autocomplete="email"
+          [required]="true"
+          [control]="emailControl">
+        </app-form-text-input>
+
+        <app-form-text-input
+          label="Position"
+          name="position"
+          autocomplete="organization-title"
+          placeholder="e.g. Senior Developer, Project Manager"
+          [control]="positionControl">
+        </app-form-text-input>
+
+        <app-textarea
+          label="Bio"
+          name="bio"
+          placeholder="Tell us a bit about yourself..."
+          [rows]="4"
+          [control]="bioControl">
+        </app-textarea>
+      </div>
+    </form>
+  </div>
+</div>

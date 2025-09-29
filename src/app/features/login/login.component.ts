@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { AuthFacade } from '../../core/facades/auth.facade';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TokenService } from '../../core/services/token.service';
@@ -25,7 +26,8 @@ import { TokenService } from '../../core/services/token.service';
     MatIconModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
-    RouterLink
+    RouterLink,
+    TranslocoDirective
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
@@ -60,8 +62,8 @@ export class LoginComponent {
         },
         error: (e) => {
           this.isLoading = false;
-          const errorMessage = (e && (e as any).error) ? (e as any).error : 'Sign-in error';
-          this.snackBar.open(errorMessage, 'Close', { duration: 5000 });
+          const errorMessage = (e && (e as any).error) ? (e as any).error : 'Error al iniciar sesión';
+          this.snackBar.open(errorMessage, 'Cerrar', { duration: 5000 });
         }
       });
     }

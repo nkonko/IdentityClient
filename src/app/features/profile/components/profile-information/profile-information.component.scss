@@ -1,0 +1,30 @@
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.profile-avatar-section {
+  display: flex;
+  justify-content: center;
+}
+
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Responsive para pantallas más pequeñas */
+@media (max-width: 768px) {
+  .profile-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .profile-avatar-section {
+    justify-content: flex-start;
+  }
+}

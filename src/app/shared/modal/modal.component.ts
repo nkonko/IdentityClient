@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../button/button.component'; // Assuming app-button is ButtonComponent
 
@@ -16,9 +16,9 @@ export interface ModalButton {
   styleUrl: './modal.component.scss'
 })
 export class ModalComponent {
-  @Input() isOpen: boolean = false;
-  @Input() title: string = '';
-  @Input() buttons: ModalButton[] = [];
+  isOpen = input<boolean>(false);
+  title = input<string>('');
+  buttons = input<ModalButton[]>([]);
 
   @Output() buttonClick = new EventEmitter<string>();
   @Output() close = new EventEmitter<void>();

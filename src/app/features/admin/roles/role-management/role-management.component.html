@@ -8,42 +8,49 @@
 </div>
 
 <div class="card">
-  <div class="card-toolbar">
-    <div class="search">
-      <mat-icon>search</mat-icon>
-      <input type="text" [(ngModel)]="searchTerm" placeholder="Search roles..." />
-    </div>
-    <button class="btn outline">
-      <mat-icon class="mr">filter_list</mat-icon>
-      Filters
-    </button>
-  </div>
-
-  <div class="table-wrapper">
+    <div class="card-toolbar">
+      <div class="search">
+        <mat-icon>search</mat-icon>
+        <input type="text" [(ngModel)]="searchTerm" (input)="onSearchChange()" placeholder="Search roles..." />
+      </div>
+      <div class="filter-container">
+        <button 
+          class="btn outline filter-btn" 
+          (click)="toggleFilterDropdown()"
+        >
+          <mat-icon class="mr">filter_list</mat-icon>
+          Filters
+        </button>
+      </div>
+    </div>  <div class="table-wrapper">
     <table class="table">
       <thead>
         <tr>
-          <th>ID</th>
           <th>Name</th>
           <th>Permissions</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        @for (role of roles$ | async; track trackById($index, role)) {
+        @for (role of filteredRoles; track trackById($index, role)) {
           <tr class="row">
-            <td class="muted">{{ role.id }}</td>
             <td>{{ role.name }}</td>
-            <td>{{ role.permissions?.length }}</td>
+            <td>
+              <span class="badge permissions-count">{{ role.permissions?.length || 0 }} permissions</span>
+            </td>
             <td class="actions">
-              <button class="icon" (click)="handleEditRole(role)" title="Edit">
+              <button class="icon" (click)="handleEditRole(role)" title="Edit Role">
                 <mat-icon class="blue">edit</mat-icon>
               </button>
-              <button class="icon" title="Delete" (click)="handleDeleteRole(role.id!)">
-                <mat-icon class="red">delete</mat-icon>
-              </button>
               <button class="icon" (click)="handleManagePermissions(role)" title="Manage Permissions">
-                <mat-icon>key</mat-icon>
+                <mat-icon class="green">key</mat-icon>
+              </button>
+              <button 
+                class="icon" 
+                [disabled]="!canDeleteRole(role)"
+                [title]="canDeleteRole(role) ? 'Eliminar Rol' : 'No se puede eliminar este rol'"
+                (click)="handleDeleteRole(role)">
+                <mat-icon [class]="canDeleteRole(role) ? 'red' : 'disabled'">delete</mat-icon>
               </button>
             </td>
           </tr>
@@ -53,26 +60,19 @@
   </div>
 
   <div class="pagination">
-    <div class="info">Showing <b>1</b> to <b>5</b> of <b>20</b> results</div>
+    <div class="info">Showing <b>{{ startItem }}</b> to <b>{{ endItem }}</b> of <b>{{ totalFilteredRoles }}</b> results</div>
     <div class="pager">
-      <button class="btn outline">Previous</button>
-      <button class="btn">1</button>
-      <button class="btn active">2</button>
-      <button class="btn">3</button>
-      <button class="btn outline">Next</button>
+      <button class="btn outline" (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+      @for (page of [].constructor(totalPages); track $index) {
+        <button 
+          class="btn" 
+          [class.active]="currentPage === ($index + 1)"
+          (click)="goToPage($index + 1)"
+        >
+          {{ $index + 1 }}
+        </button>
+      }
+      <button class="btn outline" (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
     </div>
   </div>
 </div>
-
-<app-modal
-  [isOpen]="showModal"
-  [title]="editingRole ? 'Edit Role' : 'Add Role'"
-  [buttons]="[
-    { text: 'Cancel', action: 'cancel', style: 'secondary' },
-    { text: 'Save', action: 'save', style: 'primary' }
-  ]"
-  (buttonClick)="handleModalButtonClick($event)"
-  (close)="handleCloseModal()"
->
-  <!-- <app-role-dialog [isEditMode]="!!editingRole" [role]="editingRole"></app-role-dialog> -->
-</app-modal>

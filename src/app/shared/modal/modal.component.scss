@@ -1,7 +1,7 @@
 .modal-overlay {
   position: fixed;
-  inset: 0; /* Shorthand for top, right, bottom, left 0 */
-  background: rgba(0,0,0,.35); /* Changed opacity */
+  inset: 0;
+  background: rgba(0,0,0,.5);
   z-index: 1000;
   display: flex;
   justify-content: center;
@@ -9,57 +9,59 @@
 }
 
 .modal-content {
-  background: #fff; /* Changed to original color */
-  border-radius: 12px; /* Changed to original value */
-  box-shadow: 0 20px 50px rgba(0,0,0,.2); /* Changed to original value */
-  width: 520px; /* Changed to original value */
-  max-width: calc(100% - 32px); /* Changed to original value */
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  width: 520px;
+  max-width: calc(100% - 32px);
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  border: 1px solid var(--color-border);
 }
 
 .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px 16px; /* Changed to original value */
-  border-bottom: 1px solid #e5e7eb; /* Changed to original value */
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--color-border);
   h2 {
     margin: 0;
-    font-size: var(--font-size-xl); /* Keep existing, assuming it's fine */
-    color: var(--color-text-primary); /* Keep existing, assuming it's fine */
+    font-size: var(--font-size-xl);
+    color: var(--color-text);
   }
   .close-button {
     background: none;
     border: none;
-    width: 36px; /* Added */
-    height: 36px; /* Added */
-    border-radius: 999px; /* Added */
-    display: inline-flex; /* Added */
-    align-items: center; /* Added */
-    justify-content: center; /* Added */
-    font-size: var(--font-size-xxl); /* Keep this for the 'x' character size */
+    width: 36px;
+    height: 36px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-xl);
     cursor: pointer;
-    color: var(--color-text-secondary);
+    color: var(--color-text-muted);
     &:hover {
-      background: #f3f4f6; /* Added */
-      color: var(--color-text-primary);
+      background: var(--color-hover-bg);
+      color: var(--color-text);
     }
   }
 }
 
 .modal-body {
-  padding: 16px; /* Changed to original value */
+  padding: 16px;
   flex-grow: 1;
   overflow-y: auto;
-  color: var(--color-text-secondary); /* Keep existing, assuming it's fine */
+  color: var(--color-text);
 }
 
 .modal-footer {
   display: flex;
   justify-content: flex-end;
-  gap: 8px; /* Changed to original value */
-  padding: 12px 16px; /* Changed to original value */
-  border-top: 1px solid #e5e7eb; /* Changed to original value */
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface);
 }

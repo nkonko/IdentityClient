@@ -1,32 +1,93 @@
+.ud-field {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 .ud-label {
   display: block;
-  margin-bottom: 3px; /* exactly 3px above input */
+  margin-bottom: 0.5rem;
   font-size: var(--font-size-sm);
-  color: var(--color-text-muted);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+  
+  .ud-label--required {
+    color: var(--color-danger);
+    margin-left: 0.25rem;
+  }
 }
 
 .ud-textarea {
   width: 100%;
   box-sizing: border-box;
-  border: 1px solid var(--color-border);
-  border-radius: 10px; /* slightly rounded */
-  padding: 12px 14px;
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-input); /* Usando token para consistencia */
+  padding: 12px 14px; /* Padding como estaba antes */
   font-size: var(--font-size-base);
-  color: var(--color-text);
-  background: var(--color-surface);
+  color: var(--text-primary);
+  background: var(--surface-primary);
   outline: none;
-  transition: border-color .15s ease;
+  transition: all 0.2s ease;
   resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+  line-height: 1.5;
+  
+  &::placeholder {
+    color: var(--text-tertiary);
+  }
+  
+  &:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-color-alpha);
+  }
+  
+  &:hover:not(:disabled) {
+    border-color: var(--border-secondary);
+  }
+  
+  &--error {
+    border-color: var(--color-danger) !important;
+    
+    &:focus {
+      border-color: var(--color-danger) !important;
+      box-shadow: 0 0 0 2px rgba(211, 59, 44, 0.2) !important;
+    }
+  }
+  
+  &--disabled {
+    background-color: var(--surface-disabled);
+    color: var(--text-disabled);
+    cursor: not-allowed;
+    resize: none;
+    
+    &::placeholder {
+      color: var(--text-disabled);
+    }
+  }
 }
-
-.ud-textarea:focus {
-  border-color: var(--color-primary);
-}
-
-.ud-textarea--error { border-color: var(--color-danger); }
 
 .ud-error {
-  margin-top: 6px;
+  margin-top: 0.5rem;
   color: var(--color-danger);
   font-size: var(--font-size-sm);
+  line-height: 1.4;
+}
+
+// Dark theme compatibility
+@media (prefers-color-scheme: dark) {
+  .ud-textarea {
+    background: var(--surface-primary);
+    border-color: var(--border-primary);
+    color: var(--text-primary);
+    
+    &:focus {
+      border-color: var(--primary-color);
+    }
+    
+    &--disabled {
+      background-color: var(--surface-disabled);
+      color: var(--text-disabled);
+    }
+  }
 }

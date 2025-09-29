@@ -4,7 +4,7 @@
   align-items: center;
   gap: var(--space-2);
   padding: var(--btn-padding-md);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-button); /* Usando token específico para botones */
   border: 1px solid var(--color-border);
   background: var(--color-surface);
   color: var(--color-text);
