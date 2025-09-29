@@ -12,6 +12,7 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { authReducer } from './core/store/auth/auth.reducer';
 import { roleReducer } from './core/store/roles/roles.reducer';
 import { RoleEffects } from './core/store/roles/roles.effects';
+import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -30,7 +31,7 @@ export const appConfig: ApplicationConfig = {
       trace: false,
       traceLimit: 75,
     }),
-    { provide: API_BASE_URL, useValue: 'http://localhost:32770' },
+    { provide: API_BASE_URL, useValue: environment.apiBaseUrl },
     { provide: IdentityClient,
       useFactory: (http: HttpClient, baseUrl: string) =>
          new IdentityClient(http, baseUrl), deps: [HttpClient, API_BASE_URL] }
