@@ -1,9 +1,54 @@
+// CSS Variables for theming
+:host {
+  --color-dialog-border: #e0e0e0;
+  --color-dialog-text: #333333;
+  --color-dialog-text-muted: #666666;
+  --color-dialog-accent: #1976d2;
+  --color-dialog-hover: #f5f5f5;
+  --color-dialog-selected: #e3f2fd;
+  --color-icon-danger: #f44336;
+  --color-icon-warning: #ff9800;
+  --color-icon-info: #2196f3;
+  --color-icon-primary: #1976d2;
+  --color-chip-danger-bg: #ffebee;
+  --color-chip-danger-text: #c62828;
+  --color-chip-warning-bg: #fff3e0;
+  --color-chip-warning-text: #ef6c00;
+  --color-chip-info-bg: #e3f2fd;
+  --color-chip-info-text: #1565c0;
+  --color-chip-primary-bg: #e8f5e8;
+  --color-chip-primary-text: #2e7d32;
+}
+
+// Dark theme
+:host-context(.dark-theme) {
+  --color-dialog-border: #424242;
+  --color-dialog-text: #ffffff;
+  --color-dialog-text-muted: #b0b0b0;
+  --color-dialog-accent: #64b5f6;
+  --color-dialog-hover: #2c2c2c;
+  --color-dialog-selected: #1a1a2e;
+  --color-icon-danger: #ef5350;
+  --color-icon-warning: #ffb74d;
+  --color-icon-info: #42a5f5;
+  --color-icon-primary: #64b5f6;
+  --color-chip-danger-bg: #3d1a1a;
+  --color-chip-danger-text: #ef5350;
+  --color-chip-warning-bg: #3d2e1a;
+  --color-chip-warning-text: #ffb74d;
+  --color-chip-info-bg: #1a2e3d;
+  --color-chip-info-text: #42a5f5;
+  --color-chip-primary-bg: #1a3d1a;
+  --color-chip-primary-text: #66bb6a;
+}
+
 .role-dialog-container {
   width: 100%;
   max-width: 600px;
   max-height: 80vh;
   display: flex;
   flex-direction: column;
+  padding: 20px;
   
   .dialog-title {
     margin-bottom: 24px;

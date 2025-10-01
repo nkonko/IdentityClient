@@ -22,16 +22,19 @@ export const routes: Routes = [
   {
     path: 'login',
     canActivate: [redirectIfAuthenticated],
+    data: { isPublic: true },
     loadComponent: () => import('./features/login/login.component').then(m => m.LoginComponent)
   },
   {
     path: 'register',
     canActivate: [redirectIfAuthenticated],
+    data: { isPublic: true },
     loadComponent: () => import('./features/register/register.component').then(m => m.RegisterComponent)
   },
   {
     path: 'recover',
     canActivate: [redirectIfAuthenticated],
+    data: { isPublic: true },
     loadComponent: () => import('./features/recover/recover.component').then(m => m.RecoverComponent)
   },
   {
@@ -72,6 +75,7 @@ export const routes: Routes = [
   },
   {
     path: '**',
+    data: { isPublic: true, isNotFound: true },
     loadComponent: () => import('./features/not-found/not-found.component').then(m => m.NotFoundComponent)
   }
 ];

@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatCardModule } from '@angular/material/card';
@@ -22,6 +22,7 @@ export interface RoleDialogData {
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    MatDialogModule,
     MatButtonModule,
     MatCheckboxModule,
     MatCardModule,

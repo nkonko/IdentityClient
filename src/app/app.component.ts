@@ -31,16 +31,37 @@ export class AppComponent implements OnInit, OnDestroy {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
   }
 
-  // Compute if we should use content container: only when authenticated and not on public routes
   protected useContentContainer = false;
 
   private updateUseContainer() {
-    // Determine current primary route path
+    const routeData = this.getRouteData();
+    const isPublicRoute = routeData?.['isPublic'] === true;
+    
+    const currentUrl = this.router.url;
+    const publicRoutes = ['/login', '/register', '/recover'];
+    const isPublicByUrl = publicRoutes.some(route => currentUrl.startsWith(route));
+    const isNotFoundByUrl = !this.isKnownRoute(currentUrl);
+    
+    this.useContentContainer = this.isAuthenticated && !isPublicRoute && !isPublicByUrl && !isNotFoundByUrl;
+  }
+
+  private getRouteData(): any {
     let child = this.route.firstChild;
     while (child?.firstChild) child = child.firstChild;
-    const path = child?.snapshot.routeConfig?.path ?? '';
-    const isPublic = path === 'login' || path === 'register' || path === 'recover' || path === '**';
-    this.useContentContainer = this.isAuthenticated && !isPublic;
+    return child?.snapshot.data;
+  }
+
+  private isKnownRoute(url: string): boolean {
+    const knownRoutes = [
+      '/home',
+      '/profile', 
+      '/users',
+      '/roles',
+      '/audit',
+      '/settings'
+    ];
+    
+    return knownRoutes.some(route => url.startsWith(route)) || url === '/';
   }
 
   ngOnInit() {
