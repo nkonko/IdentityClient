@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { AuthFacade } from '../../core/facades/auth.facade';
 
 @Component({
@@ -22,7 +23,8 @@ import { AuthFacade } from '../../core/facades/auth.facade';
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,
-    RouterLink
+    RouterLink,
+    TranslocoDirective
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
@@ -34,29 +36,29 @@ export class RegisterComponent {
   private readonly snackBar = inject(MatSnackBar);
 
   protected form = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(3)]],
+    username: ['', [Validators.required, Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]]
   });
 
   protected isLoading = false;
+  protected hide = true;
 
   submit() {
     if (this.form.valid) {
       this.isLoading = true;
-      const name = this.form.value.name ?? '';
+      const name = this.form.value.username ?? '';
       const email = this.form.value.email ?? '';
       const password = this.form.value.password ?? '';
 
       this.auth.register(name, email, password).subscribe({
         next: () => {
-          this.snackBar.open('Registro exitoso. Por favor inicia sesión.', 'Cerrar', { duration: 5000 });
+          this.snackBar.open('Registro exitoso. Iniciando sesión.', 'Cerrar', { duration: 5000 });
           this.router.navigate(['/login']);
         },
-        error: (e) => {
+        error: () => {
           this.isLoading = false;
-          const errorMessage = (e && (e as any).error) ? (e as any).error : 'Error al registrar usuario';
-          this.snackBar.open(errorMessage, 'Cerrar', { duration: 5000 });
+          // Error is automatically handled by ErrorHandlerInterceptor
         }
       });
     }

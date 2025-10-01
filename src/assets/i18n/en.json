@@ -44,6 +44,8 @@
     "register": "Register",
     "forgot_password": "Forgot Password",
     "email": "Email",
+    "username": "Username",
+    "user_name": "Username",
     "password": "Password",
     "confirm_password": "Confirm Password",
     "remember_me": "Remember me",
@@ -184,6 +186,7 @@
   "validation": {
     "required": "This field is required",
     "email": "Please enter a valid email address",
+    "username": "Please enter a valid username",
     "min_length": "Must be at least {{min}} characters",
     "passwords_match": "Passwords must match"
   },
@@ -191,5 +194,14 @@
     "spanish": "Español",
     "english": "English",
     "select_language": "Select language"
+  },
+  "errors": {
+    "validation_error": "Validation error",
+    "400": "Invalid request. Please check the entered data.",
+    "401": "Invalid credentials. Please check your username and password.",
+    "403": "You don't have permission to perform this action.",
+    "404": "Resource not found.",
+    "500": "Internal server error. Please try again later.",
+    "default": "An unexpected error occurred. Please try again."
   }
 }

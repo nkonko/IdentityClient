@@ -11,17 +11,12 @@
       <mat-card-content>
         <form [formGroup]="form" (ngSubmit)="submit()" class="login-form">
           <mat-form-field appearance="outline" class="full-width">
-            <mat-label>{{ t('auth.email') }}</mat-label>
-            <mat-icon matPrefix>mail</mat-icon>
-            <input matInput formControlName="email" [placeholder]="t('auth.email')">
-            @if (form.get('email')?.hasError('required')) {
+            <mat-label>{{ t('auth.user_name') }}</mat-label>
+            <mat-icon matPrefix>person</mat-icon>
+            <input matInput formControlName="username" [placeholder]="t('auth.user_name')">
+            @if (form.get('username')?.hasError('required')) {
               <mat-error>
                 {{ t('validation.required') }}
-              </mat-error>
-            }
-            @if (form.get('email')?.hasError('email')) {
-              <mat-error>
-                {{ t('validation.email') }}
               </mat-error>
             }
           </mat-form-field>

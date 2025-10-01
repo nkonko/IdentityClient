@@ -40,7 +40,7 @@ export class LoginComponent {
   private readonly tokenService = inject(TokenService);
 
   protected form = this.fb.group({
-    email: ['', [Validators.required]],
+    username: ['', [Validators.required]],
     password: ['', [Validators.required, Validators.minLength(6)]],
     remember: [false]
   });
@@ -56,14 +56,13 @@ export class LoginComponent {
       // Set persistence strategy before storing tokens
       this.tokenService.setRemember(!!val.remember);
 
-      this.auth.login(val.email || '', val.password || '').subscribe({
+      this.auth.login(val.username || '', val.password || '').subscribe({
         next: () => {
           this.router.navigate(['/home']);
         },
-        error: (e) => {
+        error: () => {
           this.isLoading = false;
-          const errorMessage = (e && (e as any).error) ? (e as any).error : 'Error al iniciar sesión';
-          this.snackBar.open(errorMessage, 'Cerrar', { duration: 5000 });
+          // Error is automatically handled by ErrorHandlerInterceptor
         }
       });
     }

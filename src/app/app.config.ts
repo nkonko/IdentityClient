@@ -10,6 +10,7 @@ import { provideTransloco } from '@jsverse/transloco';
 import { routes } from './app.routes';
 import { API_BASE_URL, IdentityClient } from './core/api/api-client';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { ErrorHandlerInterceptor } from './core/interceptors/error-handler.interceptor';
 import { authReducer } from './core/store/auth/auth.reducer';
 import { roleReducer } from './core/store/roles/roles.reducer';
 import { RoleEffects } from './core/store/roles/roles.effects';
@@ -19,7 +20,7 @@ import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideHttpClient(withInterceptors([AuthInterceptor])),
+    provideHttpClient(withInterceptors([AuthInterceptor, ErrorHandlerInterceptor])),
     provideAnimationsAsync(),
     provideRouter(routes),
     provideStore({

@@ -21,3 +21,18 @@ html, body { height: 100%; margin: 0; }
     border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
     box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* Error snackbar styles */
+.error-snackbar {
+  background-color: #f44336 !important;
+  color: white !important;
+  
+  .mat-mdc-button {
+    color: white !important;
+  }
+}
+
+.mat-mdc-snack-bar-container .error-snackbar {
+  white-space: pre-line;
+  max-width: 600px;
+}

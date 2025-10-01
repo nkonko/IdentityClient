@@ -30,7 +30,6 @@ export class AuthFacade {
   }
 
   login(username: string, password: string): Observable<void> {
-    this.logger.log(this.componentName, 'Login attempt for user:', username);
 
     const model = new LoginModel({ username, password });
     return this.client.login(model).pipe(
@@ -119,13 +118,9 @@ export class AuthFacade {
   }
 
   register(username: string, email: string, password: string): Observable<void> {
-    this.logger.log(this.componentName, 'Register attempt for user:', username);
     const model = new RegisterModel({ username, email, password });
 
     return this.client.register(model).pipe(
-      tap(() => {
-        this.logger.log(this.componentName, 'Registration successful, attempting auto-login');
-      }),
       // After successful registration, automatically log the user in
       switchMap(() => this.login(username, password)),
       catchError(error => {

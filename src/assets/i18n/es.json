@@ -44,6 +44,8 @@
     "register": "Registrarse",
     "forgot_password": "Olvidé mi Contraseña",
     "email": "Correo Electrónico",
+    "username": "Nombre de Usuario",
+    "user_name": "Nombre de Usuario",
     "password": "Contraseña",
     "confirm_password": "Confirmar Contraseña",
     "remember_me": "Recordarme",
@@ -184,6 +186,7 @@
   "validation": {
     "required": "Este campo es requerido",
     "email": "Ingrese un correo electrónico válido",
+    "username": "Ingrese un nombre de usuario válido",
     "min_length": "Debe tener al menos {{min}} caracteres",
     "passwords_match": "Las contraseñas deben coincidir"
   },
@@ -191,5 +194,14 @@
     "spanish": "Español",
     "english": "English",
     "select_language": "Seleccionar idioma"
+  },
+  "errors": {
+    "validation_error": "Error de validación",
+    "400": "Solicitud inválida. Verifique los datos ingresados.",
+    "401": "Credenciales inválidas. Verifique su usuario y contraseña.",
+    "403": "No tiene permisos para realizar esta acción.",
+    "404": "Recurso no encontrado.",
+    "500": "Error interno del servidor. Intente nuevamente más tarde.",
+    "default": "Ocurrió un error inesperado. Intente nuevamente."
   }
 }
