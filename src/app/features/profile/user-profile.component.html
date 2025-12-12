@@ -1,5 +1,17 @@
 <app-section-title></app-section-title>
 
+<!-- SKELETON VERIFICATION -->
+<div style="padding: 20px; background: white; margin-bottom: 20px;">
+  <h3>Skeleton Verification</h3>
+  <p>Rectangle:</p>
+  <app-skeleton width="300px" height="20px"></app-skeleton>
+  <p>Circle:</p>
+  <app-skeleton shape="circle" width="50px" height="50px"></app-skeleton>
+  <p>Custom Border Radius:</p>
+  <app-skeleton width="100px" height="100px" borderRadius="20px"></app-skeleton>
+</div>
+<!-- END SKELETON VERIFICATION -->
+
 <div class="profile-page">
   <mat-card class="profile-card">
     <mat-tab-group class="ud-tabs" mat-stretch-tabs color="primary" (selectedTabChange)="onTabChanged($event)">

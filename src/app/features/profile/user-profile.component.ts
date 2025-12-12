@@ -16,6 +16,7 @@ import { NotificationsComponent, NotificationPreferences } from './components/no
 import { SecurityComponent } from './components/security/security.component';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { SectionTitleComponent } from "../../shared/section-title/section-title.component";
+import { SkeletonComponent } from '../../shared/skeleton/skeleton.component';
 
 @Component({
   selector: 'app-user-profile',
@@ -33,7 +34,8 @@ import { SectionTitleComponent } from "../../shared/section-title/section-title.
     SecurityComponent,
     NotificationsComponent,
     ButtonComponent,
-    SectionTitleComponent
+    SectionTitleComponent,
+    SkeletonComponent
 ],
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss']
