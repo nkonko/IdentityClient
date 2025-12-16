@@ -76,3 +76,11 @@
     </div>
   </div>
 </div>
+
+<!-- Role Dialog Modal -->
+<app-role-dialog
+  [isOpen]="showRoleDialog()"
+  [data]="roleDialogData()"
+  (close)="onRoleDialogClose()"
+  (save)="onRoleDialogSave($event)">
+</app-role-dialog>

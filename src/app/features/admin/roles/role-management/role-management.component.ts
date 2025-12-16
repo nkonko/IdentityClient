@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, HostListener } from '@angular/core';
+import { Component, inject, OnInit, HostListener, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RolesFacade } from '../../../../core/facades/roles.facade';
 import { RoleDto } from '../../../../core/api/api-client';
@@ -10,7 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { SectionTitleComponent } from '../../../../shared/section-title/section-title.component';
 import { ButtonComponent } from '../../../../shared/button/button.component';
-import { RoleDialogComponent } from '../role-dialog/role-dialog.component';
+import { RoleDialogComponent, RoleDialogData, RoleDialogResult } from '../role-dialog/role-dialog.component';
 import { ConfirmationDialogComponent } from '../../../../shared/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
@@ -23,7 +23,8 @@ import { ConfirmationDialogComponent } from '../../../../shared/confirmation-dia
     MatSnackBarModule,
     MatButtonModule,
     SectionTitleComponent, 
-    ButtonComponent
+    ButtonComponent,
+    RoleDialogComponent
   ],
   templateUrl: './role-management.component.html',
   styleUrls: ['./role-management.component.scss']
@@ -46,6 +47,10 @@ export class RoleManagementComponent implements OnInit {
   // Pagination properties
   currentPage = 1;
   pageSize = 10;
+
+  // Modal state
+  showRoleDialog = signal(false);
+  roleDialogData = signal<RoleDialogData>({ isPermissionsOnly: false });
 
   ngOnInit() {
     this.rolesFacade.loadRoles();
@@ -128,78 +133,65 @@ export class RoleManagementComponent implements OnInit {
   }
 
   handleAddRole() {
-    const dialogRef = this.dialog.open(RoleDialogComponent, {
-      width: '750px',
-      maxHeight: '90vh',
-      panelClass: 'role-dialog-panel',
-      data: { isPermissionsOnly: false }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        // Create new role
-        this.rolesFacade.createRole({ 
-          name: result.name, 
-          permissions: result.permissions 
-        });
-        
-        this.snackBar.open(`Rol ${result.name} creado correctamente`, 'Cerrar', {
-          duration: 3000
-        });
-      }
-    });
+    this.roleDialogData.set({ isPermissionsOnly: false });
+    this.showRoleDialog.set(true);
   }
 
   handleEditRole(role: RoleDto) {
-    const dialogRef = this.dialog.open(RoleDialogComponent, {
-      width: '750px',
-      maxHeight: '90vh',
-      panelClass: 'role-dialog-panel',
-      data: { 
-        isPermissionsOnly: false,
-        role: role
-      }
+    this.roleDialogData.set({ 
+      isPermissionsOnly: false,
+      role: role
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result && role.id) {
-        // Update existing role
-        this.rolesFacade.updateRole({ 
-          ...result, 
-          id: role.id 
-        });
-        
-        this.snackBar.open(`Rol ${result.name} actualizado correctamente`, 'Cerrar', {
-          duration: 3000
-        });
-      }
-    });
+    this.showRoleDialog.set(true);
   }
 
   handleManagePermissions(role: RoleDto) {
-    const dialogRef = this.dialog.open(RoleDialogComponent, {
-      width: '750px',
-      maxHeight: '90vh',
-      panelClass: 'role-dialog-panel',
-      data: { 
-        isPermissionsOnly: true,
-        role: role
-      }
+    this.roleDialogData.set({ 
+      isPermissionsOnly: true,
+      role: role
     });
+    this.showRoleDialog.set(true);
+  }
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result && role.id) {
-        // Update role permissions
+  onRoleDialogClose() {
+    this.showRoleDialog.set(false);
+  }
+
+  onRoleDialogSave(result: RoleDialogResult) {
+    const dialogData = this.roleDialogData();
+    
+    if (dialogData.isPermissionsOnly) {
+      // Just updating permissions
+      if (dialogData.role?.id) {
         this.rolesFacade.updatePermissions(
-          role.id,
+          dialogData.role.id,
           result.permissions
         );
-        
-        this.snackBar.open(`Permisos de ${role.name} actualizados correctamente`, 'Cerrar', {
+        this.snackBar.open(`Permisos de ${dialogData.role.name} actualizados correctamente`, 'Cerrar', {
           duration: 3000
         });
       }
-    });
+    } else if (dialogData.role?.id && result.name) {
+      // Editing existing role name only
+      this.rolesFacade.updateRoleApi({ 
+        id: dialogData.role.id,
+        name: result.name
+      });
+      this.snackBar.open(`Rol ${result.name} actualizado correctamente`, 'Cerrar', {
+        duration: 3000
+      });
+    } else if (result.name) {
+      // Creating new role with name and permissions
+      this.rolesFacade.createRole({ 
+        name: result.name, 
+        permissions: result.permissions 
+      });
+      this.snackBar.open(`Rol ${result.name} creado correctamente`, 'Cerrar', {
+        duration: 3000
+      });
+    }
+    
+    this.showRoleDialog.set(false);
   }
 
   handleDeleteRole(role: RoleDto) {

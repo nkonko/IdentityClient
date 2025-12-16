@@ -1,22 +1,42 @@
 @if (isOpen()) {
   <div class="modal-overlay" (click)="onClose()">
-    <div class="modal-content" (click)="$event.stopPropagation()">
-      <div class="modal-header">
-        <h2>{{ title() }}</h2>
-        <button class="close-button" (click)="onClose()">X</button>
+    <div class="modal-content" [ngClass]="getSizeClass()" (click)="$event.stopPropagation()">
+      <!-- Modern Header with Icon -->
+      <div class="modal-header" [ngClass]="getHeaderClass()">
+        <div class="header-content">
+          @if (icon()) {
+            <mat-icon class="header-icon">{{ icon() }}</mat-icon>
+          }
+          <h2 class="header-title">{{ title() }}</h2>
+        </div>
+        @if (showCloseButton()) {
+          <button class="close-button" (click)="onClose()" mat-icon-button>
+            <mat-icon>close</mat-icon>
+          </button>
+        }
       </div>
+
+      <!-- Modal Body -->
       <div class="modal-body">
         <ng-content></ng-content>
       </div>
-      <div class="modal-footer">
-        @for (button of buttons(); track button.action) {
-          <app-button
-            [label]="button.text"
-            [style]="button.style || 'secondary'"
-            (btnClick)="onButtonClick(button.action)"
-          ></app-button>
-        }
-      </div>
+
+      <!-- Modal Footer -->
+      @if (buttons().length > 0) {
+        <div class="modal-footer">
+          @for (button of buttons(); track button.action) {
+            <app-button
+              [label]="button.text"
+              [icon]="button.icon || ''"
+              [showIcon]="!!button.icon"
+              [color]="getButtonColor(button.style)"
+              [variant]="'solid'"
+              [size]="'md'"
+              (btnClick)="onButtonClick(button.action)">
+            </app-button>
+          }
+        </div>
+      }
     </div>
   </div>
 }

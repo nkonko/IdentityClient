@@ -1,29 +1,16 @@
-<div class="role-dialog-container">
-  <!-- Dialog Header -->
-  <div class="dialog-header">
-    <div class="header-content">
-      <mat-icon class="header-icon">
-        @if (data.isPermissionsOnly) {
-          key
-        } @else {
-          {{ data.role ? 'edit' : 'add_circle' }}
-        }
-      </mat-icon>
-      <h2 class="header-title">
-        @if (data.isPermissionsOnly) {
-          Gestionar Permisos
-        } @else {
-          {{ data.role ? 'Editar Rol' : 'Crear Rol' }}
-        }
-      </h2>
-    </div>
-  </div>
+<app-modal
+  [isOpen]="isOpen()"
+  [title]="getModalTitle()"
+  [icon]="getModalIcon()"
+  [size]="'large'"
+  [headerVariant]="'primary'"
+  (close)="onCancel()">
 
-  <!-- Dialog Content -->
-  <div class="dialog-content">
+  <!-- Modal Content -->
+  <div class="role-dialog-content">
     
-    <!-- Role Name Section (Only when not in permissions-only mode) -->
-    @if (!data.isPermissionsOnly) {
+    <!-- Role Name Section (when creating or editing name only) -->
+    @if (!data().isPermissionsOnly) {
       <div class="role-section">
         <div class="section-header">
           <mat-icon>business</mat-icon>
@@ -52,18 +39,21 @@
           </div>
         </form>
       </div>
-    } @else {
+    }
+
+    @if (data().isPermissionsOnly) {
       <!-- Role Info Display for Permissions Mode -->
       <div class="role-info-banner">
         <mat-icon class="role-icon">security</mat-icon>
         <div class="role-details">
-          <h3 class="role-name">{{ data.role?.name }}</h3>
+          <h3 class="role-name">{{ data().role?.name }}</h3>
           <p class="role-description">Configura los permisos para este rol</p>
         </div>
       </div>
     }
 
-    <!-- Permissions Section -->
+    <!-- Permissions Section (only in create mode or permissions-only mode) -->
+    @if (isCreatingNew() || data().isPermissionsOnly) {
     <div class="permissions-section">
       <div class="section-header">
         <mat-icon>security</mat-icon>
@@ -102,7 +92,7 @@
     </div>
 
     <!-- Selected Permissions Summary -->
-    @if (getSelectedPermissions().length > 0) {
+    @if ((isCreatingNew() || data().isPermissionsOnly) && getSelectedPermissions().length > 0) {
       <div class="summary-section">
         <div class="section-header">
           <mat-icon>checklist</mat-icon>
@@ -126,27 +116,27 @@
         </div>
       </div>
     }
+    }
+
+    <!-- Action Buttons -->
+    <div class="dialog-actions">
+      <app-button
+        [label]="'Cancelar'"
+        [icon]="'close'"
+        [color]="'default'"
+        [variant]="'outline'"
+        (btnClick)="onCancel()">
+      </app-button>
+      
+      <app-button
+        [label]="getSaveButtonText()"
+        [icon]="'save'"
+        [color]="'primary'"
+        [variant]="'solid'"
+        [disabled]="!canSave()"
+        (btnClick)="onSave()">
+      </app-button>
+    </div>
   </div>
 
-  <!-- Dialog Actions -->
-  <div class="dialog-actions">
-    <button 
-      mat-stroked-button 
-      type="button" 
-      (click)="onCancel()" 
-      class="btn-cancel">
-      <mat-icon>close</mat-icon>
-      Cancelar
-    </button>
-    
-    <button 
-      mat-raised-button 
-      color="primary" 
-      (click)="onSave()"
-      [disabled]="!canSave()"
-      class="btn-save">
-      <mat-icon>save</mat-icon>
-      {{ data.isPermissionsOnly ? 'Guardar Permisos' : (data.role ? 'Actualizar Rol' : 'Crear Rol') }}
-    </button>
-  </div>
-</div>
+</app-modal>

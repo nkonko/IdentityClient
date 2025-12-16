@@ -1,19 +1,24 @@
-import { Component, inject, OnInit, Inject } from '@angular/core';
+import { Component, inject, OnInit, input, output, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
+import { ModalComponent } from '../../../../shared/modal/modal.component';
+import { ButtonComponent } from '../../../../shared/button/button.component';
 import { RoleDto } from '../../../../core/api/api-client';
 
 export interface RoleDialogData {
   isPermissionsOnly: boolean;
   role?: RoleDto;
+}
+
+export interface RoleDialogResult {
+  name?: string;
+  permissions: string[];
 }
 
 @Component({
@@ -22,21 +27,28 @@ export interface RoleDialogData {
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MatDialogModule,
-    MatButtonModule,
     MatCheckboxModule,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
     MatChipsModule,
+    ModalComponent,
+    ButtonComponent,
   ],
   templateUrl: './role-dialog.component.html',
   styleUrls: ['./role-dialog.component.scss'],
 })
 export class RoleDialogComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
-  private readonly dialogRef = inject(MatDialogRef<RoleDialogComponent>);
+
+  // Inputs para recibir data
+  isOpen = input<boolean>(false);
+  data = input<RoleDialogData>({ isPermissionsOnly: false });
+
+  // Outputs para eventos
+  close = output<void>();
+  save = output<RoleDialogResult>();
 
   roleForm: FormGroup;
   selectedPermissions: string[] = [];
@@ -60,22 +72,38 @@ export class RoleDialogComponent implements OnInit {
     { name: 'system.logs', description: 'Ver logs del sistema' }
   ];
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: RoleDialogData) {
+  constructor() {
     // Initialize form
     this.roleForm = this.fb.group({
-      name: [data.role?.name || '', [Validators.required]]
+      name: ['', [Validators.required]]
     });
 
-    // Initialize selected permissions
-    this.selectedPermissions = data.role?.permissions?.map(p => p.name || '') || [];
+    // React to data changes
+    effect(() => {
+      const dialogData = this.data();
+      if (dialogData.role) {
+        this.roleForm.patchValue({
+          name: dialogData.role.name || ''
+        });
+        this.selectedPermissions = dialogData.role.permissions?.map(p => p.name || '') || [];
+      } else {
+        // Reset form for new role
+        this.roleForm.reset();
+        this.selectedPermissions = [];
+      }
+    });
   }
 
   ngOnInit() {
-    // No additional initialization needed
+    // No longer needed, handled by effect
   }
 
   isPermissionSelected(permissionName: string): boolean {
     return this.selectedPermissions.includes(permissionName);
+  }
+
+  isCreatingNew(): boolean {
+    return !this.data().isPermissionsOnly && !this.data().role;
   }
 
   onPermissionToggle(permissionName: string, event: any) {
@@ -117,33 +145,68 @@ export class RoleDialogComponent implements OnInit {
   }
 
   canSave(): boolean {
-    if (!this.data.isPermissionsOnly) {
+    if (!this.data().isPermissionsOnly) {
       return this.roleForm.valid;
     }
     return true; // For permissions-only mode, always allow saving
   }
 
   onSave(): void {
-    if (!this.data.isPermissionsOnly) {
-      // Validate form for role creation/editing
+    const dialogData = this.data();
+    
+    if (dialogData.isPermissionsOnly) {
+      // Permissions-only mode: only return permissions
+      const result: RoleDialogResult = {
+        permissions: this.selectedPermissions
+      };
+      this.save.emit(result);
+    } else if (this.isCreatingNew()) {
+      // Creating new role: return name + permissions
       if (this.roleForm.valid) {
-        const result = {
+        const result: RoleDialogResult = {
           name: this.roleForm.value.name,
           permissions: this.selectedPermissions
         };
-        this.dialogRef.close(result);
+        this.save.emit(result);
       }
     } else {
-      // Just return permissions for permissions-only mode
-      const result = {
-        permissions: this.selectedPermissions
-      };
-      this.dialogRef.close(result);
+      // Editing existing role name: only return name
+      if (this.roleForm.valid) {
+        const result: RoleDialogResult = {
+          name: this.roleForm.value.name,
+          permissions: [] // Don't include permissions when editing name
+        };
+        this.save.emit(result);
+      }
     }
   }
 
   onCancel(): void {
-    this.dialogRef.close();
+    this.close.emit();
+  }
+
+  getModalTitle(): string {
+    const dialogData = this.data();
+    if (dialogData.isPermissionsOnly) {
+      return 'Gestionar Permisos';
+    }
+    return dialogData.role ? 'Editar Rol' : 'Crear Rol';
+  }
+
+  getModalIcon(): string {
+    const dialogData = this.data();
+    if (dialogData.isPermissionsOnly) {
+      return 'key';
+    }
+    return dialogData.role ? 'edit' : 'add_circle';
+  }
+
+  getSaveButtonText(): string {
+    const dialogData = this.data();
+    if (dialogData.isPermissionsOnly) {
+      return 'Guardar Permisos';
+    }
+    return dialogData.role ? 'Actualizar Rol' : 'Crear Rol';
   }
 }
 

@@ -1,5 +1,4 @@
 <div class="profile-grid">
-  <!-- Avatar section sin bordes innecesarios -->
   <div class="profile-avatar-section">
     <app-profile-avatar
       [fullName]="form().get('name')?.value || user()?.name || ''"
@@ -8,7 +7,6 @@
     </app-profile-avatar>
   </div>
 
-  <!-- Form section sin bordes innecesarios -->
   <div class="profile-form-section">
     <form [formGroup]="form()" class="profile-form" (ngSubmit)="onSubmit()">
       <div class="form-fields">

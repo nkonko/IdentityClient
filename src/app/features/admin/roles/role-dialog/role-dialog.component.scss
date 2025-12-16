@@ -1,76 +1,8 @@
-// Global dialog panel styles
-::ng-deep .role-dialog-panel {
-  .mat-mdc-dialog-container {
-    padding: 0 !important;
-    overflow: hidden !important;
-    
-    .mat-mdc-dialog-surface {
-      overflow: hidden !important;
-    }
-  }
-}
-
-// Role Dialog Modern Styles
-.role-dialog-container {
+// Role Dialog Styles - Simplified (header/footer now in modal component)
+.role-dialog-content {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-  
-  // Dialog Header
-  .dialog-header {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-dark, #1565c0) 100%);
-    padding: 28px 24px 24px 24px;
-    border-radius: 0;
-    flex-shrink: 0;
-    
-    .header-content {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      
-      .header-icon {
-        font-size: 32px;
-        width: 32px;
-        height: 32px;
-        color: white;
-      }
-      
-      .header-title {
-        margin: 0;
-        font-size: 24px;
-        font-weight: 600;
-        color: white;
-        letter-spacing: -0.5px;
-      }
-    }
-  }
-  
-  // Dialog Content
-  .dialog-content {
-    flex: 1;
-    overflow-y: auto;
-    padding: 24px;
-    
-    // Custom scrollbar
-    &::-webkit-scrollbar {
-      width: 8px;
-    }
-    
-    &::-webkit-scrollbar-track {
-      background: var(--surface-secondary);
-      border-radius: 4px;
-    }
-    
-    &::-webkit-scrollbar-thumb {
-      background: var(--border-secondary);
-      border-radius: 4px;
-      
-      &:hover {
-        background: var(--text-tertiary);
-      }
-    }
+  gap: 24px;
     
     // Role Section
     .role-section {
@@ -415,91 +347,27 @@
     }
   }
   
-  // Dialog Actions
+  // Dialog Actions (within content)
   .dialog-actions {
     display: flex;
     gap: 12px;
     justify-content: flex-end;
-    padding: 20px 24px;
-    border-top: 1px solid var(--border-primary);
-    flex-shrink: 0;
-    background: var(--surface-primary);
-    
-    button {
-      min-width: 120px;
-      height: 40px;
-      font-weight: 500;
-      border-radius: var(--radius-button, 8px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      
-      mat-icon {
-        font-size: 20px;
-        width: 20px;
-        height: 20px;
-      }
-    }
-    
-    .btn-cancel {
-      color: var(--text-secondary);
-      border-color: var(--border-primary);
-      
-      &:hover {
-        background: var(--surface-hover);
-      }
-    }
-    
-    .btn-save {
-      background-color: var(--primary-color);
-      color: white;
-      
-      &:disabled {
-        background-color: var(--surface-disabled);
-        color: var(--text-disabled);
-      }
-      
-      &:not(:disabled):hover {
-        background-color: var(--primary-color-dark, #1565c0);
-        box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);
-      }
-    }
+    padding-top: 16px;
+    border-top: 1px solid var(--border-primary, #e0e0e0);
+    margin-top: 8px;
   }
-}
 
 // Responsive design
 @media (max-width: 768px) {
-  .role-dialog-container {
-    .dialog-header {
-      padding: 24px 20px 20px 20px;
-      
-      .header-content {
-        .header-icon {
-          font-size: 28px;
-          width: 28px;
-          height: 28px;
-        }
-        
-        .header-title {
-          font-size: 20px;
-        }
-      }
-    }
-    
-    .dialog-content {
-      padding: 20px;
-      
-      .permissions-section .permissions-grid {
-        grid-template-columns: 1fr;
-      }
+  .role-dialog-content {
+    .permissions-section .permissions-grid {
+      grid-template-columns: 1fr;
     }
     
     .dialog-actions {
       flex-direction: column-reverse;
-      padding: 16px 20px;
       
-      button {
+      app-button {
         width: 100%;
       }
     }
