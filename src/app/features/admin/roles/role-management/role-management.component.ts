@@ -129,7 +129,9 @@ export class RoleManagementComponent implements OnInit {
 
   handleAddRole() {
     const dialogRef = this.dialog.open(RoleDialogComponent, {
-      width: '600px',
+      width: '750px',
+      maxHeight: '90vh',
+      panelClass: 'role-dialog-panel',
       data: { isPermissionsOnly: false }
     });
 
@@ -150,7 +152,9 @@ export class RoleManagementComponent implements OnInit {
 
   handleEditRole(role: RoleDto) {
     const dialogRef = this.dialog.open(RoleDialogComponent, {
-      width: '600px',
+      width: '750px',
+      maxHeight: '90vh',
+      panelClass: 'role-dialog-panel',
       data: { 
         isPermissionsOnly: false,
         role: role
@@ -174,7 +178,9 @@ export class RoleManagementComponent implements OnInit {
 
   handleManagePermissions(role: RoleDto) {
     const dialogRef = this.dialog.open(RoleDialogComponent, {
-      width: '600px',
+      width: '750px',
+      maxHeight: '90vh',
+      panelClass: 'role-dialog-panel',
       data: { 
         isPermissionsOnly: true,
         role: role
