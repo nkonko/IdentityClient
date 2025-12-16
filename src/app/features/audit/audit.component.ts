@@ -51,30 +51,26 @@ export class AuditComponent implements OnInit {
   private readonly auditFacade = inject(AuditFacade);
   private readonly snackBar = inject(MatSnackBar);
 
-  // Signals for reactive state management
   protected allLogs = signal<AuditLogDto[]>([]);
   protected isLoading = signal(false);
-  protected totalCount = signal(0);
   protected pageIndex = signal(0);
   protected pageSize = signal(10);
   protected sortBy = signal('date');
   protected sortDirection = signal<'asc' | 'desc'>('desc');
 
-  // Filter controls
   protected searchControl = new FormControl('');
   protected actionFilter = new FormControl('');
   protected userIdFilter = new FormControl('');
   protected dateFromFilter = new FormControl<Date | null>(null);
   protected dateToFilter = new FormControl<Date | null>(null);
 
-  // Table configuration
   protected displayedColumns = ['date', 'userId', 'action', 'id'];
+  protected totalCount = computed(() => this.filteredLogs().length);
 
-  // Computed filtered and sorted data
+
   protected filteredLogs = computed(() => {
     let logs = [...this.allLogs()];
 
-    // Apply search filter
     const searchTerm = this.searchControl.value?.toLowerCase() || '';
     if (searchTerm) {
       logs = logs.filter(log => 
@@ -84,19 +80,16 @@ export class AuditComponent implements OnInit {
       );
     }
 
-    // Apply action filter
     const actionFilter = this.actionFilter.value;
     if (actionFilter) {
       logs = logs.filter(log => log.action === actionFilter);
     }
 
-    // Apply user ID filter
     const userIdFilter = this.userIdFilter.value;
     if (userIdFilter) {
       logs = logs.filter(log => log.userId?.toLowerCase().includes(userIdFilter.toLowerCase()));
     }
 
-    // Apply date range filter
     const dateFrom = this.dateFromFilter.value;
     const dateTo = this.dateToFilter.value;
     if (dateFrom || dateTo) {
@@ -132,11 +125,9 @@ export class AuditComponent implements OnInit {
       return 0;
     });
 
-    this.totalCount.set(logs.length);
     return logs;
   });
 
-  // Paginated data
   protected paginatedLogs = computed(() => {
     const filtered = this.filteredLogs();
     const startIndex = this.pageIndex() * this.pageSize();
@@ -144,7 +135,6 @@ export class AuditComponent implements OnInit {
     return filtered.slice(startIndex, endIndex);
   });
 
-  // Unique actions for filter dropdown
   protected uniqueActions = computed(() => {
     const actions = this.allLogs()
       .map(log => log.action)
@@ -211,7 +201,7 @@ export class AuditComponent implements OnInit {
   protected onSort(sort: Sort) {
     this.sortBy.set(sort.active);
     this.sortDirection.set(sort.direction as 'asc' | 'desc' || 'desc');
-    this.pageIndex.set(0); // Reset to first page when sorting
+    this.pageIndex.set(0); 
   }
 
   protected onPageChange(event: PageEvent) {

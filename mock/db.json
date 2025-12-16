@@ -1,0 +1,254 @@
+{
+  "me": {
+    "id": "1",
+    "email": "admin@example.com",
+    "name": "Admin User",
+    "roles": [
+      "Admin"
+    ],
+    "status": "Active",
+    "position": "System Administrator",
+    "bio": "I am the super administrator of this dashboard.",
+    "profilePictureUrl": "https://i.pravatar.cc/150?u=admin",
+    "lastLogin": "2024-01-01T12:00:00Z"
+  },
+  "login": {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsIm5hbWUiOiJBZG1pbiBVc2VyIiwicm9sZXMiOlsiQWRtaW4iXSwiaWF0IjoxNzM0MDA2MDAwLCJleHAiOjE3MzQwMDk2MDB9.fake-signature",
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE3MzQwMDYwMDAsImV4cCI6MTczNDYxMDgwMH0.fake-refresh-signature",
+    "expiresIn": 3600,
+    "user": {
+      "id": "1",
+      "email": "admin@example.com",
+      "name": "Admin User",
+      "roles": [
+        "Admin"
+      ],
+      "status": "Active",
+      "position": "System Administrator",
+      "profilePictureUrl": "https://i.pravatar.cc/150?u=admin"
+    }
+  },
+  "credentials": [
+    {
+      "email": "admin@example.com",
+      "password": "admin123",
+      "userId": "1"
+    },
+    {
+      "email": "user@example.com",
+      "password": "user123",
+      "userId": "2"
+    }
+  ],
+  "register": {},
+  "users": [
+    {
+      "status": "Active",
+      "id": "1"
+    },
+    {
+      "id": "2",
+      "email": "user@example.com",
+      "name": "Regular User",
+      "roles": [
+        "User"
+      ],
+      "status": "Active",
+      "position": "Software Engineer"
+    }
+  ],
+  "roles": [
+    {
+      "id": "1",
+      "name": "Admin",
+      "description": "Administrator role with full access",
+      "permissions": [
+        "all"
+      ]
+    },
+    {
+      "id": "2",
+      "name": "User",
+      "description": "Regular user role",
+      "permissions": [
+        "read"
+      ]
+    }
+  ],
+  "summary": {
+    "totalUsers": 150,
+    "activeUsers": 120,
+    "newUsersToday": 5,
+    "revenue": 50000
+  },
+  "metrics": {
+    "totalUsers": 150,
+    "activeUsers": 120,
+    "totalRevenue": 50000,
+    "conversionRate": 3.5,
+    "userGrowth": [
+      {
+        "month": "Jan",
+        "users": 100
+      },
+      {
+        "month": "Feb",
+        "users": 115
+      },
+      {
+        "month": "Mar",
+        "users": 130
+      },
+      {
+        "month": "Apr",
+        "users": 150
+      }
+    ],
+    "revenueGrowth": [
+      {
+        "month": "Jan",
+        "amount": 35000
+      },
+      {
+        "month": "Feb",
+        "amount": 40000
+      },
+      {
+        "month": "Mar",
+        "amount": 45000
+      },
+      {
+        "month": "Apr",
+        "amount": 50000
+      }
+    ]
+  },
+  "notifications": [
+    {
+      "id": "1",
+      "title": "New user registered",
+      "message": "John Doe has registered",
+      "type": "info",
+      "read": false,
+      "timestamp": "2024-01-15T10:30:00Z"
+    },
+    {
+      "id": "2",
+      "title": "System update",
+      "message": "System will be updated tonight",
+      "type": "warning",
+      "read": false,
+      "timestamp": "2024-01-15T09:00:00Z"
+    },
+    {
+      "id": "3",
+      "title": "Payment received",
+      "message": "Payment of $500 received",
+      "type": "success",
+      "read": true,
+      "timestamp": "2024-01-14T15:20:00Z"
+    }
+  ],
+  "recent": [
+    {
+      "id": "1",
+      "action": "User Login",
+      "user": "admin@example.com",
+      "timestamp": "2024-01-15T11:30:00Z"
+    },
+    {
+      "id": "2",
+      "action": "User Created",
+      "user": "newuser@example.com",
+      "timestamp": "2024-01-15T10:15:00Z"
+    },
+    {
+      "id": "3",
+      "action": "Settings Updated",
+      "user": "admin@example.com",
+      "timestamp": "2024-01-15T09:45:00Z"
+    }
+  ],
+  "logs": [
+    {
+      "id": "1",
+      "userId": "1",
+      "userName": "Admin User",
+      "action": "User Login",
+      "description": "User logged in successfully",
+      "timestamp": "2024-01-15T11:30:00Z",
+      "ipAddress": "192.168.1.100",
+      "status": "Success"
+    },
+    {
+      "id": "2",
+      "userId": "2",
+      "userName": "Regular User",
+      "action": "Profile Updated",
+      "description": "User updated their profile information",
+      "timestamp": "2024-01-15T10:45:00Z",
+      "ipAddress": "192.168.1.101",
+      "status": "Success"
+    },
+    {
+      "id": "3",
+      "userId": "1",
+      "userName": "Admin User",
+      "action": "User Created",
+      "description": "Created new user account",
+      "timestamp": "2024-01-15T09:30:00Z",
+      "ipAddress": "192.168.1.100",
+      "status": "Success"
+    },
+    {
+      "id": "4",
+      "userId": "2",
+      "userName": "Regular User",
+      "action": "Login Failed",
+      "description": "Invalid password attempt",
+      "timestamp": "2024-01-14T16:20:00Z",
+      "ipAddress": "192.168.1.105",
+      "status": "Failed"
+    },
+    {
+      "id": "5",
+      "userId": "1",
+      "userName": "Admin User",
+      "action": "Settings Changed",
+      "description": "Updated system settings",
+      "timestamp": "2024-01-14T14:15:00Z",
+      "ipAddress": "192.168.1.100",
+      "status": "Success"
+    }
+  ],
+  "settings": {
+    "general": {
+      "siteName": "Identity Dashboard",
+      "language": "en",
+      "timezone": "UTC",
+      "dateFormat": "MM/DD/YYYY",
+      "timeFormat": "12h"
+    },
+    "security": {
+      "sessionTimeout": 30,
+      "passwordMinLength": 8,
+      "requireSpecialChar": true,
+      "requireNumber": true,
+      "requireUppercase": true,
+      "twoFactorEnabled": false,
+      "maxLoginAttempts": 5
+    },
+    "notifications": {
+      "emailNotifications": true,
+      "pushNotifications": false,
+      "smsNotifications": false,
+      "notifyOnLogin": true,
+      "notifyOnPasswordChange": true
+    },
+    "appearance": {
+      "theme": "light",
+      "primaryColor": "#1976d2",
+      "accentColor": "#ff4081"
+    }
+  }
+}
