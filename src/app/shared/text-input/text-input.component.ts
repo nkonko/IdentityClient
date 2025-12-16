@@ -1,11 +1,11 @@
 import { Component, input, forwardRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule, FormControl } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-text-input',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -23,14 +23,11 @@ export class TextInputComponent implements ControlValueAccessor {
   name = input<string>();
   autocomplete = input<string>();
   required = input<boolean>(false);
-  // Usar isDisabled en lugar de disabled para evitar el warning de Angular
-  // cuando se usa con reactive forms
-  isDisabled = input<boolean>(false);
   errorMessage = input<string>();
-  formControl = input<FormControl>(); // Para uso directo con reactive forms
 
   value = '';
   touched = false;
+  isDisabled = false;
 
   private onChange: (value: string) => void = () => {};
   private onTouched: () => void = () => {};
@@ -49,8 +46,7 @@ export class TextInputComponent implements ControlValueAccessor {
   }
 
   setDisabledState(isDisabled: boolean): void {
-    // Note: For signal inputs, we can't directly set the value from ControlValueAccessor
-    // The parent component should handle this through the disabled input
+    this.isDisabled = isDisabled;
   }
 
   // Event handlers
@@ -69,15 +65,10 @@ export class TextInputComponent implements ControlValueAccessor {
   // CSS classes for styling
   get inputClasses(): string {
     let classes = 'ud-input';
-    if (this.currentErrorMessage && (this.touched || this.hasFormControlErrors)) {
+    if (this.currentErrorMessage && this.touched) {
       classes += ' ud-input--error';
     }
-    // Solo aplicar isDisabled para ControlValueAccessor mode, no para formControl mode
-    if (!this.formControl() && this.isDisabled()) {
-      classes += ' ud-input--disabled';
-    }
-    // Para formControl mode, el FormControl maneja su propio estado disabled
-    if (this.formControl() && this.formControl()!.disabled) {
+    if (this.isDisabled) {
       classes += ' ud-input--disabled';
     }
     return classes;
@@ -87,47 +78,10 @@ export class TextInputComponent implements ControlValueAccessor {
     // Use provided errorMessage first
     if (this.errorMessage()) return this.errorMessage()!;
     
-    // If using formControl directly, get errors from it
-    if (this.formControl()) {
-      return this.getFormControlError();
-    }
-    
     return '';
   }
 
-  get hasFormControlErrors(): boolean {
-    const formControl = this.formControl();
-    return !!(formControl && formControl.invalid && (formControl.dirty || formControl.touched));
-  }
-
   get showError(): boolean {
-    return !!(this.currentErrorMessage && (this.touched || this.hasFormControlErrors));
-  }
-
-  private getFormControlError(): string {
-    const formControl = this.formControl();
-    if (!formControl || !formControl.errors) return '';
-    
-    const errors = formControl.errors;
-    const shouldShowError = formControl.invalid && (formControl.dirty || formControl.touched);
-    
-    if (!shouldShowError) return '';
-
-    if (errors['required']) return 'Este campo es obligatorio';
-    if (errors['email']) return 'Formato de correo inválido';
-    if (errors['minlength']) {
-      const required = errors['minlength'].requiredLength;
-      const actual = errors['minlength'].actualLength;
-      return `Debe tener al menos ${required} caracteres (actual: ${actual})`;
-    }
-    if (errors['maxlength']) {
-      const required = errors['maxlength'].requiredLength;
-      return `Debe tener como máximo ${required} caracteres`;
-    }
-    if (errors['pattern']) return 'El formato no es válido';
-    
-    // Fallback
-    const firstErrorKey = Object.keys(errors)[0];
-    return typeof errors[firstErrorKey] === 'string' ? errors[firstErrorKey] : 'Valor inválido';
+    return !!(this.currentErrorMessage && this.touched);
   }
 }

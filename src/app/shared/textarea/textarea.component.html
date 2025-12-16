@@ -11,7 +11,7 @@
     [attr.rows]="rows()"
     [attr.name]="name() || null"
     [attr.placeholder]="placeholder() || null"
-    [attr.disabled]="isDisabled() || null"
+    [attr.disabled]="isDisabled || null"
     [value]="value"
     (input)="onInput($event)"
     (blur)="onBlur()"

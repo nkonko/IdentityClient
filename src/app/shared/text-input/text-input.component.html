@@ -6,33 +6,17 @@
     }
   </label>
   
-  <!-- Si tenemos formControl, usar reactive forms -->
-  @if (formControl()) {
-    <input
-      [id]="name()"
-      [ngClass]="inputClasses"
-      [attr.type]="type()"
-      [attr.name]="name() || null"
-      [attr.autocomplete]="autocomplete() || null"
-      [attr.placeholder]="placeholder() || null"
-      [formControl]="formControl()!"
-      (blur)="onBlur()"
-    />
-  } @else {
-    <!-- Fallback para ControlValueAccessor -->
-    <input
-      [id]="name()"
-      [ngClass]="inputClasses"
-      [attr.type]="type()"
-      [attr.name]="name() || null"
-      [attr.autocomplete]="autocomplete() || null"
-      [attr.placeholder]="placeholder() || null"
-      [value]="value"
-      [attr.disabled]="isDisabled()"
-      (input)="onInput($event)"
-      (blur)="onBlur()"
-    />
-  }
+  <input
+    [id]="name()"
+    [ngClass]="inputClasses"
+    [attr.type]="type()"
+    [attr.name]="name() || null"
+    [attr.autocomplete]="autocomplete() || null"
+    [attr.placeholder]="placeholder() || null"
+    [value]="value"
+    (input)="onInput($event)"
+    (blur)="onBlur()"
+  />
   
   @if (showError) {
     <div class="ud-error">{{ currentErrorMessage }}</div>

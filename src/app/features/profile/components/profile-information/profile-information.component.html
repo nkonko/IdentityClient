@@ -17,7 +17,7 @@
           name="name"
           autocomplete="name"
           [required]="true"
-          [control]="nameControl">
+          formControlName="name">
         </app-form-text-input>
 
         <app-form-text-input
@@ -26,7 +26,7 @@
           name="email"
           autocomplete="email"
           [required]="true"
-          [control]="emailControl">
+          formControlName="email">
         </app-form-text-input>
 
         <app-form-text-input
@@ -34,7 +34,7 @@
           name="position"
           autocomplete="organization-title"
           placeholder="e.g. Senior Developer, Project Manager"
-          [control]="positionControl">
+          formControlName="position">
         </app-form-text-input>
 
         <app-textarea
@@ -42,7 +42,7 @@
           name="bio"
           placeholder="Tell us a bit about yourself..."
           [rows]="4"
-          [control]="bioControl">
+          formControlName="bio">
         </app-textarea>
       </div>
     </form>
