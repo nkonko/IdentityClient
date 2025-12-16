@@ -28,7 +28,7 @@
       [attr.autocomplete]="autocomplete() || null"
       [attr.placeholder]="placeholder() || null"
       [value]="value"
-      [disabled]="disabled()"
+      [attr.disabled]="isDisabled()"
       (input)="onInput($event)"
       (blur)="onBlur()"
     />

@@ -43,33 +43,41 @@
       <mat-card class="profile-card">
         <mat-tab-group class="ud-tabs" mat-stretch-tabs color="primary">
           <mat-tab label="Profile Information">
-            <div class="tab-content">
-              <app-profile-information
-                [user]="user"
-                [form]="form"
-                [isLoading]="isLoading">
-              </app-profile-information>
+            <div class="tab-content" style="padding: 2rem;">
+              <div style="display: grid; grid-template-columns: auto 1fr; gap: 2rem; align-items: start;">
+                <!-- Columna 1: Avatar -->
+                <div>
+                  <app-skeleton-avatar [size]="120"></app-skeleton-avatar>
+                </div>
+
+                <!-- Columna 2: Formulario -->
+                <app-skeleton-form [columns]="1">
+                  <app-skeleton-input label="Full Name"></app-skeleton-input>
+                  <app-skeleton-input label="Position"></app-skeleton-input>
+                  <app-skeleton-input label="Email Address"></app-skeleton-input>
+                  <app-skeleton-textarea label="Bio" [height]="120"></app-skeleton-textarea>
+                </app-skeleton-form>
+              </div>
             </div>
           </mat-tab>
 
           <mat-tab label="Security">
-            <div class="tab-content">
-              <app-security [isLoading]="isLoading"></app-security>
+            <div class="tab-content" style="padding: 2rem;">
+              <app-skeleton-form [columns]="1">
+              </app-skeleton-form>
             </div>
           </mat-tab>
 
           <mat-tab label="Notifications">
-            <div class="tab-content">
-              <app-notifications [isLoading]="isLoading"></app-notifications>
+            <div class="tab-content" style="padding: 2rem;">
+              <app-skeleton-form [columns]="1">
+              </app-skeleton-form>
             </div>
           </mat-tab>
         </mat-tab-group>
 
         <mat-card-actions align="end">
-          <app-button
-            icon="save_as"
-            label="Save Changes">
-          </app-button>
+          <app-skeleton-button [width]="120" [height]="40"></app-skeleton-button>
         </mat-card-actions>
       </mat-card>
     </app-skeleton>

@@ -11,8 +11,8 @@
     [attr.rows]="rows()"
     [attr.name]="name() || null"
     [attr.placeholder]="placeholder() || null"
+    [attr.disabled]="isDisabled() || null"
     [value]="value"
-    [disabled]="disabled()"
     (input)="onInput($event)"
     (blur)="onBlur()"
   ></textarea>

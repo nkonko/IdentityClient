@@ -17,6 +17,11 @@ import { SecurityComponent } from './components/security/security.component';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { SectionTitleComponent } from "../../shared/section-title/section-title.component";
 import { SkeletonComponent } from '../../shared/skeleton/skeleton.component';
+import { SkeletonInputComponent } from '../../shared/skeleton/skeleton-input.component';
+import { SkeletonTextareaComponent } from '../../shared/skeleton/skeleton-textarea.component';
+import { SkeletonAvatarComponent } from '../../shared/skeleton/skeleton-avatar.component';
+import { SkeletonButtonComponent } from '../../shared/skeleton/skeleton-button.component';
+import { SkeletonFormComponent } from '../../shared/skeleton/skeleton-form.component';
 
 @Component({
   selector: 'app-user-profile',
@@ -35,7 +40,12 @@ import { SkeletonComponent } from '../../shared/skeleton/skeleton.component';
     NotificationsComponent,
     ButtonComponent,
     SectionTitleComponent,
-    SkeletonComponent
+    SkeletonComponent,
+    SkeletonInputComponent,
+    SkeletonTextareaComponent,
+    SkeletonAvatarComponent,
+    SkeletonButtonComponent,
+    SkeletonFormComponent
 ],
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss']

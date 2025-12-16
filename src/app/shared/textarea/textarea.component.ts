@@ -23,7 +23,9 @@ export class TextareaComponent implements ControlValueAccessor {
   rows = input<number>(4);
   name = input<string>();
   required = input<boolean>(false);
-  disabled = input<boolean>(false);
+  // Usar isDisabled en lugar de disabled para evitar el warning de Angular
+  // cuando se usa con reactive forms
+  isDisabled = input<boolean>(false);
   control = input<FormControl>(); // For backward compatibility
   errorMessage = input<string>();
 
@@ -72,7 +74,12 @@ export class TextareaComponent implements ControlValueAccessor {
     if (this.currentErrorMessage && this.touched) {
       classes += ' ud-textarea--error';
     }
-    if (this.disabled()) {
+    // Solo aplicar isDisabled para ControlValueAccessor mode
+    if (!this.control() && this.isDisabled()) {
+      classes += ' ud-textarea--disabled';
+    }
+    // Para control mode, el FormControl maneja su propio estado disabled
+    if (this.control() && this.control()!.disabled) {
       classes += ' ud-textarea--disabled';
     }
     return classes;

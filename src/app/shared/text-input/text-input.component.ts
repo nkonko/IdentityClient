@@ -23,7 +23,9 @@ export class TextInputComponent implements ControlValueAccessor {
   name = input<string>();
   autocomplete = input<string>();
   required = input<boolean>(false);
-  disabled = input<boolean>(false);
+  // Usar isDisabled en lugar de disabled para evitar el warning de Angular
+  // cuando se usa con reactive forms
+  isDisabled = input<boolean>(false);
   errorMessage = input<string>();
   formControl = input<FormControl>(); // Para uso directo con reactive forms
 
@@ -70,7 +72,12 @@ export class TextInputComponent implements ControlValueAccessor {
     if (this.currentErrorMessage && (this.touched || this.hasFormControlErrors)) {
       classes += ' ud-input--error';
     }
-    if (this.disabled()) {
+    // Solo aplicar isDisabled para ControlValueAccessor mode, no para formControl mode
+    if (!this.formControl() && this.isDisabled()) {
+      classes += ' ud-input--disabled';
+    }
+    // Para formControl mode, el FormControl maneja su propio estado disabled
+    if (this.formControl() && this.formControl()!.disabled) {
       classes += ' ud-input--disabled';
     }
     return classes;
