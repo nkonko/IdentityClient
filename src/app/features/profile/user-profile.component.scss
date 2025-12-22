@@ -14,9 +14,11 @@
 }
 .ud-tabs ::ng-deep .mdc-tab__text-label {
   font-weight: 500;
+  color: var(--color-text-muted);
 }
 .ud-tabs ::ng-deep .mdc-tab--active .mdc-tab__text-label {
   font-weight: 600;
+  color: var(--color-text);
 }
 .ud-tabs ::ng-deep .mdc-tab-indicator__content--underline {
   border-top-width: 3px;
