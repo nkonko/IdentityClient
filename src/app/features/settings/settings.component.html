@@ -1,7 +1,7 @@
 <div class="settings-container" *transloco="let t">
   <app-section-title></app-section-title>
 
-  @if (isLoading()) {
+  @if (isLoading$ | async) {
     <div class="loading-container">
       <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
       <p>{{ t('settings.loading') }}</p>

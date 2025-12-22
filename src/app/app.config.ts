@@ -14,8 +14,11 @@ import { ErrorHandlerInterceptor } from './core/interceptors/error-handler.inter
 import { authReducer } from './core/store/auth/auth.reducer';
 import { roleReducer } from './core/store/roles/roles.reducer';
 import { RoleEffects } from './core/store/roles/roles.effects';
+import { settingsReducer } from './core/store/settings/settings.reducer';
+import { SettingsEffects } from './core/store/settings/settings.effects';
 import { HttpLoader } from './core/services/transloco-loader.service';
 import { languageInitializer } from './core/initializers/language.initializer';
+import { settingsInitializer } from './core/initializers/settings.initializer';
 import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
@@ -25,9 +28,10 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideStore({
       auth: authReducer,
-      roles: roleReducer
+      roles: roleReducer,
+      settings: settingsReducer
     }),
-    provideEffects([RoleEffects]),
+    provideEffects([RoleEffects, SettingsEffects]),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: false,
@@ -47,6 +51,7 @@ export const appConfig: ApplicationConfig = {
       loader: HttpLoader
     }),
     languageInitializer,
+    settingsInitializer,
     { provide: IdentityClient,
       useFactory: (http: HttpClient, baseUrl: string) =>
          new IdentityClient(http, baseUrl), deps: [HttpClient, API_BASE_URL] }

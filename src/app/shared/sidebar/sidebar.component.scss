@@ -21,12 +21,40 @@
   text-decoration: none;
   margin: 6px 8px 16px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
 }
 
 .logo {
   width: 32px;
   height: 32px;
   color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.company-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.company-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.support-email {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .nav { display: flex; flex-direction: column; gap: 6px; }

@@ -9,10 +9,12 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDividerModule } from '@angular/material/divider';
 import { TranslocoDirective } from '@jsverse/transloco';
+import { Store } from '@ngrx/store';
 
-import { SettingsFacade } from '../../core/facades/settings.facade';
 import { SettingsDto, SettingsUpdateDto } from '../../core/api/api-client';
 import { SectionTitleComponent } from '../../shared/section-title/section-title.component';
+import { selectSettings, selectIsLoading } from '../../core/store/settings/settings.selectors';
+import { updateSettings } from '../../core/store/settings/settings.actions';
 
 @Component({
   selector: 'app-settings',
@@ -34,14 +36,17 @@ import { SectionTitleComponent } from '../../shared/section-title/section-title.
   styleUrl: './settings.component.scss'
 })
 export class SettingsComponent implements OnInit {
-  private readonly settingsFacade = inject(SettingsFacade);
+  private readonly store = inject(Store);
   private readonly fb = inject(FormBuilder);
   private readonly snackBar = inject(MatSnackBar);
 
   // Signals for reactive state management
-  protected isLoading = signal(false);
   protected isSaving = signal(false);
   protected currentSettings = signal<SettingsDto | null>(null);
+
+  // Store selectors
+  protected settings$ = this.store.select(selectSettings);
+  protected isLoading$ = this.store.select(selectIsLoading);
 
   // Form group
   protected settingsForm: FormGroup;
@@ -58,23 +63,15 @@ export class SettingsComponent implements OnInit {
   }
 
   protected loadSettings() {
-    this.isLoading.set(true);
-    this.settingsFacade.getSettings().subscribe({
+    this.settings$.subscribe({
       next: (settings) => {
-        this.currentSettings.set(settings);
-        this.settingsForm.patchValue({
-          companyName: settings.companyName || '',
-          supportEmail: settings.supportEmail || ''
-        });
-        this.isLoading.set(false);
-      },
-      error: (error) => {
-        console.error('Error loading settings:', error);
-        this.snackBar.open('Error al cargar las configuraciones', 'Cerrar', { 
-          duration: 5000,
-          panelClass: ['error-snackbar']
-        });
-        this.isLoading.set(false);
+        if (settings) {
+          this.currentSettings.set(settings);
+          this.settingsForm.patchValue({
+            companyName: settings.companyName || '',
+            supportEmail: settings.supportEmail || ''
+          });
+        }
       }
     });
   }
@@ -96,25 +93,15 @@ export class SettingsComponent implements OnInit {
       supportEmail: formValue.supportEmail?.trim()
     });
 
-    this.settingsFacade.updateSettings(updateDto).subscribe({
-      next: () => {
-        this.snackBar.open('Configuraciones guardadas correctamente', 'Cerrar', { 
-          duration: 5000,
-          panelClass: ['success-snackbar']
-        });
-        this.isSaving.set(false);
-        // Reload settings to get the updated values
-        this.loadSettings();
-      },
-      error: (error) => {
-        console.error('Error saving settings:', error);
-        this.snackBar.open('Error al guardar las configuraciones', 'Cerrar', { 
-          duration: 5000,
-          panelClass: ['error-snackbar']
-        });
-        this.isSaving.set(false);
-      }
+    // Dispatch action to update settings
+    this.store.dispatch(updateSettings({ settings: updateDto as SettingsDto }));
+    
+    this.snackBar.open('Configuraciones guardadas correctamente', 'Cerrar', { 
+      duration: 5000,
+      panelClass: ['success-snackbar']
     });
+    this.isSaving.set(false);
+    this.settingsForm.markAsPristine();
   }
 
   protected resetForm() {
