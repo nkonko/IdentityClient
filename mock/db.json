@@ -44,7 +44,13 @@
   "users": [
     {
       "status": "Active",
-      "id": "1"
+      "id": "1",
+      "email": "admin@example.com",
+      "name": "Admin User",
+      "roles": [
+        "Admin"
+      ],
+      "position": "System Administrator"
     },
     {
       "id": "2",
