@@ -1,4 +1,5 @@
 export const environment = {
   production: false,
-  apiBaseUrl: 'http://localhost:3000'
+  identityApiBaseUrl: 'http://localhost:3000',
+  dashboardApiBaseUrl: 'http://localhost:3000'
 };

@@ -8,7 +8,15 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideTransloco } from '@jsverse/transloco';
 
 import { routes } from './app.routes';
-import { API_BASE_URL, IdentityClient } from './core/api/api-client';
+// Clientes generados por NSwag
+import { IDENTITY_API_BASE_URL, IdentityClient } from './core/api/identity-api-client';
+import {
+  DASHBOARD_API_BASE_URL,
+  DashboardClient,
+  SubscriptionsClient,
+  SettingsClient,
+  PaymentsClient
+} from './core/api/dashboard-api-client';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { ErrorHandlerInterceptor } from './core/interceptors/error-handler.interceptor';
 import { authReducer } from './core/store/auth/auth.reducer';
@@ -39,7 +47,9 @@ export const appConfig: ApplicationConfig = {
       trace: false,
       traceLimit: 75,
     }),
-    { provide: API_BASE_URL, useValue: environment.apiBaseUrl },
+    // API Base URLs
+    { provide: IDENTITY_API_BASE_URL, useValue: environment.identityApiBaseUrl },
+    { provide: DASHBOARD_API_BASE_URL, useValue: environment.dashboardApiBaseUrl },
     provideTransloco({
       config: {
         availableLangs: ['es', 'en'],
@@ -52,8 +62,32 @@ export const appConfig: ApplicationConfig = {
     }),
     languageInitializer,
     settingsInitializer,
-    { provide: IdentityClient,
-      useFactory: (http: HttpClient, baseUrl: string) =>
-         new IdentityClient(http, baseUrl), deps: [HttpClient, API_BASE_URL] }
+    // Identity API Client
+    {
+      provide: IdentityClient,
+      useFactory: (http: HttpClient, baseUrl: string) => new IdentityClient(http, baseUrl),
+      deps: [HttpClient, IDENTITY_API_BASE_URL]
+    },
+    // Dashboard API Clients
+    {
+      provide: DashboardClient,
+      useFactory: (http: HttpClient, baseUrl: string) => new DashboardClient(http, baseUrl),
+      deps: [HttpClient, DASHBOARD_API_BASE_URL]
+    },
+    {
+      provide: SubscriptionsClient,
+      useFactory: (http: HttpClient, baseUrl: string) => new SubscriptionsClient(http, baseUrl),
+      deps: [HttpClient, DASHBOARD_API_BASE_URL]
+    },
+    {
+      provide: SettingsClient,
+      useFactory: (http: HttpClient, baseUrl: string) => new SettingsClient(http, baseUrl),
+      deps: [HttpClient, DASHBOARD_API_BASE_URL]
+    },
+    {
+      provide: PaymentsClient,
+      useFactory: (http: HttpClient, baseUrl: string) => new PaymentsClient(http, baseUrl),
+      deps: [HttpClient, DASHBOARD_API_BASE_URL]
+    }
   ]
 };

@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiBaseUrl: '/api'
+  identityApiBaseUrl: '/identity-api',
+  dashboardApiBaseUrl: '/dashboard-api'
 };
