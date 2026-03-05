@@ -8,7 +8,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { DashboardFacade } from '../../core/facades/dashboard.facade';
-import { DashboardSummaryDto, DashboardMetricsDto, DashboardRecentDto, DashboardNotificationDto } from '../../core/api/api-client';
+import { DashboardSummary, DashboardMetrics, DashboardRecent, DashboardNotification } from '../../core/models';
 import { SectionTitleComponent } from '../../shared/section-title/section-title.component';
 
 @Component({
@@ -30,10 +30,10 @@ export class DashboardComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly snackBar = inject(MatSnackBar);
 
-  protected summary: DashboardSummaryDto | null = null;
-  protected metrics: DashboardMetricsDto | null = null;
-  protected recent: DashboardRecentDto | null = null;
-  protected notifications: DashboardNotificationDto[] = [];
+  protected summary: DashboardSummary | null = null;
+  protected metrics: DashboardMetrics | null = null;
+  protected recent: DashboardRecent | null = null;
+  protected notifications: DashboardNotification[] = [];
 
   protected isLoading = {
     summary: false,

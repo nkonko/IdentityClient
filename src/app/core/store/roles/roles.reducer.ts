@@ -1,15 +1,15 @@
 import { createReducer, on } from '@ngrx/store';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { RoleDto, PermissionDto } from '../../api/api-client';
+import { Role, Permission } from '../../models';
 import * as RoleActions from './roles.actions';
 
-export interface RoleState extends EntityState<RoleDto> {
-  permissions: PermissionDto[];
+export interface RoleState extends EntityState<Role> {
+  permissions: Permission[];
   loading: boolean;
   error: any;
 }
 
-export const adapter: EntityAdapter<RoleDto> = createEntityAdapter<RoleDto>();
+export const adapter: EntityAdapter<Role> = createEntityAdapter<Role>();
 
 export const initialState: RoleState = adapter.getInitialState({
   permissions: [],

@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { UserDto } from '../api/api-client';
+import { User } from '../models';
 import { map, Observable, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { updateUserProfileSuccess, User as AuthUser } from '../store/auth/auth.actions';
@@ -10,24 +10,24 @@ export class UserProfileService {
   private readonly userFacade = inject(UserFacade);
   private readonly store = inject(Store);
 
-  // Mapea UserDto (API) -> AuthUser (estado)
-  private mapUser(dto: UserDto): AuthUser {
+  // Mapea User (domain model) -> AuthUser (estado)
+  private mapUser(user: User): AuthUser {
     return {
-      id: dto.id || '',
-      name: dto.name || '',
-      email: dto.email || '',
-      roles: dto.roles || [],
-      status: dto.status,
-      position: dto.position ?? null,
-      bio: dto.bio ?? null,
-      profilePictureUrl: dto.profilePictureUrl ?? null,
-      lastLogin: dto.lastLogin ?? null
+      id: user.id || '',
+      name: user.name || '',
+      email: user.email || '',
+      roles: user.roles || [],
+      status: user.status,
+      position: user.position ?? null,
+      bio: user.bio ?? null,
+      profilePictureUrl: user.profilePictureUrl ?? null,
+      lastLogin: user.lastLogin ?? null
     };
   }
 
   // Obtiene el perfil desde API usando el UserFacade y lo devuelve mapeado
   loadProfile(): Observable<AuthUser> {
-    return this.userFacade.me().pipe(map(dto => this.mapUser(dto)));
+    return this.userFacade.me().pipe(map(user => this.mapUser(user)));
   }
 
   // Obtiene el perfil y lo guarda en el store

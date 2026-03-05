@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { UserStatus } from '../../api/api-client';
+import { UserStatus } from '../../models';
 
 // Modelo de usuario alineado con el perfil (UserDto)
 export interface User {

@@ -18,7 +18,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { AuditFacade } from '../../core/facades/audit.facade';
-import { AuditLogDto } from '../../core/api/api-client';
+import { AuditLog } from '../../core/models';
 import { SectionTitleComponent } from '../../shared/section-title/section-title.component';
 
 @Component({
@@ -51,7 +51,7 @@ export class AuditComponent implements OnInit {
   private readonly auditFacade = inject(AuditFacade);
   private readonly snackBar = inject(MatSnackBar);
 
-  protected allLogs = signal<AuditLogDto[]>([]);
+  protected allLogs = signal<AuditLog[]>([]);
   protected isLoading = signal(false);
   protected pageIndex = signal(0);
   protected pageSize = signal(10);
@@ -73,7 +73,7 @@ export class AuditComponent implements OnInit {
 
     const searchTerm = this.searchControl.value?.toLowerCase() || '';
     if (searchTerm) {
-      logs = logs.filter(log => 
+      logs = logs.filter(log =>
         log.action?.toLowerCase().includes(searchTerm) ||
         log.userId?.toLowerCase().includes(searchTerm) ||
         log.id?.toLowerCase().includes(searchTerm)
@@ -96,14 +96,14 @@ export class AuditComponent implements OnInit {
       logs = logs.filter(log => {
         if (!log.date) return false;
         const logDate = new Date(log.date);
-        
+
         if (dateFrom && logDate < dateFrom) return false;
         if (dateTo) {
           const endOfDay = new Date(dateTo);
           endOfDay.setHours(23, 59, 59, 999);
           if (logDate > endOfDay) return false;
         }
-        
+
         return true;
       });
     }
@@ -156,7 +156,7 @@ export class AuditComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading audit logs:', error);
-        this.snackBar.open('Error al cargar los logs de auditoría', 'Cerrar', { 
+        this.snackBar.open('Error al cargar los logs de auditoría', 'Cerrar', {
           duration: 5000,
           panelClass: ['error-snackbar']
         });
@@ -180,7 +180,7 @@ export class AuditComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading user audit logs:', error);
-        this.snackBar.open(`Error al cargar los logs para el usuario: ${userId}`, 'Cerrar', { 
+        this.snackBar.open(`Error al cargar los logs para el usuario: ${userId}`, 'Cerrar', {
           duration: 5000,
           panelClass: ['error-snackbar']
         });
@@ -201,7 +201,7 @@ export class AuditComponent implements OnInit {
   protected onSort(sort: Sort) {
     this.sortBy.set(sort.active);
     this.sortDirection.set(sort.direction as 'asc' | 'desc' || 'desc');
-    this.pageIndex.set(0); 
+    this.pageIndex.set(0);
   }
 
   protected onPageChange(event: PageEvent) {
@@ -215,13 +215,13 @@ export class AuditComponent implements OnInit {
 
   protected getActionChipColor(action: string): string {
     const actionLower = action?.toLowerCase();
-    
+
     if (actionLower?.includes('create') || actionLower?.includes('add')) return 'primary';
     if (actionLower?.includes('update') || actionLower?.includes('edit')) return 'accent';
     if (actionLower?.includes('delete') || actionLower?.includes('remove')) return 'warn';
     if (actionLower?.includes('login') || actionLower?.includes('signin')) return 'primary';
     if (actionLower?.includes('logout') || actionLower?.includes('signout')) return 'basic';
-    
+
     return 'basic';
   }
 }

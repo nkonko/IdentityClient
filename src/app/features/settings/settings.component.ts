@@ -11,7 +11,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 
-import { SettingsDto, SettingsUpdateDto } from '../../core/api/api-client';
+import { Settings, SettingsUpdate } from '../../core/models';
 import { SectionTitleComponent } from '../../shared/section-title/section-title.component';
 import { selectSettings, selectIsLoading } from '../../core/store/settings/settings.selectors';
 import { updateSettings } from '../../core/store/settings/settings.actions';
@@ -42,7 +42,7 @@ export class SettingsComponent implements OnInit {
 
   // Signals for reactive state management
   protected isSaving = signal(false);
-  protected currentSettings = signal<SettingsDto | null>(null);
+  protected currentSettings = signal<Settings | null>(null);
 
   // Store selectors
   protected settings$ = this.store.select(selectSettings);
@@ -79,7 +79,7 @@ export class SettingsComponent implements OnInit {
   protected saveSettings() {
     if (this.settingsForm.invalid) {
       this.settingsForm.markAllAsTouched();
-      this.snackBar.open('Por favor corrija los errores en el formulario', 'Cerrar', { 
+      this.snackBar.open('Por favor corrija los errores en el formulario', 'Cerrar', {
         duration: 5000,
         panelClass: ['warn-snackbar']
       });
@@ -88,15 +88,15 @@ export class SettingsComponent implements OnInit {
 
     this.isSaving.set(true);
     const formValue = this.settingsForm.value;
-    const updateDto = new SettingsUpdateDto({
+    const settingsUpdate: SettingsUpdate = {
       companyName: formValue.companyName?.trim(),
       supportEmail: formValue.supportEmail?.trim()
-    });
+    };
 
     // Dispatch action to update settings
-    this.store.dispatch(updateSettings({ settings: updateDto as SettingsDto }));
-    
-    this.snackBar.open('Configuraciones guardadas correctamente', 'Cerrar', { 
+    this.store.dispatch(updateSettings({ settings: settingsUpdate as Settings }));
+
+    this.snackBar.open('Configuraciones guardadas correctamente', 'Cerrar', {
       duration: 5000,
       panelClass: ['success-snackbar']
     });

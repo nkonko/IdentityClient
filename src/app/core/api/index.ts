@@ -9,4 +9,33 @@
 export * from './identity-api-client';
 
 // Dashboard API - Subscriptions, Settings, Payments, Dashboard
-export * from './dashboard-api-client';
+// Re-export explícito para evitar conflicto de ApiException
+export {
+  DASHBOARD_API_BASE_URL,
+  DashboardClient,
+  DashboardMetricsDto,
+  DashboardNotificationDto,
+  DashboardRecentDto,
+  DashboardSummaryDto,
+  PaymentWebhookDto,
+  PaymentWebhookResponseDto,
+  SettingsDto,
+  SettingsUpdateDto,
+  SubscriptionCreateDto,
+  SubscriptionDto,
+  SubscriptionUpdateDto,
+} from './dashboard-api-client';
+export type {
+  IDashboardClient,
+  IDashboardMetricsDto,
+  IDashboardNotificationDto,
+  IDashboardRecentDto,
+  IDashboardSummaryDto,
+  IPaymentWebhookDto,
+  IPaymentWebhookResponseDto,
+  ISettingsDto,
+  ISettingsUpdateDto,
+  ISubscriptionCreateDto,
+  ISubscriptionDto,
+  ISubscriptionUpdateDto,
+} from './dashboard-api-client';

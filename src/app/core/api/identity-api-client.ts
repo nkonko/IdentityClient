@@ -14,7 +14,7 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angula
 
 export const IDENTITY_API_BASE_URL = new InjectionToken<string>('IDENTITY_API_BASE_URL');
 
-export interface IClient {
+export interface IIdentityClient {
     /**
      * @return OK
      */
@@ -103,7 +103,7 @@ export interface IClient {
 }
 
 @Injectable()
-export class Client implements IClient {
+export class IdentityClient implements IIdentityClient {
     private http: HttpClient;
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;

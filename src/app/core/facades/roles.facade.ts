@@ -1,6 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { IdentityClient, PermissionDto, RoleCreateDto, RoleUpdateDto } from '../api/api-client';
+import { IdentityClient, RoleCreateDto, RoleUpdateDto, PermissionDto } from '../api';
+import { map } from 'rxjs/operators';
+import { Role, Permission } from '../models';
 import * as RoleActions from '../store/roles/roles.actions';
 import * as fromRoles from '../store/roles/roles.selectors';
 import { RoleState } from '../store/roles/roles.reducer';
@@ -39,13 +41,17 @@ export class RolesFacade {
     this.store.dispatch(RoleActions.updatePermissions({ roleId, permissions }));
   }
 
-  // Direct API calls that might be needed for the effects
+  // Direct API calls that return domain models
   getRolesApi() {
-    return this.apiClient.rolesAll();
+    return this.apiClient.rolesAll().pipe(
+      map(dtos => dtos.map(dto => this.mapToRole(dto)))
+    );
   }
 
   createRoleApi(role: { name: string; permissions: string[] }) {
-    return this.apiClient.rolesPOST(new RoleCreateDto({ name: role.name }));
+    return this.apiClient.rolesPOST(new RoleCreateDto({ name: role.name })).pipe(
+      map(dto => this.mapToRole(dto))
+    );
   }
 
   updateRoleApi(role: { id: string; name: string; }) {
@@ -57,11 +63,27 @@ export class RolesFacade {
   }
 
   getPermissionsApi(roleId: string) {
-    return this.apiClient.permissionsAll(roleId);
+    return this.apiClient.permissionsAll(roleId).pipe(
+      map(dtos => dtos.map(dto => this.mapToPermission(dto)))
+    );
   }
 
   updatePermissionsApi(roleId: string, permissions: string[]) {
     const permissionDtos: PermissionDto[] = permissions.map(p => new PermissionDto({ name: p }));
     return this.apiClient.permissions(roleId, permissionDtos);
+  }
+
+  private mapToRole(dto: any): Role {
+    return {
+      id: dto.id ?? '',
+      name: dto.name ?? '',
+      permissions: (dto.permissions ?? []).map((p: any) => this.mapToPermission(p)),
+    };
+  }
+
+  private mapToPermission(dto: any): Permission {
+    return {
+      name: dto.name ?? '',
+    };
   }
 }

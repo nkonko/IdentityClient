@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { IdentityClient, AuthResponseDto, LoginModel, UserPasswordDto, RegisterModel, UserStatus } from '../api/api-client';
+import { IdentityClient, LoginModel, UserPasswordDto, RegisterModel, UserStatus as ApiUserStatus } from '../api';
 import { TokenService } from '../services/token.service';
 import { NavigationService } from '../services/navigation.service';
 import { LoggingService } from '../services/logging.service';
@@ -9,6 +9,8 @@ import * as AuthActions from '../store/auth/auth.actions';
 import { User } from '../store/auth/auth.actions';
 import { UserProfileService } from '../services/user-profile.service';
 import { UserFacade } from './user.facade';
+import { UserStatus } from '../models';
+import { UserPasswordChange } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class AuthFacade {
@@ -33,10 +35,10 @@ export class AuthFacade {
 
     const model = new LoginModel({ username, password });
     return this.client.login(model).pipe(
-      tap((res: AuthResponseDto) => {
+      tap((res) => {
         this.logger.log(this.componentName, 'Login response received, token exists:', !!res.token);
       }),
-      switchMap((res: AuthResponseDto) => {
+      switchMap((res) => {
         if (res && res.token) {
           this.logger.log(this.componentName, 'Setting token in storage');
           this.tokenService.setToken(res.token);
@@ -50,16 +52,16 @@ export class AuthFacade {
           return this.userProfileService.loadProfile().pipe(
             switchMap((userProfile: User) => {
               const userStatus = userProfile.status;
-              
+
               this.logger.log(this.componentName, 'User status:', userStatus);
-              
+
               // Si el usuario está bloqueado, impedir login
               if (userStatus === UserStatus.Blocked) {
                 this.logger.warn(this.componentName, 'User is blocked, denying access');
                 this.logout(); // Limpiar tokens
                 return throwError(() => new Error('Su cuenta ha sido bloqueada. Contacte al administrador.'));
               }
-              
+
               // Si el usuario está inactivo, activarlo
               if (userStatus === UserStatus.Inactive) {
                 this.logger.log(this.componentName, 'User is inactive, activating...');
@@ -83,14 +85,14 @@ export class AuthFacade {
                   })
                 );
               }
-              
+
               // Usuario activo - proceder normalmente
               this.store.dispatch(AuthActions.updateUserProfileSuccess({ user: userProfile }));
               this.store.dispatch(AuthActions.loginSuccess({ user: userProfile, token: res.token! }));
               this._isAuthenticated$.next(true);
               this.logger.log(this.componentName, 'Active user logged in successfully');
               this.navigationService.redirectToDashboard();
-              
+
               return new Observable<void>(subscriber => {
                 subscriber.next();
                 subscriber.complete();
@@ -113,8 +115,11 @@ export class AuthFacade {
     this.navigationService.redirectToLogin();
   }
 
-  changePassword(payload: UserPasswordDto) {
-    return this.client.password(payload);
+  changePassword(payload: UserPasswordChange): Observable<void> {
+    const dto = new UserPasswordDto();
+    dto.currentPassword = payload.currentPassword;
+    dto.newPassword = payload.newPassword;
+    return this.client.password(dto);
   }
 
   register(username: string, email: string, password: string): Observable<void> {

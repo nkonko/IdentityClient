@@ -1,9 +1,9 @@
 import { createReducer, on } from '@ngrx/store';
-import { SettingsDto } from '../../api/api-client';
+import { Settings } from '../../models';
 import * as SettingsActions from './settings.actions';
 
 export interface SettingsState {
-  settings: SettingsDto | null;
+  settings: Settings | null;
   isLoading: boolean;
   error: any | null;
 }

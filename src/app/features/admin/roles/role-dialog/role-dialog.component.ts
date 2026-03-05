@@ -9,17 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { ModalComponent } from '../../../../shared/modal/modal.component';
 import { ButtonComponent } from '../../../../shared/button/button.component';
-import { RoleDto } from '../../../../core/api/api-client';
-
-export interface RoleDialogData {
-  isPermissionsOnly: boolean;
-  role?: RoleDto;
-}
-
-export interface RoleDialogResult {
-  name?: string;
-  permissions: string[];
-}
+import { RoleDialogData, RoleDialogResult } from '../models';
 
 @Component({
   selector: 'app-role-dialog',
@@ -52,7 +42,7 @@ export class RoleDialogComponent implements OnInit {
 
   roleForm: FormGroup;
   selectedPermissions: string[] = [];
-  
+
   // Predefined permissions for better UX
   availablePermissions: { name: string; description: string }[] = [
     { name: 'users.view', description: 'Ver usuarios del sistema' },
@@ -153,7 +143,7 @@ export class RoleDialogComponent implements OnInit {
 
   onSave(): void {
     const dialogData = this.data();
-    
+
     if (dialogData.isPermissionsOnly) {
       // Permissions-only mode: only return permissions
       const result: RoleDialogResult = {

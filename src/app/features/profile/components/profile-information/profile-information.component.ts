@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormTextInputComponent } from '../../../../shared/text-input/form-text-input.component';
 import { TextareaComponent } from '../../../../shared/textarea/textarea.component';
-import { UserDto } from '../../../../core/api/api-client';
+import { User } from '../../../../core/models';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ProfileAvatarComponent } from '../avatar/profile-avatar.component';
 
@@ -32,7 +32,7 @@ import { ProfileAvatarComponent } from '../avatar/profile-avatar.component';
   styleUrls: ['./profile-information.component.scss']
 })
 export class ProfileInformationComponent implements OnInit {
-  user = input<UserDto | null>(null);
+  user = input<User | null>(null);
   isLoading = input<boolean>(false);
   form = input.required<FormGroup>();
   @Output() save = new EventEmitter<void>();

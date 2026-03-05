@@ -1,11 +1,11 @@
 import { createAction, props } from '@ngrx/store';
-import { SettingsDto } from '../../api/api-client';
+import { Settings } from '../../models';
 
 export const loadSettings = createAction('[Settings] Load Settings');
 
 export const loadSettingsSuccess = createAction(
   '[Settings] Load Settings Success',
-  props<{ settings: SettingsDto }>()
+  props<{ settings: Settings }>()
 );
 
 export const loadSettingsFailure = createAction(
@@ -15,12 +15,12 @@ export const loadSettingsFailure = createAction(
 
 export const updateSettings = createAction(
   '[Settings] Update Settings',
-  props<{ settings: SettingsDto }>()
+  props<{ settings: Settings }>()
 );
 
 export const updateSettingsSuccess = createAction(
   '[Settings] Update Settings Success',
-  props<{ settings: SettingsDto }>()
+  props<{ settings: Settings }>()
 );
 
 export const updateSettingsFailure = createAction(

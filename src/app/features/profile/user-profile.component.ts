@@ -8,11 +8,12 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
 import { UserFacade } from '../../core/facades/user.facade';
-import { UserDto, UserUpdateDto } from '../../core/api/api-client';
+import { User, UserUpdate } from '../../core/models';
 import { Store } from '@ngrx/store';
 import { updateUserProfileSuccess } from '../../core/store/auth/auth.actions';
 import { ProfileInformationComponent } from './components/profile-information/profile-information.component';
-import { NotificationsComponent, NotificationPreferences } from './components/notifications/notifications.component';
+import { NotificationsComponent } from './components/notifications/notifications.component';
+import { NotificationPreferences } from './models';
 import { SecurityComponent } from './components/security/security.component';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { SectionTitleComponent } from "../../shared/section-title/section-title.component";
@@ -53,13 +54,13 @@ import { SkeletonFormComponent } from '../../shared/skeleton/skeleton-form.compo
 export class UserProfileComponent implements OnInit {
   securityComponent = viewChild(SecurityComponent);
   notificationsComponent = viewChild(NotificationsComponent);
-  
+
   private readonly fb = inject(FormBuilder);
   private readonly userFacade = inject(UserFacade);
   private readonly snackBar = inject(MatSnackBar);
   private readonly store = inject(Store);
 
-  user: UserDto | null = null;
+  user: User | null = null;
   isLoading = false;
   currentTab = 0; // Para saber qué tab está activa
 
@@ -132,11 +133,12 @@ export class UserProfileComponent implements OnInit {
       }
 
       this.isLoading = true;
-      const update = new UserUpdateDto();
-      update.name = this.form.value.name || '';
-      update.email = this.form.value.email || '';
-      update.position = this.form.value.position || '';
-      update.bio = this.form.value.bio || '';
+      const update: UserUpdate = {
+        name: this.form.value.name || '',
+        email: this.form.value.email || '',
+        position: this.form.value.position || '',
+        bio: this.form.value.bio || ''
+      };
 
       this.userFacade.updateProfile(this.user.id || '', update).subscribe({
         next: () => {
@@ -153,15 +155,15 @@ export class UserProfileComponent implements OnInit {
               lastLogin: this.user?.lastLogin || null
             }
           }));
-          
+
           // También actualizar el objeto local
           if (this.user) {
-            this.user.name = update.name;
-            this.user.email = update.email;
+            this.user.name = update.name || '';
+            this.user.email = update.email || '';
             this.user.position = update.position;
             this.user.bio = update.bio;
           }
-          
+
           this.snackBar.open('Profile updated successfully', 'Close', { duration: 3000 });
           this.form.markAsPristine();
           this.isLoading = false;

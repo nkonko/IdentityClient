@@ -1,22 +1,32 @@
 import { Injectable, inject } from '@angular/core';
-import { IdentityClient, SettingsDto, SettingsUpdateDto } from '../api/api-client';
+import { DashboardClient, SettingsUpdateDto } from '../api';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Settings, SettingsUpdate } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class SettingsFacade {
-  private readonly client = inject(IdentityClient);
+  private readonly client = inject(DashboardClient);
 
   /**
    * Get current system settings
    */
-  getSettings(): Observable<SettingsDto> {
-    return this.client.settingsGET();
+  getSettings(): Observable<Settings> {
+    return this.client.settingsGET().pipe(
+      map(dto => ({
+        companyName: dto.companyName ?? '',
+        supportEmail: dto.supportEmail ?? '',
+      }))
+    );
   }
 
   /**
    * Update system settings
    */
-  updateSettings(settings: SettingsUpdateDto): Observable<void> {
-    return this.client.settingsPUT(settings);
+  updateSettings(settings: SettingsUpdate): Observable<void> {
+    const dto = new SettingsUpdateDto();
+    dto.companyName = settings.companyName;
+    dto.supportEmail = settings.supportEmail;
+    return this.client.settingsPUT(dto);
   }
 }

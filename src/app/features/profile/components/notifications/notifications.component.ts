@@ -5,16 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
-
-export interface NotificationPreferences {
-  emailNotifications: boolean;
-  inAppNotifications: boolean;
-  emailSecurityAlerts: boolean;
-  emailAccountActivity: boolean;
-  emailSystemUpdates: boolean;
-  inAppRealTimeAlerts: boolean;
-  inAppSystemMessages: boolean;
-}
+import { NotificationPreferences } from '../../models';
 
 @Component({
   selector: 'app-notifications',
@@ -49,12 +40,12 @@ export class NotificationsComponent implements OnInit, ControlValueAccessor {
       // Main switches
       emailNotifications: [false],
       inAppNotifications: [true],
-      
+
       // Email sub-options
       emailSecurityAlerts: [true],
       emailAccountActivity: [false],
       emailSystemUpdates: [false],
-      
+
       // In-app sub-options
       inAppRealTimeAlerts: [true],
       inAppSystemMessages: [true]
@@ -124,14 +115,14 @@ export class NotificationsComponent implements OnInit, ControlValueAccessor {
   async saveNotificationPreferences(): Promise<void> {
     if (this.notificationsForm.valid) {
       const preferences = this.notificationsForm.value as NotificationPreferences;
-      
+
       // TODO: Implement API call to save notification preferences
       // await this.notificationService.savePreferences(preferences);
       console.log('Saving notification preferences:', preferences);
-      
+
       // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
+
       // Mark form as pristine after successful save
       this.notificationsForm.markAsPristine();
     }

@@ -14,7 +14,7 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angula
 
 export const DASHBOARD_API_BASE_URL = new InjectionToken<string>('DASHBOARD_API_BASE_URL');
 
-export interface IClient {
+export interface IDashboardClient {
     /**
      * @return OK
      */
@@ -82,7 +82,7 @@ export interface IClient {
 }
 
 @Injectable()
-export class Client implements IClient {
+export class DashboardClient implements IDashboardClient {
     private http: HttpClient;
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;

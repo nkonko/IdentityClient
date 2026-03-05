@@ -9,14 +9,12 @@ import { provideTransloco } from '@jsverse/transloco';
 
 import { routes } from './app.routes';
 // Clientes generados por NSwag
-import { IDENTITY_API_BASE_URL, IdentityClient } from './core/api/identity-api-client';
 import {
+  IDENTITY_API_BASE_URL,
+  IdentityClient,
   DASHBOARD_API_BASE_URL,
-  DashboardClient,
-  SubscriptionsClient,
-  SettingsClient,
-  PaymentsClient
-} from './core/api/dashboard-api-client';
+  DashboardClient
+} from './core/api';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { ErrorHandlerInterceptor } from './core/interceptors/error-handler.interceptor';
 import { authReducer } from './core/store/auth/auth.reducer';
@@ -72,21 +70,6 @@ export const appConfig: ApplicationConfig = {
     {
       provide: DashboardClient,
       useFactory: (http: HttpClient, baseUrl: string) => new DashboardClient(http, baseUrl),
-      deps: [HttpClient, DASHBOARD_API_BASE_URL]
-    },
-    {
-      provide: SubscriptionsClient,
-      useFactory: (http: HttpClient, baseUrl: string) => new SubscriptionsClient(http, baseUrl),
-      deps: [HttpClient, DASHBOARD_API_BASE_URL]
-    },
-    {
-      provide: SettingsClient,
-      useFactory: (http: HttpClient, baseUrl: string) => new SettingsClient(http, baseUrl),
-      deps: [HttpClient, DASHBOARD_API_BASE_URL]
-    },
-    {
-      provide: PaymentsClient,
-      useFactory: (http: HttpClient, baseUrl: string) => new PaymentsClient(http, baseUrl),
       deps: [HttpClient, DASHBOARD_API_BASE_URL]
     }
   ]

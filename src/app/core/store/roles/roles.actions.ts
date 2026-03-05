@@ -1,11 +1,11 @@
 import { createAction, props } from '@ngrx/store';
-import { RoleDto, PermissionDto } from '../../api/api-client';
+import { Role, Permission } from '../../models';
 
 export const loadRoles = createAction('[Role] Load Roles');
 
 export const loadRolesSuccess = createAction(
   '[Role] Load Roles Success',
-  props<{ roles: RoleDto[] }>()
+  props<{ roles: Role[] }>()
 );
 
 export const loadRolesFailure = createAction(
@@ -20,7 +20,7 @@ export const createRole = createAction(
 
 export const createRoleSuccess = createAction(
   '[Role] Create Role Success',
-  props<{ role: RoleDto }>()
+  props<{ role: Role }>()
 );
 
 export const createRoleFailure = createAction(
@@ -35,7 +35,7 @@ export const updateRole = createAction(
 
 export const updateRoleSuccess = createAction(
   '[Role] Update Role Success',
-  props<{ role: RoleDto }>()
+  props<{ role: Role }>()
 );
 
 export const updateRoleFailure = createAction(
@@ -65,7 +65,7 @@ export const loadPermissions = createAction(
 
 export const loadPermissionsSuccess = createAction(
   '[Role] Load Permissions Success',
-  props<{ permissions: PermissionDto[] }>()
+  props<{ permissions: Permission[] }>()
 );
 
 export const loadPermissionsFailure = createAction(

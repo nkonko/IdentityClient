@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, HostListener, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RolesFacade } from '../../../../core/facades/roles.facade';
-import { RoleDto } from '../../../../core/api/api-client';
+import { Role } from '../../../../core/models';
 import { Observable, map } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,19 +10,20 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { SectionTitleComponent } from '../../../../shared/section-title/section-title.component';
 import { ButtonComponent } from '../../../../shared/button/button.component';
-import { RoleDialogComponent, RoleDialogData, RoleDialogResult } from '../role-dialog/role-dialog.component';
+import { RoleDialogComponent } from '../role-dialog/role-dialog.component';
+import { RoleDialogData, RoleDialogResult } from '../models';
 import { ConfirmationDialogComponent } from '../../../../shared/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-role-management',
   standalone: true,
   imports: [
-    CommonModule, 
-    FormsModule, 
-    MatIconModule, 
+    CommonModule,
+    FormsModule,
+    MatIconModule,
     MatSnackBarModule,
     MatButtonModule,
-    SectionTitleComponent, 
+    SectionTitleComponent,
     ButtonComponent,
     RoleDialogComponent
   ],
@@ -34,16 +35,16 @@ export class RoleManagementComponent implements OnInit {
   private readonly snackBar = inject(MatSnackBar);
   private readonly dialog = inject(MatDialog);
 
-  roles$: Observable<RoleDto[]> = this.rolesFacade.roles$;
+  roles$: Observable<Role[]> = this.rolesFacade.roles$;
   loading$: Observable<boolean> = this.rolesFacade.loading$;
-  
+
   // Local state for pagination and filtering
-  roles: RoleDto[] = [];
+  roles: Role[] = [];
   searchTerm = '';
-  
+
   // Filter properties
   showFilterDropdown = false;
-  
+
   // Pagination properties
   currentPage = 1;
   pageSize = 10;
@@ -54,56 +55,56 @@ export class RoleManagementComponent implements OnInit {
 
   ngOnInit() {
     this.rolesFacade.loadRoles();
-    
+
     // Subscribe to roles and store them locally for pagination
     this.roles$.subscribe(roles => {
       this.roles = roles;
     });
   }
 
-  trackById(_: number, role: RoleDto) {
+  trackById(_: number, role: Role) {
     return role.id;
   }
 
   // Filtering and pagination methods
-  get filteredRoles(): RoleDto[] {
+  get filteredRoles(): Role[] {
     const term = this.searchTerm.trim().toLowerCase();
-    
+
     // Apply text search filter
     let filtered = !term ? this.roles : this.roles.filter(role =>
       (role.name?.toLowerCase().includes(term) || false) ||
-      (role.permissions?.some(permission => 
+      (role.permissions?.some(permission =>
         permission.name?.toLowerCase().includes(term)
       ) || false)
     );
-    
+
     // Apply pagination
     const startIndex = (this.currentPage - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
     return filtered.slice(startIndex, endIndex);
   }
-  
+
   get totalFilteredRoles(): number {
     const term = this.searchTerm.trim().toLowerCase();
-    
+
     if (!term) return this.roles.length;
-    
+
     return this.roles.filter(role =>
       (role.name?.toLowerCase().includes(term) || false) ||
-      (role.permissions?.some(permission => 
+      (role.permissions?.some(permission =>
         permission.name?.toLowerCase().includes(term)
       ) || false)
     ).length;
   }
-  
+
   get totalPages(): number {
     return Math.ceil(this.totalFilteredRoles / this.pageSize);
   }
-  
+
   get startItem(): number {
     return (this.currentPage - 1) * this.pageSize + 1;
   }
-  
+
   get endItem(): number {
     return Math.min(this.currentPage * this.pageSize, this.totalFilteredRoles);
   }
@@ -114,19 +115,19 @@ export class RoleManagementComponent implements OnInit {
       this.currentPage--;
     }
   }
-  
+
   nextPage(): void {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
     }
   }
-  
+
   goToPage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
     }
   }
-  
+
   onSearchChange(): void {
     // Reset to first page when search term changes
     this.currentPage = 1;
@@ -137,16 +138,16 @@ export class RoleManagementComponent implements OnInit {
     this.showRoleDialog.set(true);
   }
 
-  handleEditRole(role: RoleDto) {
-    this.roleDialogData.set({ 
+  handleEditRole(role: Role) {
+    this.roleDialogData.set({
       isPermissionsOnly: false,
       role: role
     });
     this.showRoleDialog.set(true);
   }
 
-  handleManagePermissions(role: RoleDto) {
-    this.roleDialogData.set({ 
+  handleManagePermissions(role: Role) {
+    this.roleDialogData.set({
       isPermissionsOnly: true,
       role: role
     });
@@ -159,7 +160,7 @@ export class RoleManagementComponent implements OnInit {
 
   onRoleDialogSave(result: RoleDialogResult) {
     const dialogData = this.roleDialogData();
-    
+
     if (dialogData.isPermissionsOnly) {
       // Just updating permissions
       if (dialogData.role?.id) {
@@ -173,7 +174,7 @@ export class RoleManagementComponent implements OnInit {
       }
     } else if (dialogData.role?.id && result.name) {
       // Editing existing role name only
-      this.rolesFacade.updateRoleApi({ 
+      this.rolesFacade.updateRoleApi({
         id: dialogData.role.id,
         name: result.name
       });
@@ -182,25 +183,25 @@ export class RoleManagementComponent implements OnInit {
       });
     } else if (result.name) {
       // Creating new role with name and permissions
-      this.rolesFacade.createRole({ 
-        name: result.name, 
-        permissions: result.permissions 
+      this.rolesFacade.createRole({
+        name: result.name,
+        permissions: result.permissions
       });
       this.snackBar.open(`Rol ${result.name} creado correctamente`, 'Cerrar', {
         duration: 3000
       });
     }
-    
+
     this.showRoleDialog.set(false);
   }
 
-  handleDeleteRole(role: RoleDto) {
+  handleDeleteRole(role: Role) {
     // Protección especial para el rol admin
     if (role.name?.toLowerCase() === 'admin' || role.name?.toLowerCase() === 'administrador') {
       this.snackBar.open(
-        'No se puede eliminar el rol de administrador por razones de seguridad', 
-        'Cerrar', 
-        { 
+        'No se puede eliminar el rol de administrador por razones de seguridad',
+        'Cerrar',
+        {
           duration: 5000,
           panelClass: ['error-snackbar']
         }
@@ -224,31 +225,31 @@ export class RoleManagementComponent implements OnInit {
       if (confirmed && role.id) {
         this.rolesFacade.deleteRole(role.id);
         this.snackBar.open(
-          `Rol "${role.name}" eliminado correctamente`, 
-          'Cerrar', 
+          `Rol "${role.name}" eliminado correctamente`,
+          'Cerrar',
           { duration: 3000 }
         );
       }
     });
   }
-  
+
   // Helper method to check if a role can be deleted
-  canDeleteRole(role: RoleDto): boolean {
+  canDeleteRole(role: Role): boolean {
     // Protect admin roles from deletion
     const adminRoleNames = ['admin', 'administrador', 'administrator', 'root', 'superuser'];
     return !adminRoleNames.includes(role.name?.toLowerCase() || '');
   }
-  
-  // Filter methods  
+
+  // Filter methods
   toggleFilterDropdown(): void {
     this.showFilterDropdown = !this.showFilterDropdown;
   }
-  
+
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: Event): void {
     const target = event.target as HTMLElement;
     const filterContainer = target.closest('.filter-container');
-    
+
     if (!filterContainer) {
       this.showFilterDropdown = false;
     }
