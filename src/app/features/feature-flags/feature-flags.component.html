@@ -1,0 +1,125 @@
+<div class="ff-toolbar">
+  <app-section-title></app-section-title>
+  <app-button
+    icon="add"
+    label="Add Flag"
+    [showIcon]="true"
+    (btnClick)="handleAddFlag()">
+  </app-button>
+</div>
+
+<div class="card">
+  <div class="card-toolbar">
+    <div class="search">
+      <mat-icon>search</mat-icon>
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        (input)="onSearchChange()"
+        placeholder="Search flags..." />
+    </div>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-container">
+      <div class="spinner"></div>
+      <p>Loading feature flags...</p>
+    </div>
+  } @else {
+    <div class="table-wrapper">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Flag Name</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Last Updated</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (filteredFlags.length === 0) {
+            <tr>
+              <td colspan="5" class="empty-state">
+                <mat-icon>flag</mat-icon>
+                <p>No feature flags found</p>
+                @if (searchTerm) {
+                  <span class="hint">Try a different search term</span>
+                } @else {
+                  <span class="hint">Create your first feature flag</span>
+                }
+              </td>
+            </tr>
+          }
+          @for (flag of filteredFlags; track trackById($index, flag)) {
+            <tr class="row">
+              <td class="flag-name">
+                <code>{{ flag.name }}</code>
+              </td>
+              <td class="flag-description">
+                @if (flag.description) {
+                  {{ flag.description }}
+                } @else {
+                  <span class="muted">No description</span>
+                }
+              </td>
+              <td class="flag-status">
+                <mat-slide-toggle
+                  [checked]="flag.isEnabled"
+                  color="primary"
+                  (change)="onToggleFlag(flag)"
+                  [matTooltip]="flag.isEnabled ? 'Click to disable' : 'Click to enable'">
+                </mat-slide-toggle>
+                <span class="status-label" [class.enabled]="flag.isEnabled">
+                  {{ flag.isEnabled ? 'Enabled' : 'Disabled' }}
+                </span>
+              </td>
+              <td class="flag-updated">
+                <span class="date">{{ formatDate(flag.updatedAt || flag.createdAt) }}</span>
+                @if (flag.updatedBy) {
+                  <span class="updated-by">by {{ flag.updatedBy }}</span>
+                }
+              </td>
+              <td class="actions">
+                <button class="icon" (click)="handleEditFlag(flag)" title="Edit Flag">
+                  <mat-icon class="blue">edit</mat-icon>
+                </button>
+                <button class="icon" (click)="handleDeleteFlag(flag)" title="Delete Flag">
+                  <mat-icon class="red">delete</mat-icon>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    @if (totalFilteredFlags > 0) {
+      <div class="pagination">
+        <div class="info">
+          Showing <b>{{ startItem }}</b> to <b>{{ endItem }}</b> of <b>{{ totalFilteredFlags }}</b> results
+        </div>
+        <div class="pager">
+          <button class="btn outline" (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+          @for (page of [].constructor(totalPages); track $index) {
+            <button
+              class="btn"
+              [class.active]="currentPage === ($index + 1)"
+              (click)="goToPage($index + 1)">
+              {{ $index + 1 }}
+            </button>
+          }
+          <button class="btn outline" (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+        </div>
+      </div>
+    }
+  }
+</div>
+
+<!-- Feature Flag Dialog -->
+<app-feature-flag-dialog
+  [isOpen]="showDialog()"
+  [data]="dialogData()"
+  (close)="onDialogClose()"
+  (save)="onDialogSave($event)">
+</app-feature-flag-dialog>

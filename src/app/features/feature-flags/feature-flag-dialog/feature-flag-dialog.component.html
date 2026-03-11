@@ -1,0 +1,72 @@
+<app-modal
+  [isOpen]="isOpen()"
+  [title]="dialogTitle()"
+  [icon]="isEditMode() ? 'edit' : 'flag'"
+  [showCloseButton]="true"
+  (closeModal)="onClose()">
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="dialog-form">
+    <!-- Name Field -->
+    <div class="form-group">
+      <label class="form-label" for="flagName">
+        Flag Name <span class="required">*</span>
+      </label>
+      <input
+        id="flagName"
+        type="text"
+        class="form-input"
+        formControlName="name"
+        placeholder="e.g., enable_dark_mode"
+        maxlength="100"
+        [class.disabled]="isEditMode()">
+      <span class="form-hint">Use snake_case for flag names (e.g., feature_name)</span>
+      @if (form.get('name')?.invalid && form.get('name')?.touched) {
+        <div class="form-error">{{ getErrorMessage('name') }}</div>
+      }
+    </div>
+
+    <!-- Description Field -->
+    <div class="form-group">
+      <label class="form-label" for="flagDescription">Description</label>
+      <textarea
+        id="flagDescription"
+        class="form-textarea"
+        formControlName="description"
+        placeholder="Describe what this feature flag controls..."
+        rows="3"
+        maxlength="500">
+      </textarea>
+    </div>
+
+    <!-- Enabled Toggle -->
+    <div class="form-group toggle-group">
+      <label class="toggle-label">
+        <span class="label-text">Enabled</span>
+        <mat-slide-toggle
+          formControlName="isEnabled"
+          color="primary">
+        </mat-slide-toggle>
+      </label>
+      <span class="form-hint">Toggle to enable or disable the feature</span>
+    </div>
+
+    <!-- Actions -->
+    <div class="dialog-actions">
+      <app-button
+        label="Cancel"
+        color="default"
+        variant="outline"
+        (btnClick)="onClose()">
+      </app-button>
+      <app-button
+        [label]="isEditMode() ? 'Save Changes' : 'Create Flag'"
+        [icon]="isEditMode() ? 'save' : 'add'"
+        [showIcon]="true"
+        color="primary"
+        variant="solid"
+        [disabled]="form.invalid || isSaving()"
+        (btnClick)="onSubmit()">
+      </app-button>
+    </div>
+  </form>
+</app-modal>

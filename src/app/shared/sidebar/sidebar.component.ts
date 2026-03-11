@@ -14,7 +14,7 @@ import { selectCompanyName, selectSupportEmail } from '../../core/store/settings
 })
 export class SidebarComponent {
   private readonly store = inject(Store);
-  
+
   collapsed = input<boolean>(false);
 
   // Selectores del store
@@ -27,6 +27,7 @@ export class SidebarComponent {
     { icon: 'admin_panel_settings', label: 'Roles', link: '/roles' },
     { icon: 'history', label: 'Audit', link: '/audit' },
     { icon: 'subscriptions', label: 'Subscriptions', link: '/subscriptions' },
+    { icon: 'flag', label: 'Feature Flags', link: '/feature-flags' },
     { icon: 'settings', label: 'Settings', link: '/settings' },
   ];
 }

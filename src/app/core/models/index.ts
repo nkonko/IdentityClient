@@ -7,3 +7,4 @@ export * from './audit.model';
 export * from './settings.model';
 export * from './dashboard.model';
 export * from './auth.model';
+export * from './feature-flag.model';

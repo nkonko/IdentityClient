@@ -74,6 +74,12 @@ export const routes: Routes = [
     loadComponent: () => import('./features/settings/settings.component').then(m => m.SettingsComponent)
   },
   {
+    path: 'feature-flags',
+    canActivate: [authGuard, adminGuard],
+    data: { title: 'Feature Flags', subtitle: 'Manage feature toggles to enable or disable features' },
+    loadComponent: () => import('./features/feature-flags/feature-flags.component').then(m => m.FeatureFlagsComponent)
+  },
+  {
     path: '**',
     data: { isPublic: true, isNotFound: true },
     loadComponent: () => import('./features/not-found/not-found.component').then(m => m.NotFoundComponent)

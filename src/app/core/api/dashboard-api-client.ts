@@ -34,6 +34,45 @@ export interface IDashboardClient {
     /**
      * @return OK
      */
+    featureFlagsAll(): Observable<FeatureFlagDto[]>;
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
+    featureFlagsPOST(body?: FeatureFlagCreateDto | undefined): Observable<FeatureFlagDto>;
+    /**
+     * @return OK
+     */
+    states(): Observable<FeatureFlagStateDto[]>;
+    /**
+     * @return OK
+     */
+    check(name: string): Observable<boolean>;
+    /**
+     * @return OK
+     */
+    featureFlagsGET(id: number): Observable<FeatureFlagDto>;
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
+    featureFlagsPUT(id: number, body?: FeatureFlagUpdateDto | undefined): Observable<FeatureFlagDto>;
+    /**
+     * @return OK
+     */
+    featureFlagsDELETE(id: number): Observable<void>;
+    /**
+     * @return OK
+     */
+    byName(name: string): Observable<FeatureFlagDto>;
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
+    toggle(id: number, body?: FeatureFlagToggleDto | undefined): Observable<FeatureFlagDto>;
+    /**
+     * @return OK
+     */
     health(): Observable<void>;
     /**
      * @return OK
@@ -293,6 +332,509 @@ export class DashboardClient implements IDashboardClient {
             else {
                 result200 = null as any;
             }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    featureFlagsAll(): Observable<FeatureFlagDto[]> {
+        let url_ = this.baseUrl + "/api/FeatureFlags";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processFeatureFlagsAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processFeatureFlagsAll(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<FeatureFlagDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<FeatureFlagDto[]>;
+        }));
+    }
+
+    protected processFeatureFlagsAll(response: HttpResponseBase): Observable<FeatureFlagDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(FeatureFlagDto.fromJS(item));
+            }
+            else {
+                result200 = null as any;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
+    featureFlagsPOST(body?: FeatureFlagCreateDto | undefined): Observable<FeatureFlagDto> {
+        let url_ = this.baseUrl + "/api/FeatureFlags";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processFeatureFlagsPOST(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processFeatureFlagsPOST(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<FeatureFlagDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<FeatureFlagDto>;
+        }));
+    }
+
+    protected processFeatureFlagsPOST(response: HttpResponseBase): Observable<FeatureFlagDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FeatureFlagDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    states(): Observable<FeatureFlagStateDto[]> {
+        let url_ = this.baseUrl + "/api/FeatureFlags/states";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processStates(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processStates(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<FeatureFlagStateDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<FeatureFlagStateDto[]>;
+        }));
+    }
+
+    protected processStates(response: HttpResponseBase): Observable<FeatureFlagStateDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(FeatureFlagStateDto.fromJS(item));
+            }
+            else {
+                result200 = null as any;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    check(name: string): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/FeatureFlags/check/{name}";
+        if (name === undefined || name === null)
+            throw new globalThis.Error("The parameter 'name' must be defined.");
+        url_ = url_.replace("{name}", encodeURIComponent("" + name));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCheck(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCheck(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<boolean>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<boolean>;
+        }));
+    }
+
+    protected processCheck(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : null as any;
+    
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    featureFlagsGET(id: number): Observable<FeatureFlagDto> {
+        let url_ = this.baseUrl + "/api/FeatureFlags/{id}";
+        if (id === undefined || id === null)
+            throw new globalThis.Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processFeatureFlagsGET(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processFeatureFlagsGET(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<FeatureFlagDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<FeatureFlagDto>;
+        }));
+    }
+
+    protected processFeatureFlagsGET(response: HttpResponseBase): Observable<FeatureFlagDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FeatureFlagDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
+    featureFlagsPUT(id: number, body?: FeatureFlagUpdateDto | undefined): Observable<FeatureFlagDto> {
+        let url_ = this.baseUrl + "/api/FeatureFlags/{id}";
+        if (id === undefined || id === null)
+            throw new globalThis.Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processFeatureFlagsPUT(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processFeatureFlagsPUT(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<FeatureFlagDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<FeatureFlagDto>;
+        }));
+    }
+
+    protected processFeatureFlagsPUT(response: HttpResponseBase): Observable<FeatureFlagDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FeatureFlagDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    featureFlagsDELETE(id: number): Observable<void> {
+        let url_ = this.baseUrl + "/api/FeatureFlags/{id}";
+        if (id === undefined || id === null)
+            throw new globalThis.Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processFeatureFlagsDELETE(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processFeatureFlagsDELETE(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processFeatureFlagsDELETE(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    byName(name: string): Observable<FeatureFlagDto> {
+        let url_ = this.baseUrl + "/api/FeatureFlags/by-name/{name}";
+        if (name === undefined || name === null)
+            throw new globalThis.Error("The parameter 'name' must be defined.");
+        url_ = url_.replace("{name}", encodeURIComponent("" + name));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processByName(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processByName(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<FeatureFlagDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<FeatureFlagDto>;
+        }));
+    }
+
+    protected processByName(response: HttpResponseBase): Observable<FeatureFlagDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FeatureFlagDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
+    toggle(id: number, body?: FeatureFlagToggleDto | undefined): Observable<FeatureFlagDto> {
+        let url_ = this.baseUrl + "/api/FeatureFlags/{id}/toggle";
+        if (id === undefined || id === null)
+            throw new globalThis.Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("patch", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processToggle(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processToggle(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<FeatureFlagDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<FeatureFlagDto>;
+        }));
+    }
+
+    protected processToggle(response: HttpResponseBase): Observable<FeatureFlagDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FeatureFlagDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -1054,6 +1596,226 @@ export interface IDashboardSummaryDto {
     totalUsers?: number;
     totalRoles?: number;
     totalSubscriptions?: number;
+}
+
+export class FeatureFlagCreateDto implements IFeatureFlagCreateDto {
+    name!: string | undefined;
+    description?: string | undefined;
+    isEnabled?: boolean;
+
+    constructor(data?: IFeatureFlagCreateDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            this.description = _data["description"];
+            this.isEnabled = _data["isEnabled"];
+        }
+    }
+
+    static fromJS(data: any): FeatureFlagCreateDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new FeatureFlagCreateDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["description"] = this.description;
+        data["isEnabled"] = this.isEnabled;
+        return data;
+    }
+}
+
+export interface IFeatureFlagCreateDto {
+    name: string | undefined;
+    description?: string | undefined;
+    isEnabled?: boolean;
+}
+
+export class FeatureFlagDto implements IFeatureFlagDto {
+    id?: number;
+    name?: string | undefined;
+    description?: string | undefined;
+    isEnabled?: boolean;
+    createdAt?: Date;
+    updatedAt?: Date | undefined;
+    updatedBy?: string | undefined;
+
+    constructor(data?: IFeatureFlagDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.description = _data["description"];
+            this.isEnabled = _data["isEnabled"];
+            this.createdAt = _data["createdAt"] ? new Date(_data["createdAt"].toString()) : undefined as any;
+            this.updatedAt = _data["updatedAt"] ? new Date(_data["updatedAt"].toString()) : undefined as any;
+            this.updatedBy = _data["updatedBy"];
+        }
+    }
+
+    static fromJS(data: any): FeatureFlagDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new FeatureFlagDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["description"] = this.description;
+        data["isEnabled"] = this.isEnabled;
+        data["createdAt"] = this.createdAt ? this.createdAt.toISOString() : undefined as any;
+        data["updatedAt"] = this.updatedAt ? this.updatedAt.toISOString() : undefined as any;
+        data["updatedBy"] = this.updatedBy;
+        return data;
+    }
+}
+
+export interface IFeatureFlagDto {
+    id?: number;
+    name?: string | undefined;
+    description?: string | undefined;
+    isEnabled?: boolean;
+    createdAt?: Date;
+    updatedAt?: Date | undefined;
+    updatedBy?: string | undefined;
+}
+
+export class FeatureFlagStateDto implements IFeatureFlagStateDto {
+    name?: string | undefined;
+    isEnabled?: boolean;
+
+    constructor(data?: IFeatureFlagStateDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            this.isEnabled = _data["isEnabled"];
+        }
+    }
+
+    static fromJS(data: any): FeatureFlagStateDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new FeatureFlagStateDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["isEnabled"] = this.isEnabled;
+        return data;
+    }
+}
+
+export interface IFeatureFlagStateDto {
+    name?: string | undefined;
+    isEnabled?: boolean;
+}
+
+export class FeatureFlagToggleDto implements IFeatureFlagToggleDto {
+    isEnabled?: boolean;
+
+    constructor(data?: IFeatureFlagToggleDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.isEnabled = _data["isEnabled"];
+        }
+    }
+
+    static fromJS(data: any): FeatureFlagToggleDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new FeatureFlagToggleDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["isEnabled"] = this.isEnabled;
+        return data;
+    }
+}
+
+export interface IFeatureFlagToggleDto {
+    isEnabled?: boolean;
+}
+
+export class FeatureFlagUpdateDto implements IFeatureFlagUpdateDto {
+    description?: string | undefined;
+    isEnabled?: boolean;
+
+    constructor(data?: IFeatureFlagUpdateDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.description = _data["description"];
+            this.isEnabled = _data["isEnabled"];
+        }
+    }
+
+    static fromJS(data: any): FeatureFlagUpdateDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new FeatureFlagUpdateDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["description"] = this.description;
+        data["isEnabled"] = this.isEnabled;
+        return data;
+    }
+}
+
+export interface IFeatureFlagUpdateDto {
+    description?: string | undefined;
+    isEnabled?: boolean;
 }
 
 export class PaymentWebhookDto implements IPaymentWebhookDto {

@@ -8,7 +8,7 @@
 // Identity API - Autenticación, usuarios, roles
 export * from './identity-api-client';
 
-// Dashboard API - Subscriptions, Settings, Payments, Dashboard
+// Dashboard API - Subscriptions, Settings, Payments, Dashboard, FeatureFlags
 // Re-export explícito para evitar conflicto de ApiException
 export {
   DASHBOARD_API_BASE_URL,
@@ -17,6 +17,11 @@ export {
   DashboardNotificationDto,
   DashboardRecentDto,
   DashboardSummaryDto,
+  FeatureFlagCreateDto,
+  FeatureFlagDto,
+  FeatureFlagStateDto,
+  FeatureFlagToggleDto,
+  FeatureFlagUpdateDto,
   PaymentWebhookDto,
   PaymentWebhookResponseDto,
   SettingsDto,
@@ -31,6 +36,11 @@ export type {
   IDashboardNotificationDto,
   IDashboardRecentDto,
   IDashboardSummaryDto,
+  IFeatureFlagCreateDto,
+  IFeatureFlagDto,
+  IFeatureFlagStateDto,
+  IFeatureFlagToggleDto,
+  IFeatureFlagUpdateDto,
   IPaymentWebhookDto,
   IPaymentWebhookResponseDto,
   ISettingsDto,
