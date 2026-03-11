@@ -10,7 +10,7 @@
   </div>
 
   <nav class="nav">
-    @for (item of navItems; track item.link) {
+    @for (item of navItems(); track item.link) {
       <a [routerLink]="item.link"
          routerLinkActive="active"
          class="nav-item">

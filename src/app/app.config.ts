@@ -22,9 +22,12 @@ import { roleReducer } from './core/store/roles/roles.reducer';
 import { RoleEffects } from './core/store/roles/roles.effects';
 import { settingsReducer } from './core/store/settings/settings.reducer';
 import { SettingsEffects } from './core/store/settings/settings.effects';
+import { featureFlagsReducer } from './core/store/feature-flags/feature-flags.reducer';
+import { FeatureFlagsEffects } from './core/store/feature-flags/feature-flags.effects';
 import { HttpLoader } from './core/services/transloco-loader.service';
 import { languageInitializer } from './core/initializers/language.initializer';
 import { settingsInitializer } from './core/initializers/settings.initializer';
+import { featureFlagsInitializer } from './core/initializers/feature-flags.initializer';
 import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
@@ -35,9 +38,10 @@ export const appConfig: ApplicationConfig = {
     provideStore({
       auth: authReducer,
       roles: roleReducer,
-      settings: settingsReducer
+      settings: settingsReducer,
+      featureFlags: featureFlagsReducer
     }),
-    provideEffects([RoleEffects, SettingsEffects]),
+    provideEffects([RoleEffects, SettingsEffects, FeatureFlagsEffects]),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: false,
@@ -60,6 +64,7 @@ export const appConfig: ApplicationConfig = {
     }),
     languageInitializer,
     settingsInitializer,
+    featureFlagsInitializer,
     // Identity API Client
     {
       provide: IdentityClient,
