@@ -119,6 +119,7 @@
   display: flex;
   align-items: center;
   gap: var(--space-2);
+  border: none;
 
   .status-label {
     font-size: var(--font-size-sm);
@@ -127,6 +128,20 @@
 
     &.enabled {
       color: var(--color-success);
+    }
+  }
+
+  // Remove any borders from the slide toggle
+  mat-slide-toggle {
+    border: none !important;
+
+    button {
+      border: none !important;
+      outline: none !important;
+    }
+
+    .mdc-switch {
+      border: none !important;
     }
   }
 }
@@ -153,6 +168,7 @@
   display: flex;
   gap: 6px;
   justify-content: flex-start;
+  border: none;
 }
 
 .icon {
@@ -162,21 +178,26 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid transparent;
+  border: none;
+  outline: none;
   background: transparent;
   cursor: pointer;
 
   &:hover {
     background: var(--color-hover-bg);
   }
+
+  &:focus {
+    outline: none;
+  }
 }
 
 .blue {
-  color: var(--color-primary);
+  color: var(--color-primary) !important;
 }
 
 .red {
-  color: var(--color-error);
+  color: var(--color-danger) !important;
 }
 
 .pagination {

@@ -1,8 +1,7 @@
-import { Component, input, output, signal, computed, effect, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input, output, signal, computed, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ModalComponent } from '../../../shared/modal/modal.component';
 import { ButtonComponent } from '../../../shared/button/button.component';
@@ -13,17 +12,14 @@ import { FeatureFlagDialogData, FeatureFlagDialogResult } from '../models/featur
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
     ReactiveFormsModule,
     MatIconModule,
-    MatButtonModule,
     MatSlideToggleModule,
     ModalComponent,
     ButtonComponent,
   ],
   templateUrl: './feature-flag-dialog.component.html',
   styleUrls: ['./feature-flag-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FeatureFlagDialogComponent {
   // Signal inputs
@@ -43,6 +39,7 @@ export class FeatureFlagDialogComponent {
   });
 
   isSaving = signal(false);
+  private wasOpen = false;
 
   // Computed signals
   isEditMode = computed(() => this.data().mode === 'edit');
@@ -53,13 +50,17 @@ export class FeatureFlagDialogComponent {
       const currentData = this.data();
       const open = this.isOpen();
 
-      if (open) {
+      // Only initialize form when dialog opens (transition from closed to open)
+      if (open && !this.wasOpen) {
         this.initForm(currentData);
       }
+      this.wasOpen = open;
     });
   }
 
   private initForm(currentData: FeatureFlagDialogData): void {
+    this.isSaving.set(false);
+
     if (currentData.mode === 'edit' && currentData.featureFlag) {
       this.form.patchValue({
         name: currentData.featureFlag.name,
@@ -82,11 +83,13 @@ export class FeatureFlagDialogComponent {
     this.close.emit();
   }
 
-  onSubmit(): void {
-    if (this.form.invalid) {
+  onSave(): void {
+    if (this.form.invalid || this.isSaving()) {
       this.form.markAllAsTouched();
       return;
     }
+
+    this.isSaving.set(true);
 
     const currentData = this.data();
     const result: FeatureFlagDialogResult = {

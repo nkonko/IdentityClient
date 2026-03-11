@@ -3,9 +3,9 @@
   [title]="dialogTitle()"
   [icon]="isEditMode() ? 'edit' : 'flag'"
   [showCloseButton]="true"
-  (closeModal)="onClose()">
+  (close)="onClose()">
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="dialog-form">
+  <div class="dialog-form" [formGroup]="form">
     <!-- Name Field -->
     <div class="form-group">
       <label class="form-label" for="flagName">
@@ -65,8 +65,8 @@
         color="primary"
         variant="solid"
         [disabled]="form.invalid || isSaving()"
-        (btnClick)="onSubmit()">
+        (btnClick)="onSave()">
       </app-button>
     </div>
-  </form>
+  </div>
 </app-modal>

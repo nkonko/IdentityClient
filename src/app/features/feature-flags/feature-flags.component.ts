@@ -144,7 +144,8 @@ export class FeatureFlagsComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error toggling flag:', err);
-        this.snackBar.open('Error toggling feature flag', 'Close', { duration: 5000 });
+        const message = this.extractErrorMessage(err, 'Error toggling feature flag');
+        this.snackBar.open(message, 'Close', { duration: 5000 });
       }
     });
   }
@@ -183,7 +184,8 @@ export class FeatureFlagsComponent implements OnInit {
           },
           error: (err) => {
             console.error('Error deleting flag:', err);
-            this.snackBar.open('Error deleting feature flag', 'Close', { duration: 5000 });
+            const message = this.extractErrorMessage(err, 'Error deleting feature flag');
+            this.snackBar.open(message, 'Close', { duration: 5000 });
           }
         });
       }
@@ -213,10 +215,9 @@ export class FeatureFlagsComponent implements OnInit {
         },
         error: (err) => {
           console.error('Error creating flag:', err);
-          const message = err?.response?.includes('already exists')
-            ? 'A flag with this name already exists'
-            : 'Error creating feature flag';
+          const message = this.extractErrorMessage(err, 'Error creating feature flag');
           this.snackBar.open(message, 'Close', { duration: 5000 });
+          this.showDialog.set(false);
         }
       });
     } else if (data.mode === 'edit' && data.featureFlag) {
@@ -235,7 +236,9 @@ export class FeatureFlagsComponent implements OnInit {
         },
         error: (err) => {
           console.error('Error updating flag:', err);
-          this.snackBar.open('Error updating feature flag', 'Close', { duration: 5000 });
+          const message = this.extractErrorMessage(err, 'Error updating feature flag');
+          this.snackBar.open(message, 'Close', { duration: 5000 });
+          this.showDialog.set(false);
         }
       });
     }
@@ -251,5 +254,20 @@ export class FeatureFlagsComponent implements OnInit {
       hour: '2-digit',
       minute: '2-digit',
     });
+  }
+
+  // Helper to extract error message from API exception
+  private extractErrorMessage(err: any, defaultMessage: string): string {
+    if (err?.response) {
+      try {
+        const errorData = JSON.parse(err.response);
+        if (errorData?.message) {
+          return errorData.message;
+        }
+      } catch {
+        // If parsing fails, return default
+      }
+    }
+    return defaultMessage;
   }
 }

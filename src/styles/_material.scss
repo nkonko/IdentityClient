@@ -200,3 +200,31 @@
     }
   }
 }
+
+/* Slide Toggle - Remove focus rings and borders */
+.mat-mdc-slide-toggle {
+  border: none !important;
+
+  .mdc-switch {
+    border: none !important;
+
+    &:focus,
+    &:active {
+      outline: none !important;
+    }
+  }
+
+  button {
+    border: none !important;
+    outline: none !important;
+
+    &:focus {
+      outline: none !important;
+    }
+  }
+
+  .mdc-switch__shadow,
+  .mdc-switch__focus-ring {
+    display: none !important;
+  }
+}
