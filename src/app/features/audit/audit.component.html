@@ -9,9 +9,10 @@
         {{ t('audit.filters.title') }}
       </mat-card-title>
     </mat-card-header>
-    
+
     <mat-card-content>
       <div class="filters-grid">
+        <!-- Row 1 -->
         <!-- Search Filter -->
         <div class="filter-field">
           <app-text-input
@@ -23,60 +24,56 @@
         </div>
 
         <!-- Action Filter -->
-        <mat-form-field appearance="outline" class="filter-field">
-          <mat-label>{{ t('audit.filters.action') }}</mat-label>
-          <mat-select [formControl]="actionFilter">
-            <mat-option value="">{{ t('common.all') }}</mat-option>
-            @for (action of uniqueActions(); track action) {
-              <mat-option [value]="action">
-                {{ action }}
-              </mat-option>
-            }
-          </mat-select>
-          <mat-icon matPrefix>category</mat-icon>
-        </mat-form-field>
+        <div class="filter-field">
+          <app-select
+            [label]="t('audit.filters.action')"
+            [formControl]="actionFilter"
+            [options]="actionOptions()"
+            icon="category">
+          </app-select>
+        </div>
 
         <!-- User ID Filter -->
-        <div class="filter-field user-id-field">
+        <div class="filter-field">
           <app-text-input
             [label]="t('audit.filters.userId')"
             [formControl]="userIdFilter"
             [placeholder]="t('audit.filters.userIdPlaceholder')"
             icon="person">
           </app-text-input>
-          <button mat-icon-button class="search-btn" (click)="loadUserLogs()" [disabled]="isLoading()" 
-                  [attr.aria-label]="t('audit.filters.loadUserLogs')" matTooltip="{{ t('audit.filters.loadUserLogs') }}">
-            <mat-icon>search</mat-icon>
-          </button>
         </div>
 
+        <!-- Row 2 -->
         <!-- Date From Filter -->
-        <mat-form-field appearance="outline" class="filter-field">
-          <mat-label>{{ t('audit.filters.dateFrom') }}</mat-label>
-          <input matInput [matDatepicker]="fromPicker" [formControl]="dateFromFilter">
-          <mat-datepicker-toggle matIconSuffix [for]="fromPicker"></mat-datepicker-toggle>
-          <mat-datepicker #fromPicker></mat-datepicker>
-        </mat-form-field>
+        <div class="filter-field">
+          <app-datepicker
+            [label]="t('audit.filters.dateFrom')"
+            [formControl]="dateFromFilter">
+          </app-datepicker>
+        </div>
 
         <!-- Date To Filter -->
-        <mat-form-field appearance="outline" class="filter-field">
-          <mat-label>{{ t('audit.filters.dateTo') }}</mat-label>
-          <input matInput [matDatepicker]="toPicker" [formControl]="dateToFilter">
-          <mat-datepicker-toggle matIconSuffix [for]="toPicker"></mat-datepicker-toggle>
-          <mat-datepicker #toPicker></mat-datepicker>
-        </mat-form-field>
-      </div>
+        <div class="filter-field">
+          <app-datepicker
+            [label]="t('audit.filters.dateTo')"
+            [formControl]="dateToFilter">
+          </app-datepicker>
+        </div>
 
-      <div class="filter-actions">
-        <button mat-stroked-button (click)="clearFilters()" [disabled]="isLoading()">
-          <mat-icon>clear_all</mat-icon>
-          {{ t('audit.filters.clear') }}
-        </button>
-        
-        <button mat-raised-button color="primary" (click)="refresh()" [disabled]="isLoading()">
-          <mat-icon>refresh</mat-icon>
-          {{ t('common.refresh') }}
-        </button>
+        <!-- Actions in grid -->
+        <div class="filter-field filter-actions-inline">
+          <label class="input-label">&nbsp;</label>
+          <div class="action-buttons">
+            <button mat-stroked-button (click)="clearFilters()" [disabled]="isLoading()">
+              <mat-icon>clear_all</mat-icon>
+              {{ t('audit.filters.clear') }}
+            </button>
+            <button mat-raised-button color="primary" (click)="refresh()" [disabled]="isLoading()">
+              <mat-icon>refresh</mat-icon>
+              {{ t('common.refresh') }}
+            </button>
+          </div>
+        </div>
       </div>
     </mat-card-content>
   </mat-card>
@@ -111,7 +108,7 @@
         <!-- Audit Logs Table -->
         <div class="table-container">
           <table mat-table [dataSource]="paginatedLogs()" matSort (matSortChange)="onSort($event)" class="audit-table">
-            
+
             <!-- Date Column -->
             <ng-container matColumnDef="date">
               <th mat-header-cell *matHeaderCellDef mat-sort-header="date">

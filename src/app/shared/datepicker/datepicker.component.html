@@ -1,0 +1,36 @@
+<div class="input-group">
+  @if (label()) {
+    <label class="input-label">
+      {{ label() }}
+      @if (required()) {
+        <span class="required">*</span>
+      }
+    </label>
+  }
+
+  <div [ngClass]="wrapperClasses" (click)="openPicker()">
+    <input
+      [matDatepicker]="picker"
+      [value]="value"
+      [min]="minDate()"
+      [max]="maxDate()"
+      [disabled]="isDisabled"
+      [placeholder]="placeholder()"
+      (dateChange)="onDateChange($event)"
+      (blur)="onBlur()"
+      readonly
+    />
+
+    <mat-datepicker-toggle [for]="picker" class="datepicker-toggle">
+    </mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </div>
+
+  @if (hint() && !showError) {
+    <span class="input-hint">{{ hint() }}</span>
+  }
+
+  @if (showError) {
+    <span class="input-error">{{ errorMessage() }}</span>
+  }
+</div>

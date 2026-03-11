@@ -1,0 +1,154 @@
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+
+  .input-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-muted, #6b7280);
+    margin-left: 4px;
+
+    .required {
+      color: var(--color-danger, #ef4444);
+      margin-left: 2px;
+    }
+  }
+
+  .input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: var(--color-muted-bg, #f3f4f6);
+    border: 1px solid var(--color-border, #e5e7eb);
+    border-radius: 12px;
+    transition: all 0.2s ease;
+    overflow: hidden;
+    min-height: 48px;
+
+    &:hover:not(.disabled) {
+      border-color: var(--color-text-muted, #9ca3af);
+    }
+
+    &:focus-within {
+      border-color: var(--color-primary, #3b82f6);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      background: var(--color-surface, #ffffff);
+    }
+
+    &.error {
+      border-color: var(--color-danger, #ef4444);
+
+      &:focus-within {
+        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+      }
+    }
+
+    &.disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      background: var(--color-muted-bg, #f3f4f6);
+    }
+
+    .input-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-left: 14px;
+      color: var(--color-text-muted, #9ca3af);
+      pointer-events: none;
+
+      mat-icon {
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    mat-select {
+      flex: 1;
+      padding: 14px 14px 14px 12px;
+      font-size: 0.9375rem;
+      color: var(--color-text, #1f2937);
+      font-family: inherit;
+
+      ::ng-deep {
+        .mat-mdc-select-trigger {
+          height: auto;
+        }
+
+        .mat-mdc-select-value {
+          color: var(--color-text, #1f2937);
+        }
+
+        .mat-mdc-select-placeholder {
+          color: var(--color-text-muted, #9ca3af);
+          opacity: 0.8;
+        }
+
+        .mat-mdc-select-arrow-wrapper {
+          padding-right: 4px;
+
+          .mat-mdc-select-arrow {
+            color: var(--color-text-muted, #9ca3af);
+          }
+        }
+      }
+    }
+
+    /* When there's no icon, adjust select padding */
+    mat-select:first-child {
+      padding-left: 14px;
+    }
+  }
+
+  .input-hint {
+    font-size: 0.75rem;
+    color: var(--color-text-muted, #9ca3af);
+    margin-left: 4px;
+  }
+
+  .input-error {
+    font-size: 0.75rem;
+    color: var(--color-danger, #ef4444);
+    margin-left: 4px;
+  }
+}
+
+/* Dark Theme Support */
+:host-context(.dark-theme) {
+  .input-group {
+    .input-label {
+      color: #9ca3af;
+    }
+
+    .input-wrapper {
+      background: var(--color-muted-bg, #21262d);
+      border-color: var(--color-border, #30363d);
+
+      &:focus-within {
+        background: var(--color-surface, #161b22);
+      }
+
+      mat-select {
+        ::ng-deep {
+          .mat-mdc-select-value {
+            color: var(--color-text, #e6edf3);
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Custom panel styling */
+::ng-deep .custom-select-panel {
+  border-radius: 12px !important;
+  margin-top: 4px;
+
+  .mat-mdc-option {
+    min-height: 44px;
+    font-size: 0.9375rem;
+  }
+}

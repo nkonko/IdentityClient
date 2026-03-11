@@ -1,0 +1,38 @@
+<div class="input-group">
+  @if (label()) {
+    <label class="input-label">
+      {{ label() }}
+      @if (required()) {
+        <span class="required">*</span>
+      }
+    </label>
+  }
+
+  <div [ngClass]="wrapperClasses">
+    @if (icon()) {
+      <span class="input-icon">
+        <mat-icon>{{ icon() }}</mat-icon>
+      </span>
+    }
+
+    <mat-select
+      [value]="value"
+      [disabled]="isDisabled"
+      [placeholder]="placeholder()"
+      (selectionChange)="onSelectionChange($event.value)"
+      (blur)="onBlur()"
+      panelClass="custom-select-panel">
+      @for (option of options(); track option.value) {
+        <mat-option [value]="option.value">{{ option.label }}</mat-option>
+      }
+    </mat-select>
+  </div>
+
+  @if (hint() && !showError) {
+    <span class="input-hint">{{ hint() }}</span>
+  }
+
+  @if (showError) {
+    <span class="input-error">{{ errorMessage() }}</span>
+  }
+</div>

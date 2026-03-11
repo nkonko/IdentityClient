@@ -20,51 +20,61 @@
 
     .filters-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 1rem;
       margin-top: 1rem;
 
       .filter-field {
         width: 100%;
 
-        &.user-id-field {
+        &.filter-actions-inline {
           display: flex;
-          align-items: flex-end;
-          gap: 0.5rem;
+          flex-direction: column;
 
-          app-text-input {
-            flex: 1;
+          .input-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: transparent;
+            margin-left: 4px;
+            margin-bottom: 6px;
           }
 
-          .search-btn {
+          .action-buttons {
+            display: flex;
+            gap: 0.75rem;
             height: 48px;
-            width: 48px;
-            border-radius: 12px;
-            background-color: var(--color-primary);
-            color: white;
+            align-items: center;
 
-            &:hover:not(:disabled) {
-              background-color: var(--color-primary-dark, #1565c0);
-            }
+            button {
+              height: 100%;
+              border-radius: 12px;
 
-            &:disabled {
-              background-color: var(--color-muted-bg);
-              color: var(--color-text-muted);
+              mat-icon {
+                margin-right: 4px;
+              }
             }
           }
         }
       }
-    }
 
-    .filter-actions {
-      display: flex;
-      gap: 1rem;
-      margin-top: 1.5rem;
-      justify-content: flex-end;
+      @media (max-width: 992px) {
+        grid-template-columns: repeat(2, 1fr);
 
-      @media (max-width: 768px) {
-        flex-direction: column;
-        align-items: stretch;
+        .filter-field.filter-actions-inline {
+          grid-column: span 2;
+
+          .action-buttons {
+            justify-content: flex-end;
+          }
+        }
+      }
+
+      @media (max-width: 576px) {
+        grid-template-columns: 1fr;
+
+        .filter-field.filter-actions-inline {
+          grid-column: span 1;
+        }
       }
     }
   }

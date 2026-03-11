@@ -15,12 +15,14 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import { AuditFacade } from '../../core/facades/audit.facade';
 import { AuditLog } from '../../core/models';
 import { SectionTitleComponent } from '../../shared/section-title/section-title.component';
 import { TextInputComponent } from '../../shared/text-input/text-input.component';
+import { SelectComponent, SelectOption } from '../../shared/select/select.component';
+import { DatepickerComponent } from '../../shared/datepicker/datepicker.component';
 
 @Component({
   selector: 'app-audit',
@@ -44,7 +46,9 @@ import { TextInputComponent } from '../../shared/text-input/text-input.component
     MatTooltipModule,
     TranslocoDirective,
     SectionTitleComponent,
-    TextInputComponent
+    TextInputComponent,
+    SelectComponent,
+    DatepickerComponent
   ],
   templateUrl: './audit.component.html',
   styleUrl: './audit.component.scss'
@@ -52,6 +56,7 @@ import { TextInputComponent } from '../../shared/text-input/text-input.component
 export class AuditComponent implements OnInit {
   private readonly auditFacade = inject(AuditFacade);
   private readonly snackBar = inject(MatSnackBar);
+  private readonly transloco = inject(TranslocoService);
 
   protected allLogs = signal<AuditLog[]>([]);
   protected isLoading = signal(false);
@@ -143,6 +148,15 @@ export class AuditComponent implements OnInit {
       .filter((action, index, arr) => action && arr.indexOf(action) === index)
       .sort();
     return actions;
+  });
+
+  protected actionOptions = computed<SelectOption[]>(() => {
+    const allOption: SelectOption = { value: '', label: this.transloco.translate('common.all') };
+    const actions = this.uniqueActions().map(action => ({
+      value: action,
+      label: action || ''
+    }));
+    return [allOption, ...actions];
   });
 
   ngOnInit() {
