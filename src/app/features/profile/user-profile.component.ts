@@ -121,8 +121,73 @@ export class UserProfileComponent implements OnInit {
   }
 
   onAvatarUpload(file: File): void {
-    // TODO: Implement avatar upload logic
-    this.snackBar.open('Avatar upload functionality coming soon', 'Close', { duration: 3000 });
+    this.isLoading = true;
+    this.userFacade.uploadAvatar(file).subscribe({
+      next: (response) => {
+        if (response.success && response.url) {
+          // Update local user object
+          if (this.user) {
+            this.user.profilePictureUrl = response.url;
+          }
+
+          // Update store to propagate changes to header and other components
+          this.store.dispatch(updateUserProfileSuccess({
+            user: {
+              id: this.user?.id || '',
+              name: this.user?.name || '',
+              email: this.user?.email || '',
+              roles: this.user?.roles || [],
+              position: this.user?.position ?? null,
+              bio: this.user?.bio ?? null,
+              profilePictureUrl: response.url,
+              lastLogin: this.user?.lastLogin ?? null
+            }
+          }));
+
+          this.snackBar.open('Avatar updated successfully', 'Close', { duration: 3000 });
+        } else {
+          this.snackBar.open(response.error || 'Failed to upload avatar', 'Close', { duration: 3000 });
+        }
+        this.isLoading = false;
+      },
+      error: (error) => {
+        this.snackBar.open(error.error?.error || 'Failed to upload avatar', 'Close', { duration: 3000 });
+        this.isLoading = false;
+      }
+    });
+  }
+
+  onAvatarDelete(): void {
+    this.isLoading = true;
+    this.userFacade.deleteAvatar().subscribe({
+      next: () => {
+        // Update local user object
+        if (this.user) {
+          this.user.profilePictureUrl = undefined;
+        }
+
+        // Update store to propagate changes to header and other components
+        this.store.dispatch(updateUserProfileSuccess({
+          user: {
+            id: this.user?.id || '',
+            name: this.user?.name || '',
+            email: this.user?.email || '',
+            roles: this.user?.roles || [],
+            position: this.user?.position ?? null,
+            bio: this.user?.bio ?? null,
+            profilePictureUrl: null,
+            lastLogin: this.user?.lastLogin ?? null
+          }
+        }));
+
+        this.snackBar.open('Avatar deleted successfully', 'Close', { duration: 3000 });
+        this.isLoading = false;
+      },
+      error: (error) => {
+        this.snackBar.open(error.error?.message || 'Failed to delete avatar', 'Close', { duration: 3000 });
+        this.isLoading = false;
+      }
+    });
   }
 
   async save() {

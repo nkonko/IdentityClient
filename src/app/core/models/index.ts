@@ -8,3 +8,4 @@ export * from './settings.model';
 export * from './dashboard.model';
 export * from './auth.model';
 export * from './feature-flag.model';
+export * from './avatar.model';

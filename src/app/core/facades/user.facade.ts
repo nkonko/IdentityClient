@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
-import { IdentityClient, UserUpdateDto as ApiUserUpdateDto, UserPasswordDto } from '../api';
+import { IdentityClient, UserUpdateDto as ApiUserUpdateDto, UserPasswordDto, AvatarUploadResponse as ApiAvatarUploadResponse, FileParameter } from '../api';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { User, UserUpdate, UserStatus } from '../models';
+import { User, UserUpdate, UserStatus, AvatarUploadResponse } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class UserFacade {
@@ -56,6 +56,25 @@ export class UserFacade {
 
   deleteUser(userId: string): Observable<void> {
     return this.client.usersDELETE(userId);
+  }
+
+  uploadAvatar(file: File): Observable<AvatarUploadResponse> {
+    const fileParam: FileParameter = {
+      data: file,
+      fileName: file.name
+    };
+    return this.client.avatarPATCH(fileParam).pipe(
+      map(response => ({
+        success: response.success ?? false,
+        url: response.url ?? undefined,
+        publicId: response.publicId ?? undefined,
+        error: response.error ?? undefined
+      }))
+    );
+  }
+
+  deleteAvatar(): Observable<void> {
+    return this.client.avatarDELETE();
   }
 
   private mapToUser(dto: any): User {

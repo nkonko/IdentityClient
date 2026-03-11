@@ -100,6 +100,15 @@ export interface IIdentityClient {
      * @return OK
      */
     password(body?: UserPasswordDto | undefined): Observable<void>;
+    /**
+     * @param file (optional) 
+     * @return OK
+     */
+    avatarPATCH(file?: FileParameter | undefined): Observable<AvatarUploadResponse>;
+    /**
+     * @return OK
+     */
+    avatarDELETE(): Observable<void>;
 }
 
 @Injectable()
@@ -1157,6 +1166,112 @@ export class IdentityClient implements IIdentityClient {
         }
         return _observableOf(null as any);
     }
+
+    /**
+     * @param file (optional) 
+     * @return OK
+     */
+    avatarPATCH(file?: FileParameter | undefined): Observable<AvatarUploadResponse> {
+        let url_ = this.baseUrl + "/api/Users/me/avatar";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = new FormData();
+        if (file === null || file === undefined)
+            throw new globalThis.Error("The parameter 'file' cannot be null.");
+        else
+            content_.append("file", file.data, file.fileName ? file.fileName : "file");
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("patch", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processAvatarPATCH(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processAvatarPATCH(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<AvatarUploadResponse>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<AvatarUploadResponse>;
+        }));
+    }
+
+    protected processAvatarPATCH(response: HttpResponseBase): Observable<AvatarUploadResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = AvatarUploadResponse.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    avatarDELETE(): Observable<void> {
+        let url_ = this.baseUrl + "/api/Users/me/avatar";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processAvatarDELETE(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processAvatarDELETE(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processAvatarDELETE(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
 }
 
 export class AuditLogDto implements IAuditLogDto {
@@ -1245,6 +1360,54 @@ export class AuthResponseDto implements IAuthResponseDto {
 export interface IAuthResponseDto {
     token?: string | undefined;
     refreshToken?: RefreshTokenDto;
+}
+
+export class AvatarUploadResponse implements IAvatarUploadResponse {
+    success?: boolean;
+    url?: string | undefined;
+    publicId?: string | undefined;
+    error?: string | undefined;
+
+    constructor(data?: IAvatarUploadResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.success = _data["success"];
+            this.url = _data["url"];
+            this.publicId = _data["publicId"];
+            this.error = _data["error"];
+        }
+    }
+
+    static fromJS(data: any): AvatarUploadResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new AvatarUploadResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["success"] = this.success;
+        data["url"] = this.url;
+        data["publicId"] = this.publicId;
+        data["error"] = this.error;
+        return data;
+    }
+}
+
+export interface IAvatarUploadResponse {
+    success?: boolean;
+    url?: string | undefined;
+    publicId?: string | undefined;
+    error?: string | undefined;
 }
 
 export class InternalCountsDto implements IInternalCountsDto {
@@ -1835,6 +1998,11 @@ export interface IUserUpdateDto {
     bio?: string | undefined;
     profilePictureUrl?: string | undefined;
     status?: UserStatus;
+}
+
+export interface FileParameter {
+    data: any;
+    fileName: string;
 }
 
 export class ApiException extends Error {

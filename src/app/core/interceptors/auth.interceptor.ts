@@ -12,11 +12,19 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
   const token = tokenService.getToken();
 
   if (token) {
+    // Don't set Content-Type for FormData - browser will set it automatically with boundary
+    const isFormData = req.body instanceof FormData;
+
+    const headers: Record<string, string> = {
+      'Authorization': `Bearer ${token}`
+    };
+
+    if (!isFormData) {
+      headers['Content-Type'] = 'application/json';
+    }
+
     const cloned = req.clone({
-      setHeaders: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
+      setHeaders: headers
     });
 
     return next(cloned).pipe(

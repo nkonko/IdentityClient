@@ -1,15 +1,14 @@
-import { Component, EventEmitter, input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, input, Output, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { FormTextInputComponent } from '../../../../shared/text-input/form-text-input.component';
+import { TextInputComponent } from '../../../../shared/text-input/text-input.component';
 import { TextareaComponent } from '../../../../shared/textarea/textarea.component';
 import { User } from '../../../../core/models';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ProfileAvatarComponent } from '../avatar/profile-avatar.component';
 
 @Component({
@@ -23,7 +22,7 @@ import { ProfileAvatarComponent } from '../avatar/profile-avatar.component';
     MatDividerModule,
     MatButtonModule,
     MatProgressSpinnerModule,
-    FormTextInputComponent,
+    TextInputComponent,
     TextareaComponent,
     ProfileAvatarComponent
   ],
@@ -37,6 +36,7 @@ export class ProfileInformationComponent implements OnInit {
   form = input.required<FormGroup>();
   @Output() save = new EventEmitter<void>();
   @Output() avatarUpload = new EventEmitter<File>();
+  @Output() avatarDelete = new EventEmitter<void>();
 
   constructor() {}
 
@@ -53,12 +53,12 @@ export class ProfileInformationComponent implements OnInit {
     }
   }
 
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      const file = input.files[0];
-      this.avatarUpload.emit(file);
-    }
+  onFileSelected(file: File): void {
+    this.avatarUpload.emit(file);
+  }
+
+  onDeleteAvatar(): void {
+    this.avatarDelete.emit();
   }
 
   onSubmit(): void {

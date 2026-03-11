@@ -1,15 +1,24 @@
 <div class="avatar-card">
-  <div class="avatar-wrapper" [class.avatar--image]="!!imageUrl()">
+  <div class="avatar-wrapper" [class.avatar--image]="hasImage()">
     @if (imageUrl()) {
       <img [src]="imageUrl()" alt="User avatar" class="avatar-img" />
     } @else {
       <div class="avatar-initials">{{ initials() }}</div>
     }
   </div>
-  <div class="avatar-camera">
-    <label role="button" tabindex="0" [class.is-disabled]="disabled()">
-      <input class="file-input" type="file" accept="image/*" (change)="onFileSelected($event)" [disabled]="disabled()" />
-      <mat-icon>photo_camera</mat-icon>
-     </label>
-   </div>
+
+  <div class="avatar-actions">
+    <div class="avatar-camera" matTooltip="Upload photo">
+      <label role="button" tabindex="0" [class.is-disabled]="disabled()">
+        <input class="file-input" type="file" accept="image/*" (change)="onFileSelected($event)" [disabled]="disabled()" />
+        <mat-icon>photo_camera</mat-icon>
+      </label>
+    </div>
+
+    @if (hasImage()) {
+      <button type="button" class="avatar-delete" matTooltip="Delete photo" [disabled]="disabled()" (click)="onDeleteClick()">
+        <mat-icon>delete</mat-icon>
+      </button>
+    }
+  </div>
 </div>
