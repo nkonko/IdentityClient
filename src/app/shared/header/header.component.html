@@ -11,7 +11,7 @@
 
     <div class="right-section">
       <!-- Selector de idioma -->
-      <button mat-icon-button [matMenuTriggerFor]="languageMenu" 
+      <button mat-icon-button [matMenuTriggerFor]="languageMenu"
               [matTooltip]="t('language.select_language')" class="icon-button">
         <mat-icon>language</mat-icon>
       </button>
@@ -43,7 +43,9 @@
       <!-- User chip con menú -->
       <button mat-icon-button [matMenuTriggerFor]="userMenu" class="user-chip">
         <div class="avatar">
-          @if (user()) {
+          @if (user()?.profilePictureUrl) {
+            <img [src]="user()!.profilePictureUrl" alt="Avatar" class="avatar-img" />
+          } @else if (user()) {
             {{ user()!.name.slice(0,1) }}
           } @else {
             ?
