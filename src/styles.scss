@@ -9,13 +9,14 @@
 @use './styles/lists';
 @use './styles/tables';
 @use './styles/material';
+@use './styles/inputs';
 
 /* Base resets */
 html, body { height: 100%; margin: 0; }
 
 /* Smooth dark mode transitions */
-*, *::before, *::after { 
-  transition: 
+*, *::before, *::after {
+  transition:
     background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
     color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
     border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
@@ -26,7 +27,7 @@ html, body { height: 100%; margin: 0; }
 .error-snackbar {
   background-color: #f44336 !important;
   color: white !important;
-  
+
   .mat-mdc-button {
     color: white !important;
   }

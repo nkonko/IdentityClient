@@ -6,14 +6,29 @@
           <mat-card-subtitle>We’ll email you a reset link</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-          <form (ngSubmit)="submit()" [formGroup]="form" class="recover-form">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Email</mat-label>
-              <mat-icon matPrefix>mail</mat-icon>
-              <input matInput formControlName="email" type="email" placeholder="you@example.com" />
-            </mat-form-field>
+          <form (ngSubmit)="submit()" [formGroup]="form" class="auth-form">
+            <!-- Email Input -->
+            <div class="input-group">
+              <label class="input-label">Email<span class="required">*</span></label>
+              <div class="input-wrapper" [class.error]="form.get('email')?.invalid && form.get('email')?.touched">
+                <span class="input-icon">
+                  <mat-icon>mail</mat-icon>
+                </span>
+                <input
+                  type="email"
+                  formControlName="email"
+                  placeholder="you@example.com">
+              </div>
+              @if (form.get('email')?.hasError('required') && form.get('email')?.touched) {
+                <span class="input-error">Email is required</span>
+              }
+              @if (form.get('email')?.hasError('email') && form.get('email')?.touched) {
+                <span class="input-error">Please enter a valid email</span>
+              }
+            </div>
+
             <div class="form-actions">
-              <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid" class="full-width">
+              <button type="submit" class="btn-primary" [disabled]="form.invalid">
                 Send reset link
               </button>
             </div>

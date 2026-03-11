@@ -1,11 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -18,9 +15,6 @@ import { AuthFacade } from '../../core/facades/auth.facade';
     CommonModule,
     ReactiveFormsModule,
     MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,
     RouterLink,
@@ -29,11 +23,16 @@ import { AuthFacade } from '../../core/facades/auth.facade';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly auth = inject(AuthFacade);
   private readonly router = inject(Router);
   private readonly snackBar = inject(MatSnackBar);
+
+  ngOnInit(): void {
+    // Remove dark mode for auth pages
+    document.body.classList.remove('dark-theme');
+  }
 
   protected form = this.fb.group({
     username: ['', [Validators.required, Validators.minLength(3)]],

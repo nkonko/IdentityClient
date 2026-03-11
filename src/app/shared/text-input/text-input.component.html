@@ -1,24 +1,51 @@
-<div class="ud-field">
-  <label class="ud-label" [attr.for]="name()">
-    {{ label() }}
-    @if (required()) {
-      <span class="ud-label--required">*</span>
+<div class="input-group">
+  @if (label()) {
+    <label class="input-label">
+      {{ label() }}
+      @if (required()) {
+        <span class="required">*</span>
+      }
+    </label>
+  }
+
+  <div [ngClass]="wrapperClasses">
+    @if (icon()) {
+      <span class="input-icon">
+        <mat-icon>{{ icon() }}</mat-icon>
+      </span>
     }
-  </label>
-  
-  <input
-    [id]="name()"
-    [ngClass]="inputClasses"
-    [attr.type]="type()"
-    [attr.name]="name() || null"
-    [attr.autocomplete]="autocomplete() || null"
-    [attr.placeholder]="placeholder() || null"
-    [value]="value"
-    (input)="onInput($event)"
-    (blur)="onBlur()"
-  />
-  
+
+    <input
+      [id]="name()"
+      [type]="actualType"
+      [attr.name]="name() || null"
+      [attr.autocomplete]="autocomplete() || null"
+      [attr.placeholder]="placeholder() || null"
+      [attr.maxlength]="maxlength() || null"
+      [value]="value"
+      [disabled]="isDisabled"
+      (input)="onInput($event)"
+      (blur)="onBlur()"
+    />
+
+    @if (type() === 'password') {
+      <span class="input-suffix">
+        <button
+          type="button"
+          class="toggle-password"
+          (click)="togglePassword()"
+          [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'">
+          <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+      </span>
+    }
+  </div>
+
+  @if (hint() && !showError) {
+    <span class="input-hint">{{ hint() }}</span>
+  }
+
   @if (showError) {
-    <div class="ud-error">{{ currentErrorMessage }}</div>
+    <span class="input-error">{{ currentErrorMessage }}</span>
   }
 </div>

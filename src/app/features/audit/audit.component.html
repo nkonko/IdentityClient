@@ -13,11 +13,14 @@
     <mat-card-content>
       <div class="filters-grid">
         <!-- Search Filter -->
-        <mat-form-field appearance="outline" class="filter-field">
-          <mat-label>{{ t('audit.filters.search') }}</mat-label>
-          <input matInput [formControl]="searchControl" placeholder="{{ t('audit.filters.searchPlaceholder') }}">
-          <mat-icon matPrefix>search</mat-icon>
-        </mat-form-field>
+        <div class="filter-field">
+          <app-text-input
+            [label]="t('audit.filters.search')"
+            [formControl]="searchControl"
+            [placeholder]="t('audit.filters.searchPlaceholder')"
+            icon="search">
+          </app-text-input>
+        </div>
 
         <!-- Action Filter -->
         <mat-form-field appearance="outline" class="filter-field">
@@ -34,15 +37,18 @@
         </mat-form-field>
 
         <!-- User ID Filter -->
-        <mat-form-field appearance="outline" class="filter-field">
-          <mat-label>{{ t('audit.filters.userId') }}</mat-label>
-          <input matInput [formControl]="userIdFilter" placeholder="{{ t('audit.filters.userIdPlaceholder') }}">
-          <mat-icon matPrefix>person</mat-icon>
-          <button mat-icon-button matSuffix (click)="loadUserLogs()" [disabled]="isLoading()" 
+        <div class="filter-field user-id-field">
+          <app-text-input
+            [label]="t('audit.filters.userId')"
+            [formControl]="userIdFilter"
+            [placeholder]="t('audit.filters.userIdPlaceholder')"
+            icon="person">
+          </app-text-input>
+          <button mat-icon-button class="search-btn" (click)="loadUserLogs()" [disabled]="isLoading()" 
                   [attr.aria-label]="t('audit.filters.loadUserLogs')" matTooltip="{{ t('audit.filters.loadUserLogs') }}">
             <mat-icon>search</mat-icon>
           </button>
-        </mat-form-field>
+        </div>
 
         <!-- Date From Filter -->
         <mat-form-field appearance="outline" class="filter-field">

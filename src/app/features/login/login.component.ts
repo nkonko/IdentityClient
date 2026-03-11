@@ -1,17 +1,13 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { AuthFacade } from '../../core/facades/auth.facade';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TokenService } from '../../core/services/token.service';
 
 @Component({
@@ -20,11 +16,7 @@ import { TokenService } from '../../core/services/token.service';
     CommonModule,
     ReactiveFormsModule,
     MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
     MatIconModule,
-    MatCheckboxModule,
     MatProgressSpinnerModule,
     RouterLink,
     TranslocoDirective
@@ -32,7 +24,7 @@ import { TokenService } from '../../core/services/token.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly auth = inject(AuthFacade);
   private readonly router = inject(Router);
@@ -47,6 +39,11 @@ export class LoginComponent {
 
   protected isLoading = false;
   protected hide = true; // show/hide password
+
+  ngOnInit(): void {
+    // Remove dark mode for auth pages
+    document.body.classList.remove('dark-theme');
+  }
 
   submit() {
     if (this.form.valid) {

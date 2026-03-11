@@ -128,20 +128,40 @@
 
   .close-button {
     flex-shrink: 0;
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    background: white;
-    color: var(--text-primary, #212121);
+    background: transparent;
+    border: 1px solid var(--color-border, rgba(255, 255, 255, 0.2));
+    color: var(--color-text-muted, rgba(255, 255, 255, 0.7));
+    transition: all 0.2s ease;
 
     mat-icon {
-      font-size: 24px;
-      width: 24px;
-      height: 24px;
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.3);
+      color: var(--color-text, #ffffff);
+    }
+  }
+
+  // Override for default header (light background)
+  &.header-default .close-button {
+    border-color: var(--color-border, #e0e0e0);
+    color: var(--color-text-muted, #757575);
+
+    &:hover {
+      background: var(--color-hover-bg, #f5f5f5);
+      border-color: var(--color-border, #bdbdbd);
+      color: var(--color-text, #212121);
     }
   }
 }
@@ -248,5 +268,60 @@
     button {
       width: 100%;
     }
+  }
+}
+
+// Dark Theme Overrides
+:host-context(.dark-theme) {
+  .modal-content {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+  }
+
+  .modal-header {
+    &.header-default {
+      background: var(--color-surface);
+      border-bottom-color: var(--color-border);
+
+      .header-title {
+        color: var(--color-text);
+      }
+
+      .header-icon {
+        color: var(--color-primary);
+      }
+
+      .close-button {
+        border-color: var(--color-border);
+        color: var(--color-text-muted);
+
+        &:hover {
+          background: var(--color-hover-bg);
+          border-color: var(--color-text-muted);
+          color: var(--color-text);
+        }
+      }
+    }
+  }
+
+  .modal-body {
+    color: var(--color-text);
+
+    &::-webkit-scrollbar-track {
+      background: var(--color-muted-bg);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--color-border);
+
+      &:hover {
+        background: var(--color-text-muted);
+      }
+    }
+  }
+
+  .modal-footer {
+    border-top-color: var(--color-border);
+    background: var(--color-surface);
   }
 }

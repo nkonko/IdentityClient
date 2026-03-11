@@ -1,11 +1,12 @@
 import { Component, input, forwardRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-text-input',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatIconModule],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -19,15 +20,19 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class TextInputComponent implements ControlValueAccessor {
   label = input<string>('');
   placeholder = input<string>('');
-  type = input<'text' | 'email' | 'password'>('text');
+  type = input<'text' | 'email' | 'password' | 'number'>('text');
   name = input<string>();
   autocomplete = input<string>();
   required = input<boolean>(false);
   errorMessage = input<string>();
+  icon = input<string>();
+  hint = input<string>();
+  maxlength = input<number>();
 
   value = '';
   touched = false;
   isDisabled = false;
+  showPassword = false;
 
   private onChange: (value: string) => void = () => {};
   private onTouched: () => void = () => {};
@@ -62,14 +67,25 @@ export class TextInputComponent implements ControlValueAccessor {
     this.onTouched();
   }
 
+  togglePassword(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+  get actualType(): string {
+    if (this.type() === 'password') {
+      return this.showPassword ? 'text' : 'password';
+    }
+    return this.type();
+  }
+
   // CSS classes for styling
-  get inputClasses(): string {
-    let classes = 'ud-input';
+  get wrapperClasses(): string {
+    let classes = 'input-wrapper';
     if (this.currentErrorMessage && this.touched) {
-      classes += ' ud-input--error';
+      classes += ' error';
     }
     if (this.isDisabled) {
-      classes += ' ud-input--disabled';
+      classes += ' disabled';
     }
     return classes;
   }
@@ -77,7 +93,7 @@ export class TextInputComponent implements ControlValueAccessor {
   get currentErrorMessage(): string {
     // Use provided errorMessage first
     if (this.errorMessage()) return this.errorMessage()!;
-    
+
     return '';
   }
 

@@ -20,6 +20,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { AuditFacade } from '../../core/facades/audit.facade';
 import { AuditLog } from '../../core/models';
 import { SectionTitleComponent } from '../../shared/section-title/section-title.component';
+import { TextInputComponent } from '../../shared/text-input/text-input.component';
 
 @Component({
   selector: 'app-audit',
@@ -42,7 +43,8 @@ import { SectionTitleComponent } from '../../shared/section-title/section-title.
     MatChipsModule,
     MatTooltipModule,
     TranslocoDirective,
-    SectionTitleComponent
+    SectionTitleComponent,
+    TextInputComponent
   ],
   templateUrl: './audit.component.html',
   styleUrl: './audit.component.scss'

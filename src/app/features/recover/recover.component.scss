@@ -39,15 +39,6 @@
   width: 100%;
 }
 
-.recover-form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-top: 16px;
-}
-
-/* Use global .full-width from styles */
-
 .form-actions { margin-top: 8px; }
 
 /* Dark theme inherits via CSS variables */

@@ -48,3 +48,155 @@
 
 /* Form field text color safety (if used) */
 .mat-mdc-form-field, .mat-mdc-input-element { color: var(--color-text); }
+
+/* Modern Form Fields - Rounded & Dark Mode Friendly */
+.mat-mdc-form-field {
+  width: 100%;
+
+  /* Input text color */
+  .mat-mdc-input-element {
+    color: var(--color-text) !important;
+
+    &::placeholder {
+      color: var(--color-text-muted) !important;
+      opacity: 0.7;
+    }
+  }
+
+  /* Outlined appearance - Modern rounded style */
+  &.mat-mdc-form-field-appearance-outline {
+    .mdc-notched-outline {
+      .mdc-notched-outline__leading {
+        border-radius: 12px 0 0 12px !important;
+        border-color: var(--color-border) !important;
+      }
+      .mdc-notched-outline__trailing {
+        border-radius: 0 12px 12px 0 !important;
+        border-color: var(--color-border) !important;
+      }
+      .mdc-notched-outline__notch {
+        border-color: var(--color-border) !important;
+      }
+    }
+
+    /* Background fill for modern look */
+    .mat-mdc-form-field-flex {
+      background: var(--color-muted-bg, #f5f5f5);
+      border-radius: 12px;
+    }
+
+    /* Hover state */
+    &:hover:not(.mat-focused) {
+      .mdc-notched-outline__leading,
+      .mdc-notched-outline__trailing,
+      .mdc-notched-outline__notch {
+        border-color: var(--color-text-muted) !important;
+      }
+    }
+
+    /* Focus state */
+    &.mat-focused {
+      .mdc-notched-outline__leading,
+      .mdc-notched-outline__trailing,
+      .mdc-notched-outline__notch {
+        border-color: var(--color-primary) !important;
+        border-width: 2px !important;
+      }
+
+      .mat-mdc-form-field-flex {
+        background: var(--color-surface);
+      }
+    }
+  }
+
+  /* Label styling */
+  .mat-mdc-floating-label {
+    color: var(--color-text-muted) !important;
+  }
+
+  &.mat-focused .mat-mdc-floating-label {
+    color: var(--color-primary) !important;
+  }
+
+  /* Prefix/suffix icons */
+  .mat-mdc-form-field-icon-prefix,
+  .mat-mdc-form-field-icon-suffix {
+    color: var(--color-text-muted) !important;
+
+    .mat-icon {
+      color: var(--color-text-muted) !important;
+    }
+  }
+
+  &.mat-focused {
+    .mat-mdc-form-field-icon-prefix .mat-icon {
+      color: var(--color-primary) !important;
+    }
+  }
+
+  /* Hint and error text */
+  .mat-mdc-form-field-hint {
+    color: var(--color-text-muted) !important;
+    font-size: 0.75rem;
+  }
+
+  .mat-mdc-form-field-error {
+    color: var(--color-danger) !important;
+  }
+
+  /* Subscript wrapper (hints/errors area) */
+  .mat-mdc-form-field-subscript-wrapper {
+    padding: 0 0.5rem;
+  }
+}
+
+/* Dark theme specific form field improvements */
+.dark-theme {
+  .mat-mdc-form-field {
+    .mat-mdc-input-element {
+      color: #e5e7eb !important;
+      caret-color: var(--color-primary);
+
+      &::placeholder {
+        color: #9ca3af !important;
+      }
+    }
+
+    &.mat-mdc-form-field-appearance-outline {
+      .mat-mdc-form-field-flex {
+        background: var(--color-muted-bg, #21262d);
+      }
+
+      .mdc-notched-outline__leading,
+      .mdc-notched-outline__trailing,
+      .mdc-notched-outline__notch {
+        border-color: var(--color-border, #30363d) !important;
+      }
+
+      &:hover:not(.mat-focused) {
+        .mdc-notched-outline__leading,
+        .mdc-notched-outline__trailing,
+        .mdc-notched-outline__notch {
+          border-color: #6e7681 !important;
+        }
+      }
+
+      &.mat-focused .mat-mdc-form-field-flex {
+        background: var(--color-surface, #161b22);
+      }
+    }
+
+    .mat-mdc-floating-label {
+      color: #9ca3af !important;
+    }
+
+    .mat-mdc-form-field-icon-prefix .mat-icon,
+    .mat-mdc-form-field-icon-suffix .mat-icon {
+      color: #9ca3af !important;
+    }
+
+    .mat-mdc-form-field-hint {
+      color: #6e7681 !important;
+    }
+  }
+}

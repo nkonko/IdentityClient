@@ -2,17 +2,16 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
-import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatDividerModule } from '@angular/material/divider';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 
 import { Settings, SettingsUpdate } from '../../core/models';
 import { SectionTitleComponent } from '../../shared/section-title/section-title.component';
+import { TextInputComponent } from '../../shared/text-input/text-input.component';
 import { selectSettings, selectIsLoading } from '../../core/store/settings/settings.selectors';
 import { updateSettings } from '../../core/store/settings/settings.actions';
 
@@ -24,13 +23,12 @@ import { updateSettings } from '../../core/store/settings/settings.actions';
     FormsModule,
     ReactiveFormsModule,
     MatCardModule,
-    MatInputModule,
     MatIconModule,
     MatButtonModule,
     MatProgressSpinnerModule,
-    MatDividerModule,
     TranslocoDirective,
-    SectionTitleComponent
+    SectionTitleComponent,
+    TextInputComponent
   ],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss'
